@@ -8,14 +8,16 @@ const {app, BrowserWindow} = require('electron'); // accomplishes the same as th
 			var BrowserWindow = electron.BrowserWindow; 
 	*/
 
-var mainWindow = null;
+var mainWindow;
 
-app.on('ready', function() {
+function createWindow() {
     mainWindow = new BrowserWindow({
         height: 500,
         width: 800
     });
 
     // Loads the index.html file via navigation from the current directory
-    mainWindow.loadURL('file://' + __dirname + '/app/index.html');
-});
+    mainWindow.loadURL('file://' + __dirname + 'app/index.html');
+}
+
+app.on('ready', createWindow);
