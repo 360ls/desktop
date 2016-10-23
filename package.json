@@ -1,6 +1,11 @@
 {
   "name": "360ls-Desktop-Application",
   "version": "0.1.0",
+  "description": "The desktop electron application for displaying a local video live-stream and a local version of the DVR web application.",
+  "keywords" : ["live-stream", "python", "interface", "dvr"],
+  "author" : "Luke Fernandez <lukejohnfernandez@gmail.com>",
+  "contributors" : ["Dong Yeop Lee, Spencer Lewis, Jonathan Witten"],
+  "repository" : {"type": "git", "url": "git://github.com/LukeJFernandez/360ls-desktop.git"},
   "main": "./main.js",
   "scripts": {
     "start": "electron ."
