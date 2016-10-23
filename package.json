@@ -6,7 +6,7 @@
   "author" : "Luke Fernandez <lukejohnfernandez@gmail.com>",
   "contributors" : ["Dong Yeop Lee, Spencer Lewis, Jonathan Witten"],
   "repository" : {"type": "git", "url": "git://github.com/LukeJFernandez/360ls-desktop.git"},
-  "main": "./main.js",
+  "main": "./app.js",
   "scripts": {
     "start": "electron ."
   },
