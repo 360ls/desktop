@@ -20,8 +20,8 @@
   "main": "./app.js",
   "scripts": {
     "start": "electron .",
-    "watch": "watchify app/index.js -t babelify -o static/bundle.js --debug --verbose",
-    "lint": "./node_modules/.bin/eslint app"
+    "watch": "watchify app/index.jsx --extension=.jsx -t babelify -o static/bundle.js --debug --verbose",
+    "lint": "./node_modules/.bin/eslint --ext .jsx,.js app"
   },
   "devDependencies": {
     "electron-packager": "^8.1.0",
