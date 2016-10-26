@@ -15,7 +15,7 @@ function createWindow(){
     });
 
     // Loads the index.html file via navigation from the current directory
-    mainWindow.loadURL('file://' + __dirname + '/app/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/index.html');
 
     mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
