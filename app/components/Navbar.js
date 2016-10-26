@@ -19,7 +19,6 @@ class Navbar extends React.Component {
   }
 
   handleClose(route, e) {
-    console.log(route);
     this.setState({
       open: false
     });
