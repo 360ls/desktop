@@ -2,6 +2,7 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router'
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -12,20 +13,46 @@ class Navbar extends React.Component {
   }
 
   handleToggle(event) {
-    console.log("tapped");
-    console.log(this.state);
     this.setState({
       open: !this.state.open
     });
   }
 
-  handleClose() {
+  handleClose(route, e) {
+    console.log(route);
     this.setState({
       open: false
     });
   }
 
   render() {
+    const menuItems = [
+      {
+        "key": 0,
+        "route": "/dashboard",
+        "text": "Dashboard"
+      },
+      {
+        "key": 1,
+        "route": "/live",
+        "text": "Live"
+      },
+      {
+        "key": 2,
+        "route": "/dvr",
+        "text": "DVR"
+      },
+      {
+        "key": 3,
+        "route": "/local",
+        "text": "Local Videos"
+      },
+      {
+        "key": 4,
+        "route": "/preference",
+        "text": "Preferences"
+      }
+    ];
     return (
       <div>
         <AppBar 
@@ -39,11 +66,15 @@ class Navbar extends React.Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <MenuItem onTouchTap={this.handleClose.bind(this)}>Dashboard</MenuItem>
-          <MenuItem onTouchTap={this.handleClose.bind(this)}>Live</MenuItem>
-          <MenuItem onTouchTap={this.handleClose.bind(this)}>DVR</MenuItem>
-          <MenuItem onTouchTap={this.handleClose.bind(this)}>Local Videos</MenuItem>
-          <MenuItem onTouchTap={this.handleClose.bind(this)}>Preferences</MenuItem>
+          {menuItems.map((menu, index) => {
+            return (
+              <MenuItem
+                onTouchTap={this.handleClose.bind(this, menu.route)}
+                containerElement={<Link to={menu.route}/>}>
+                {menu.text}
+              </MenuItem>
+            );
+          })}
         </Drawer>
       </div>
     );

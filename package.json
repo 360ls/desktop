@@ -20,7 +20,7 @@
   "main": "./app.js",
   "scripts": {
     "start": "electron .",
-    "watch": "watchify app/app.js -t babelify -o static/bundle.js --debug --verbose"
+    "watch": "watchify app/index.js -t babelify -o static/bundle.js --debug --verbose"
   },
   "devDependencies": {
     "electron-packager": "^8.1.0",
