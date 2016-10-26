@@ -12,6 +12,7 @@
   "contributors": [
     "Dong Yeop Lee, Spencer Lewis, Jonathan Witten"
   ],
+  "licensce": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/LukeJFernandez/360ls-desktop.git"
