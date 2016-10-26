@@ -19,7 +19,8 @@
   },
   "main": "./app.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "watch": "watchify app/app.js -t babelify -o static/bundle.js --debug --verbose"
   },
   "devDependencies": {
     "electron-packager": "^8.1.0",
@@ -29,7 +30,9 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babelify": "^7.3.0",
+    "material-ui": "^0.16.1",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-tap-event-plugin": "^1.0.0"
   }
 }
