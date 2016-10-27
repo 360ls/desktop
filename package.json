@@ -20,11 +20,17 @@
   "main": "./app.js",
   "scripts": {
     "start": "electron .",
-    "watch": "watchify app/index.js -t babelify -o static/bundle.js --debug --verbose"
+    "watch": "watchify app/index.jsx --extension=.jsx -t babelify -o static/bundle.js --debug --verbose",
+    "lint": "./node_modules/.bin/eslint --ext .jsx,.js app"
   },
   "devDependencies": {
     "electron-packager": "^8.1.0",
-    "electron-prebuilt": "^1.4.3"
+    "electron-prebuilt": "^1.4.3",
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.4.1"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.18.0",

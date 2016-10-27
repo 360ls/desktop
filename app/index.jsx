@@ -19,4 +19,4 @@ render((
       <Route path="preference" component={PreferenceScreen} />
     </Route>
   </Router>
-), document.getElementById('content'))
+), document.getElementById('content'));
