@@ -12,13 +12,13 @@ npm install -g yarn
 and rebuild the app. 
 
 ```bash
-yarn global add watchify
+npm install -g watchify
 ```
 
 `Electron` is used to package and run the application:
 
 ```bash
-yarn global add electron
+npm install -g electron
 ```
 
 Install dependencies:
