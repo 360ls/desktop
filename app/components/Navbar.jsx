@@ -1,83 +1,66 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
 
-class Navbar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.state = {
-      open: false,
-    };
-  }
+const menuItems = [
+  {
+    key: 0,
+    route: '/dashboard',
+    text: 'Dashboard',
+  },
+  {
+    key: 1,
+    route: '/live',
+    text: 'Live',
+  },
+  { key: 2,
+    route: '/dvr',
+    text: 'DVR',
+  },
+  {
+    key: 3,
+    route: '/local',
+    text: 'Local Videos',
+  },
+  {
+    key: 4,
+    route: '/preference',
+    text: 'Preferences',
+  },
+];
 
-  handleToggle() {
-    this.setState({
-      open: !this.state.open,
-    });
-  }
-
-  handleClose() {
-    this.setState({
-      open: false,
-    });
-  }
-
-  render() {
-    const menuItems = [
-      {
-        key: 0,
-        route: '/dashboard',
-        text: 'Dashboard',
-      },
-      {
-        key: 1,
-        route: '/live',
-        text: 'Live',
-      },
-      { key: 2,
-        route: '/dvr',
-        text: 'DVR',
-      },
-      {
-        key: 3,
-        route: '/local',
-        text: 'Local Videos',
-      },
-      {
-        key: 4,
-        route: '/preference',
-        text: 'Preferences',
-      },
-    ];
-    return (
-      <div>
-        <AppBar
-          title="360ls"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onLeftIconButtonTouchTap={this.handleToggle}
-        />
-        <Drawer
-          docked={false}
-          width={200}
-          open={this.state.open}
-          onRequestChange={open => this.setState({ open })}
+const Navbar = ({ onToggle, onOpen, onClose, open }) => (
+  <div>
+    <AppBar
+      title="360ls"
+      iconClassNameRight="muidocs-icon-navigation-expand-more"
+      onLeftIconButtonTouchTap={onToggle}
+    />
+    <Drawer
+      docked={false}
+      width={200}
+      open={open}
+      onRequestChange={onOpen}
+    >
+      {menuItems.map(menu =>
+        <MenuItem
+          onTouchTap={onClose}
+          containerElement={<Link to={menu.route} />} // eslint-disable-line
         >
-          {menuItems.map(menu =>
-            <MenuItem
-              onTouchTap={this.handleClose}
-              containerElement={<Link to={menu.route} />} // eslint-disable-line
-            >
-              {menu.text}
-            </MenuItem>
-         )}
-        </Drawer>
-      </div>
-    );
-  }
-}
+          {menu.text}
+        </MenuItem>
+     )}
+    </Drawer>
+  </div>
+);
+
+Navbar.propTypes = {
+  onToggle: PropTypes.func.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};
 
 export default Navbar;
