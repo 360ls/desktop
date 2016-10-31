@@ -15,6 +15,12 @@ and rebuild the app.
 npm install -g watchify
 ```
 
+`browserify` enables the use of require statements in-browser.
+
+```bash
+npm install -g browserify
+```
+
 `Electron` is used to package and run the application:
 
 ```bash
