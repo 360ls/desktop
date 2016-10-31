@@ -1,10 +1,11 @@
 import React from 'react';
 import VideoList from '../components/VideoList';
+import VideoPlayer from '../components/VideoPlayer';
 
 export default function DVRScreen() {
   return (
     <div>
-      <video controls autoPlay src="storage/local1.mp4" width="100%" />
+      <VideoPlayer />
       <VideoList />
     </div>
   );

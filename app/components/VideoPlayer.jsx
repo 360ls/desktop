@@ -1,17 +1,6 @@
 import React from 'react';
-import { ReactPlayer } from 'react-player';
+const VideoPlayer = () => (
+  <video controls autoPlay src="storage/local1.mp4" width="100%" />
+);
 
-export default class VideoPlayer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <ReactPlayer
-        url={this.props.url}
-        playing
-      />
-    );
-  }
-}
+export default VideoPlayer;
