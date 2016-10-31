@@ -31,7 +31,7 @@ const menuItems = [
   },
 ];
 
-const Navbar = ({ onToggle, onOpen, onClose, open }) => (
+const Navbar = ({ open, onToggle, onChange, onClose }) => (
   <div>
     <AppBar
       title="360ls"
@@ -42,7 +42,7 @@ const Navbar = ({ onToggle, onOpen, onClose, open }) => (
       docked={false}
       width={200}
       open={open}
-      onRequestChange={onOpen}
+      onRequestChange={onChange}
     >
       {menuItems.map(menu =>
         <MenuItem
@@ -58,7 +58,7 @@ const Navbar = ({ onToggle, onOpen, onClose, open }) => (
 
 Navbar.propTypes = {
   onToggle: PropTypes.func.isRequired,
-  onOpen: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };

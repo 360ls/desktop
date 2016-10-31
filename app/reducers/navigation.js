@@ -1,4 +1,4 @@
-import { TOGGLE_NAV, OPEN_NAV, CHANGE_NAV } from '../actions/navigation';
+import { TOGGLE_NAV, OPEN_NAV, CLOSE_NAV, CHANGE_NAV } from '../actions/navigation';
 
 const initialState = {
   open: false,
@@ -17,6 +17,10 @@ export default function navigation(state = initialState, action) {
     case CHANGE_NAV:
       return Object.assign({}, state, {
         open: action.open,
+      });
+    case CLOSE_NAV:
+      return Object.assign({}, state, {
+        open: false,
       });
     default:
       return state;

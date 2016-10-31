@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { toggle, close, change } from '../actions/navigation';
 
 const mapStateToProps = state => ({
-  open: state.open,
+  open: state.navigation.open,
 });
 
 const mapDispatchToProps = dispatch => ({

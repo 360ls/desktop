@@ -16,12 +16,12 @@ const muiTheme = getMuiTheme({
   },
 });
 
-export default function App(props) {
+export default function App({ children }) {
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
       <div>
         <NavigationBar />
-        {props.children}
+        {children}
       </div>
     </MuiThemeProvider>
   );
