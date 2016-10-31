@@ -1,22 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, hashHistory, Redirect } from 'react-router';
-import App from './containers/App';
-import DashboardScreen from './containers/DashboardScreen';
-import DVRScreen from './containers/DVRScreen';
-import LiveScreen from './containers/LiveScreen';
-import LocalScreen from './containers/LocalScreen';
-import PreferenceScreen from './containers/PreferenceScreen';
+import { Provider } from 'react-redux';
+import { Router, hashHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { createStore } from 'redux';
+import routes from './routes';
+import rootReducer from './reducers';
+
+const store = createStore(rootReducer);
+const history = syncHistoryWithStore(hashHistory, store);
 
 render((
-  <Router history={hashHistory}>
-    <Redirect from="/" to="dvr" />
-    <Route path="/" component={App}>
-      <Route path="dashboard" component={DashboardScreen} />
-      <Route path="dvr" component={DVRScreen} />
-      <Route path="live" component={LiveScreen} />
-      <Route path="local" component={LocalScreen} />
-      <Route path="preference" component={PreferenceScreen} />
-    </Route>
-  </Router>
+  <Provider store={store}>
+    <Router history={history} routes={routes} />
+  </Provider>
 ), document.getElementById('content'));
