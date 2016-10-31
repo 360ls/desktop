@@ -3,7 +3,7 @@ import { lightBlueA400 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Navbar from '../components/Navbar';
+import NavigationBar from './NavigationBar';
 
 injectTapEventPlugin();
 
@@ -20,7 +20,7 @@ export default function App(props) {
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
       <div>
-        <Navbar />
+        <NavigationBar />
         {props.children}
       </div>
     </MuiThemeProvider>
