@@ -4,7 +4,7 @@ const {app, BrowserWindow} = require('electron');
 	// Accomplishes the same as the following:
 	//		var electron = require('electron');
 	//		var app = electron.app;
-	//		var BrowserWindow = electron.BrowserWindow; 
+	//		var BrowserWindow = electron.BrowserWindow;
 
 var mainWindow;
 

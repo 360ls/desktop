@@ -3,6 +3,10 @@
 The 360ls desktop Electron application and dependencies.
 
 ## Pre-requisites
+`yarn` is used to install local and global dependencies.
+```bash
+npm install -g yarn
+```
 
 `watchify` is used to watch for any source file changes
 and rebuild the app. 
@@ -20,7 +24,7 @@ npm install -g electron
 Install dependencies:
 
 ```bash
-npm install
+yarn install
 ```
 
 ## Running
@@ -28,13 +32,13 @@ npm install
 Start the watcher:
 
 ```bash
-npm run watch
+yarn run watch
 ```
 
 Then start the app with electron:
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Linting
@@ -46,5 +50,5 @@ npm start
 To lint run the following command:
 
 ```bash
-npm run lint
+yarn run lint
 ```
