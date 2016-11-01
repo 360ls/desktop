@@ -1,6 +1,6 @@
 import { SWITCH_VIDEO } from '../actions/videos';
 
-const initialState = {
+export const initialState = {
   uri: 'storage/local1.mp4',
 };
 
