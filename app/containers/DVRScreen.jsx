@@ -1,12 +1,12 @@
 import React from 'react';
 import VideoList from './VideoList';
 import VideoPlayer from './VideoPlayer';
-import ToolBar from '../components/ToolBar';
+import FilterBar from './FilterBar';
 
 export default function DVRScreen() {
   return (
     <div>
-      <ToolBar />
+      <FilterBar />
       <VideoPlayer />
       <VideoList />
     </div>
