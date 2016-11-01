@@ -5,27 +5,17 @@
 The 360ls desktop Electron application and dependencies.
 
 ## Pre-requisites
-`yarn` is used to install local and global dependencies.
+
+The `360ls` application is built using [Electron](http://electron.atom.io/apps/) using
+[React](https://facebook.github.io/react/) and [Redux](http://redux.js.org/).
+For package management, we use the [Yarn](https://yarnpkg.com/) package manger.
+For bundling our application we use [Browserify](http://browserify.org/) and
+[Watchify](https://github.com/substack/watchify).
+
 ```bash
 npm install -g yarn
-```
-
-`watchify` is used to watch for any source file changes
-and rebuild the app. 
-
-```bash
 npm install -g watchify
-```
-
-`browserify` enables the use of require statements in-browser.
-
-```bash
 npm install -g browserify
-```
-
-`Electron` is used to package and run the application:
-
-```bash
 npm install -g electron
 ```
 
@@ -51,7 +41,7 @@ yarn start
 
 ## Linting
 
-`eslint` is used to lint `js`/`jsx` files under the
+[ESlint](http://eslint.org/) is used to lint `js`/`jsx` files under the
 `app` directory using the `React` style guide from
 [Airbnb](https://github.com/airbnb/javascript/blob/master/react/README.md).
 
