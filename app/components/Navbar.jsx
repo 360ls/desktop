@@ -34,7 +34,7 @@ const menuItems = [
 const Navbar = ({ open, onToggle, onChange, onClose }) => (
   <div>
     <AppBar
-      title="360ls"
+      title="360 Life Stream"
       iconClassNameRight="muidocs-icon-navigation-expand-more"
       onLeftIconButtonTouchTap={onToggle}
     />
