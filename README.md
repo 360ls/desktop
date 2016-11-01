@@ -1,5 +1,7 @@
 # 360ls-desktop
 
+[![Build Status](https://travis-ci.org/LukeJFernandez/360ls-desktop.svg?branch=master)](https://travis-ci.org/LukeJFernandez/360ls-desktop)
+
 The 360ls desktop Electron application and dependencies.
 
 ## Pre-requisites
