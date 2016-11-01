@@ -1,7 +1,7 @@
 import React from 'react';
 
-const VideoPlayer = () => (
+const Video = () => (
   <video controls autoPlay src="storage/local1.mp4" width="100%" />
 );
 
-export default VideoPlayer;
+export default Video;

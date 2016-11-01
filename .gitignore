@@ -42,3 +42,4 @@ jspm_packages
 # Packaged applications
 360*
 dist/
+static/
