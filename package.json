@@ -22,7 +22,7 @@
     "start": "electron .",
     "watch": "watchify app/index.jsx --extension=.jsx -t babelify -o dist/bundle.js --debug --verbose",
     "build": "browserify app/index.jsx --extension=.jsx -t babelify -o dist/bundle.js --debug --verbose",
-    "lint": "./node_modules/.bin/eslint --ext .jsx,.js app",
+    "lint": "eslint --ext .jsx,.js app",
     "test": "jest"
   },
   "devDependencies": {

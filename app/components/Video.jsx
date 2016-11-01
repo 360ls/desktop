@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const Video = () => (
-  <video controls autoPlay src="storage/local1.mp4" width="100%" />
+const Video = ({ uri }) => (
+  <video controls autoPlay src={uri} width="100%" />
 );
+
+Video.propTypes = {
+  uri: PropTypes.string.isRequired,
+};
 
 export default Video;
