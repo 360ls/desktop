@@ -1,7 +1,7 @@
 import { SWITCH_VIDEO } from '../actions/videos';
 
 export const initialState = {
-  uri: 'storage/local1.mp4',
+  uri: '../storage/local1.mp4',
 };
 
 export default function player(state = initialState, action) {
