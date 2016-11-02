@@ -16,16 +16,16 @@ const muiTheme = getMuiTheme({
   },
 });
 
-export default function App({ children }) {
-  return (
-    <MuiThemeProvider muiTheme={muiTheme}>
-      <div>
-        <NavigationBar />
-        {children}
-      </div>
-    </MuiThemeProvider>
-  );
-}
+const App = ({ children }) => (
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <div>
+      <NavigationBar />
+      {children}
+    </div>
+  </MuiThemeProvider>
+);
+
+export default App;
 
 App.propTypes = {
   children: React.PropTypes.element.isRequired,

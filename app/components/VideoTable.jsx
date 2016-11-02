@@ -19,8 +19,10 @@ const flagIcon = <FontIcon className="fa-flag" />;
 const checkIcon = <FontIcon className="fa-check" />;
 const closeIcon = <FontIcon className="fa-close" />;
 
-const VideoTable = ({ videos }) => (
-  <Table>
+const VideoTable = ({ videos, onClick }) => (
+  <Table
+    onRowSelection={rows => onClick(videos[rows[0]].uri)}
+  >
     <TableHeader>
       <TableRow>
         {rowHeader.map(title =>
@@ -50,6 +52,7 @@ VideoTable.propTypes = {
     status: PropTypes.bool.isRequired,
     flag: PropTypes.bool.isRequired,
   }).isRequired).isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default VideoTable;

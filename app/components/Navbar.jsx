@@ -51,7 +51,7 @@ const Navbar = ({ open, onToggle, onChange, onClose }) => (
         >
           {menu.text}
         </MenuItem>
-     )}
+        )}
     </Drawer>
   </div>
 );
