@@ -3,9 +3,9 @@ import byId, * as fromById from './byId';
 import createList, * as fromList from './createList';
 
 const listByFilter = combineReducers({
-  all: createList('All'),
-  uploaded: createList('Uploaded'),
-  flagged: createList('Flagged'),
+  All: createList('All'),
+  Uploaded: createList('Uploaded'),
+  Flagged: createList('Flagged'),
 });
 
 const videos = combineReducers({
@@ -16,6 +16,6 @@ const videos = combineReducers({
 export default videos;
 
 export const getVisibleVideos = (state, filter) => {
-  const ids = fromList.getIds(state.listByFilter[filter]);
+  const ids = fromList.getIds(state.videos.listByFilter[filter]);
   return ids.map(id => fromById.getVideos(state.byId, id));
 };

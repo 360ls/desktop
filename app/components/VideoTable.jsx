@@ -36,8 +36,8 @@ const VideoTable = ({ videos, onClick }) => (
           <TableRowColumn>{video.name}</TableRowColumn>
           <TableRowColumn>{video.location}</TableRowColumn>
           <TableRowColumn>{video.date}</TableRowColumn>
-          <TableRowColumn>{video.status ? checkIcon : closeIcon}</TableRowColumn>
-          <TableRowColumn>{video.flag ? flagIcon : <div />}</TableRowColumn>
+          <TableRowColumn>{video.uploaded ? checkIcon : closeIcon}</TableRowColumn>
+          <TableRowColumn>{video.flagged ? flagIcon : <div />}</TableRowColumn>
         </TableRow>
       )}
     </TableBody>
@@ -49,8 +49,8 @@ VideoTable.propTypes = {
     name: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
-    flag: PropTypes.bool.isRequired,
+    uploaded: PropTypes.bool.isRequired,
+    flagged: PropTypes.bool.isRequired,
   }).isRequired).isRequired,
   onClick: PropTypes.func.isRequired,
 };
