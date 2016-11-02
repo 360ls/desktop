@@ -8,12 +8,7 @@ The 360ls desktop Electron application.
 
 The `360ls` application is built using [Electron](http://electron.atom.io/apps/) using
 [React](https://facebook.github.io/react/) and [Redux](http://redux.js.org/).
-
 For package management, we use the [Yarn](https://yarnpkg.com/) package manger.
-
-```bash
-npm install -g yarn
-```
 
 Install the dependencies:
 
