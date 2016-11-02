@@ -23,6 +23,11 @@
     "react/prefer-stateless-function": "off",
     "flowtype-errors/show-errors": 2
   },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
   "plugins": [
     "flowtype-errors",
     "import",

@@ -1,33 +1,21 @@
-const rowData = [
-  {
-    name: 'Video 1',
-    location: 'Chapel Hill, NC',
-    date: '10/1/2016',
-    status: false,
-    flag: true,
-    uri: '../static/cam1.mp4',
-  },
-  {
-    name: 'Video 2',
-    location: 'Durham, NC',
-    date: '10/2/2016',
-    status: true,
-    flag: false,
-    uri: '../static/cam2.mp4',
-  },
-  {
-    name: 'Video 3',
-    location: 'Raleigh, NC',
-    date: '10/3/2016',
-    status: false,
-    flag: true,
-    uri: '../static/cam3.mp4',
-  },
-];
+import { combineReducers } from 'redux';
+import byId, * as fromById from './byId';
+import createList, * as fromList from './createList';
 
-export default function videos(state = rowData, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+const listByFilter = combineReducers({
+  All: createList('All'),
+  Uploaded: createList('Uploaded'),
+  Flagged: createList('Flagged'),
+});
+
+const videos = combineReducers({
+  byId,
+  listByFilter,
+});
+
+export default videos;
+
+export const getVisibleVideos = (state, filter) => {
+  const ids = fromList.getIds(state.videos.listByFilter[filter]);
+  return ids.map(id => fromById.getVideo(state.videos.byId, id));
+};

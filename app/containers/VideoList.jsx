@@ -1,33 +1,53 @@
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import VideoTable from '../components/VideoTable';
-import { switchVideo } from '../actions/videos';
+import * as actions from '../actions/videos';
+import { getVisibleVideos } from '../reducers/videos';
 
-const getVisibleVideos = (videos, filter) => {
-  switch (filter) {
-    case 'All':
-      return videos;
-    case 'Uploaded':
-      return videos.filter(video => video.status);
-    case 'Flagged':
-      return videos.filter(video => video.flag);
-    default:
-      return videos;
+class VideoList extends Component {
+  componentDidMount() {
+    this.fetchData();
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.filter !== prevProps.filter) {
+      this.fetchData();
+    }
+  }
+
+  fetchData() {
+    const { filter, fetchVideos } = this.props;
+    fetchVideos(filter);
+  }
+
+  render() {
+    const { switchVideos, ...rest } = this.props;
+    return (
+      <VideoTable
+        {...rest}
+        onClick={switchVideos}
+      />
+    );
+  }
+}
+
+VideoList.propTypes = {
+  filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
+  fetchVideos: PropTypes.func.isRequired,
+  switchVideos: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  videos: getVisibleVideos(state.videos, state.visibilityFilter),
-});
+const mapStateToProps = state => {
+  const filter = state.visibilityFilter;
+  return {
+    videos: getVisibleVideos(state, state.visibilityFilter),
+    filter,
+  };
+};
 
-const mapDispatchToProps = dispatch => ({
-  onClick(uri) {
-    dispatch(switchVideo(uri));
-  },
-});
-
-const VideoList = connect(
+VideoList = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(VideoTable);
+  actions
+)(VideoList);
 
 export default VideoList;

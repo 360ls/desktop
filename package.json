@@ -18,7 +18,9 @@
     "url": "git://github.com/LukeJFernandez/360ls-desktop.git"
   },
   "jest": {
-    "testPathDirs": ["test"]
+    "testPathDirs": [
+      "test"
+    ]
   },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty app test *.js *.jsx",
@@ -36,6 +38,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-tcomb": "^0.3.21",
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
     "babel-plugin-webpack-loaders": "^0.8.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "^6.18.0",
@@ -76,6 +79,7 @@
     "mocha": "^3.1.2",
     "react-addons-test-utils": "^15.3.2",
     "redux-logger": "^2.7.4",
+    "redux-promise": "^0.5.3",
     "sinon": "^1.17.6",
     "spectron": "^3.4.0",
     "style-loader": "^0.13.1",
@@ -90,6 +94,7 @@
     "electron-debug": "^1.0.1",
     "font-awesome": "^4.7.0",
     "material-ui": "^0.16.1",
+    "node-uuid": "^1.4.7",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
