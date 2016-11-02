@@ -41,9 +41,9 @@ export const fetchVideos = (filter) =>
       case 'All':
         return mockDatabase.videos;
       case 'Uploaded':
-        return mockDatabase.todos.filter(t => t.uploaded);
+        return mockDatabase.videos.filter(t => t.uploaded);
       case 'Flagged':
-        return mockDatabase.todos.filter(t => t.flagged);
+        return mockDatabase.videos.filter(t => t.flagged);
       default:
         throw new Error(`Unknown filter: ${filter}`);
     }

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import VideoTable from '../components/VideoTable';
-import { switchVideo } from '../actions/videos';
+import * as actions from '../actions/videos';
 import { getVisibleVideos } from '../reducers/videos';
 
 class VideoList extends Component {
@@ -21,11 +21,11 @@ class VideoList extends Component {
   }
 
   render() {
-    const { onClick, ...rest } = this.props;
+    const { switchVideos, ...rest } = this.props;
     return (
       <VideoTable
         {...rest}
-        onClick={onClick}
+        onClick={switchVideos}
       />
     );
   }
@@ -34,26 +34,20 @@ class VideoList extends Component {
 VideoList.propTypes = {
   filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
   fetchVideos: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  switchVideos: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   const filter = state.visibilityFilter;
   return {
     videos: getVisibleVideos(state, state.visibilityFilter),
-    filter
+    filter,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  onClick(uri) {
-    dispatch(switchVideo(uri));
-  },
-});
-
 VideoList = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(VideoTable);
+  actions
+)(VideoList);
 
 export default VideoList;

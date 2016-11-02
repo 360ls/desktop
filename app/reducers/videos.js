@@ -17,5 +17,5 @@ export default videos;
 
 export const getVisibleVideos = (state, filter) => {
   const ids = fromList.getIds(state.videos.listByFilter[filter]);
-  return ids.map(id => fromById.getVideos(state.byId, id));
+  return ids.map(id => fromById.getVideo(state.videos.byId, id));
 };
