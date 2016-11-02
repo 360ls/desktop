@@ -17,7 +17,9 @@
     "type": "git",
     "url": "git://github.com/LukeJFernandez/360ls-desktop.git"
   },
-  "main": "./app.js",
+  "jest": {
+    "testPathDirs": ["test"]
+  },
   "scripts": {
     "lint": "eslint --ext .jsx,.js app",
     "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 -r babel-register server.js",
