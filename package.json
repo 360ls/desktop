@@ -22,6 +22,7 @@
     "lint": "eslint --ext .jsx,.js app",
     "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 -r babel-register server.js",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.development",
+    "dev": "npm run hot-server -- --start-hot",
     "test": "jest"
   },
   "devDependencies": {
