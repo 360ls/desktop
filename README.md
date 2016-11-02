@@ -2,12 +2,14 @@
 
 [![Build Status](https://travis-ci.org/LukeJFernandez/360ls-desktop.svg?branch=master)](https://travis-ci.org/LukeJFernandez/360ls-desktop)
 
-The 360ls desktop Electron application.
+This is the desktop interface for the `360ls` application,
+which stitches videos from 4 cameras into a single 360
+video and streams them over RTMP. The `360ls` application is built
+using [Electron](http://electron.atom.io/apps/) with
+[React](https://facebook.github.io/react/) and [Redux](http://redux.js.org/).
 
 ## Pre-requisites
 
-The `360ls` application is built using [Electron](http://electron.atom.io/apps/) with
-[React](https://facebook.github.io/react/) and [Redux](http://redux.js.org/).
 For package management, we use the [Yarn](https://yarnpkg.com/) package manger.
 
 Install the dependencies:
@@ -30,13 +32,13 @@ electron application.
 ## Linting
 
 [ESlint](http://eslint.org/) is used to lint `js`/`jsx` files under the
-`app` directory using the `React` style guide from
+`app` and `test` directories using the `React` style guide from
 [Airbnb](https://github.com/airbnb/javascript/blob/master/react/README.md).
 
 To lint run the following command:
 
 ```bash
-yarn run lint
+yarn lint
 ```
 
 ## Testing
