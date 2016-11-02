@@ -1,6 +1,6 @@
 import { v4 } from 'node-uuid';
 
-const mockDatabase {
+const mockDatabase = {
   videos: [
     {
       id: v4(),
