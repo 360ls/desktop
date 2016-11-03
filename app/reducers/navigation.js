@@ -26,3 +26,6 @@ export default function navigation(state = initialState, action) {
       return state;
   }
 }
+
+export const getNavStatus = (state) =>
+  state.navigation.open;

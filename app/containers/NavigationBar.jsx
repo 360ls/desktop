@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import Navbar from '../components/Navbar';
 import { toggle, close, change } from '../actions/navigation';
+import { getNavStatus } from '../reducers/navigation';
 
 const mapStateToProps = state => ({
-  open: state.navigation.open,
+  open: getNavStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({
