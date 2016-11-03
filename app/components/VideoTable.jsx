@@ -26,13 +26,15 @@ const VideoTable = ({ videos, onClick }) => (
     <TableHeader>
       <TableRow>
         {rowHeader.map(title =>
-          <TableHeaderColumn>{title}</TableHeaderColumn>
+          <TableHeaderColumn key={title}>
+            {title}
+          </TableHeaderColumn>
         )}
       </TableRow>
     </TableHeader>
     <TableBody>
       {videos.map(video =>
-        <TableRow>
+        <TableRow key={video.id}>
           <TableRowColumn>{video.name}</TableRowColumn>
           <TableRowColumn>{video.location}</TableRowColumn>
           <TableRowColumn>{video.date}</TableRowColumn>
