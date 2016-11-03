@@ -10,3 +10,6 @@ const visibilityFilter = (state = 'All', action) => {
 };
 
 export default visibilityFilter;
+
+export const getVisibilityFilter = (state) =>
+  state.visibilityFilter;
