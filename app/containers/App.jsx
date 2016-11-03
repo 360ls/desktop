@@ -28,5 +28,5 @@ const App = ({ children }) => (
 export default App;
 
 App.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: React.PropTypes.element,
 };

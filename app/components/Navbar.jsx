@@ -46,6 +46,7 @@ const Navbar = ({ open, onToggle, onChange, onClose }) => (
     >
       {menuItems.map(menu =>
         <MenuItem
+          key={menu.key}
           onTouchTap={onClose}
           containerElement={<Link to={menu.route} />} // eslint-disable-line
         >
