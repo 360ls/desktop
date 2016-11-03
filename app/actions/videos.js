@@ -25,5 +25,5 @@ export const setVisibilityFilter = filter => ({
   filter,
 });
 
-export const switchVideos = (uri) =>
+export const switchVideoTo = (uri) =>
   switchVideo(uri);
