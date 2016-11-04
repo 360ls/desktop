@@ -1,31 +1,28 @@
+import { combineReducers } from 'redux';
 import { TOGGLE_NAV, OPEN_NAV, CLOSE_NAV, CHANGE_NAV } from '../actions/navigation';
 
-const initialState = {
-  open: false,
+const navigation = () => {
+  const isOpen = (state = false, action) => {
+    switch (action.type) {
+      case TOGGLE_NAV:
+        return !state;
+      case OPEN_NAV:
+        return true;
+      case CHANGE_NAV:
+        return action.open;
+      case CLOSE_NAV:
+        return false;
+      default:
+        return state;
+    }
+  };
+
+  return combineReducers({
+    isOpen,
+  });
 };
 
-export default function navigation(state = initialState, action) {
-  switch (action.type) {
-    case TOGGLE_NAV:
-      return Object.assign({}, state, {
-        open: !state.open,
-      });
-    case OPEN_NAV:
-      return Object.assign({}, state, {
-        open: true,
-      });
-    case CHANGE_NAV:
-      return Object.assign({}, state, {
-        open: action.open,
-      });
-    case CLOSE_NAV:
-      return Object.assign({}, state, {
-        open: false,
-      });
-    default:
-      return state;
-  }
-}
+export default navigation;
 
 export const getNavStatus = (state) =>
-  state.navigation.open;
+  state.isOpen;
