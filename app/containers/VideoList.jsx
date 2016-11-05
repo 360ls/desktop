@@ -21,11 +21,11 @@ class VideoList extends Component {
   }
 
   render() {
-    const { switchVideos, ...rest } = this.props;
+    const { switchVideoTo, ...rest } = this.props;
     return (
       <VideoTable
         {...rest}
-        onClick={switchVideos}
+        onClick={switchVideoTo}
       />
     );
   }
@@ -34,7 +34,7 @@ class VideoList extends Component {
 VideoList.propTypes = {
   filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
   fetchVideos: PropTypes.func.isRequired,
-  switchVideos: PropTypes.func.isRequired,
+  switchVideoTo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {

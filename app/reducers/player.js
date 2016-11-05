@@ -14,3 +14,6 @@ export default function player(state = initialState, action) {
       return state;
   }
 }
+
+export const getVideoURI = (state) =>
+  state.player.uri;

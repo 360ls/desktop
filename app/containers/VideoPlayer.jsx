@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import Video from '../components/Video';
+import { getVideoURI } from '../reducers/player';
 
 const mapStateToProps = state => ({
-  uri: state.player.uri,
+  uri: getVideoURI(state),
 });
 
 const VideoPlayer = connect(

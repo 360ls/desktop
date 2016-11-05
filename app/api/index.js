@@ -35,7 +35,7 @@ const mockDatabase = {
 const delay = (ms) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
-export const fetchVideos = (filter) =>
+export const fetchVideos = (filter) => // eslint-disable-line import/prefer-default-export
   delay(500).then(() => {
     switch (filter) {
       case 'All':
