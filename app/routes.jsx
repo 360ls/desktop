@@ -13,7 +13,6 @@ export default (
     <Route path="dvr" component={DVRPage} />
     <Route path="dvr/(:video)" component={LocalPage} />
     <Route path="live" component={LivePage} />
-    <Route path="local" component={LocalPage} />
     <Route path="preference" component={PreferencePage} />
   </Route>
 );

@@ -21,11 +21,6 @@ const menuItems = [
   },
   {
     key: 3,
-    route: '/local',
-    text: 'Local Videos',
-  },
-  {
-    key: 4,
     route: '/preference',
     text: 'Preferences',
   },

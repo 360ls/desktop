@@ -1,7 +1,8 @@
 import React from 'react';
+import VideoPlayer from '../containers/VideoPlayer';
 
 const LocalVideoPage = () => (
-  <h1>Local Videos</h1>
+  <VideoPlayer />
 );
 
 export default LocalVideoPage;

@@ -37,8 +37,8 @@ const delay = (ms) =>
 
 export const fetchVideos = (filter) => // eslint-disable-line import/prefer-default-export
   delay(1000).then(() => {
-    if (Math.random() > 0.5) {
-      throw new Error('Error!');
+    if (Math.random() > 0.7) {
+      throw new Error('Network Error! Videos could not be fetched.');
     }
 
     switch (filter) {
