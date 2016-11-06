@@ -14,3 +14,8 @@ export const change = open => ({
 export const close = () => ({
   type: CLOSE_NAV,
 });
+
+export const select = (index) => ({
+  type: 'SELECT_ITEM',
+  index,
+});

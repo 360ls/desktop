@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import NavigationBar from './NavigationBar';
+import BottomNavigator from './BottomNavigator';
 
 injectTapEventPlugin();
 
@@ -21,6 +22,7 @@ const App = ({ children }) => (
     <div>
       <NavigationBar />
       {children}
+      <BottomNavigator />
     </div>
   </MuiThemeProvider>
 );
