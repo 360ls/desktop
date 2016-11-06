@@ -30,7 +30,7 @@ class VideoList extends Component {
           style={{ display: 'flex', justifyContent: 'center' }}
         >
           <div>
-            <CircularProgress size={60} thickness={7} />
+            <CircularProgress size={80} thickness={5} />
           </div>
         </div>
       );
@@ -61,7 +61,6 @@ VideoList.propTypes = {
   switchVideoTo: PropTypes.func.isRequired,
   videos: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  requestVideos: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 };
 

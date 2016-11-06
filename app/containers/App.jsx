@@ -22,7 +22,6 @@ const App = ({ children }) => (
     <div>
       <NavigationBar />
       {children}
-      <BottomNavigator />
     </div>
   </MuiThemeProvider>
 );
