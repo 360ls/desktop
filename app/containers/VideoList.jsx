@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
+import { withRouter } from 'react-router';
 import VideoTable from '../components/VideoTable';
 import FetchErrorDialog from '../components/FetchErrorDialog';
 import * as actions from '../actions/videos';
@@ -23,13 +24,27 @@ class VideoList extends Component {
   }
 
   render() {
-    const { switchVideoTo, isFetching, videos, errorMessage } = this.props;
+    const {
+      switchVideoTo,
+      isFetching,
+      videos,
+      errorMessage,
+      router,
+      location
+    } = this.props;
     if (isFetching && !videos.length) {
       return (
         <div
-          style={{ display: 'flex', justifyContent: 'center' }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
         >
-          <div>
+          <div
+            style={{
+              alignSelf: 'center'
+            }}
+          >
             <CircularProgress size={80} thickness={5} />
           </div>
         </div>
@@ -50,6 +65,8 @@ class VideoList extends Component {
       <VideoTable
         videos={videos}
         onClick={switchVideoTo}
+        router={router}
+        path={location.pathname}
       />
     );
   }
@@ -62,21 +79,23 @@ VideoList.propTypes = {
   videos: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
+  router: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { router }) => {
   const filter = state.visibilityFilter;
   return {
     isFetching: getIsFetching(state, filter),
     videos: getVisibleVideos(state, state.visibilityFilter),
     filter,
     errorMessage: getErrorMessage(state, filter),
+    router,
   };
 };
 
-VideoList = connect(
+VideoList = withRouter(connect(
   mapStateToProps,
   actions
-)(VideoList);
+)(VideoList));
 
 export default VideoList;
