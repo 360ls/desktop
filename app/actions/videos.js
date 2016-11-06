@@ -1,4 +1,5 @@
 import * as api from '../api';
+import { getIsFetching } from '../reducers/videos';
 
 export const SWITCH_VIDEO = 'SWITCH_VIDEO';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
@@ -15,7 +16,11 @@ const receiveVideos = (filter, response) => ({
   response,
 });
 
-export const fetchVideos = (filter) => (dispatch) => {
+export const fetchVideos = (filter) => (dispatch, getState) => {
+  if (getIsFetching(getState(), filter)) {
+    return Promise.resolve();
+  }
+
   dispatch(requestVideos(filter));
 
   return api.fetchVideos(filter).then(response => {
