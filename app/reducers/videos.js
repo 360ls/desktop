@@ -19,3 +19,6 @@ export const getVisibleVideos = (state, filter) => {
   const ids = fromList.getIds(state.videos.listByFilter[filter]);
   return ids.map(id => fromById.getVideo(state.videos.byId, id));
 };
+
+export const getIsFetching = (state, filter) =>
+  fromList.getIsFetching(state.videos.listByFilter[filter]);

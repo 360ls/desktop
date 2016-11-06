@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import CircularProgress from 'material-ui/CircularProgress';
 import VideoTable from '../components/VideoTable';
 import * as actions from '../actions/videos';
-import { getVisibleVideos } from '../reducers/videos';
+import { getVisibleVideos, getIsFetching } from '../reducers/videos';
 
 class VideoList extends Component {
   componentDidMount() {
@@ -16,15 +17,28 @@ class VideoList extends Component {
   }
 
   fetchData() {
-    const { filter, fetchVideos } = this.props;
+    const { filter, fetchVideos, requestVideos } = this.props;
+    requestVideos(filter);
     fetchVideos(filter);
   }
 
   render() {
-    const { switchVideoTo, ...rest } = this.props;
+    const { switchVideoTo, isFetching, videos } = this.props;
+    if (isFetching && !videos.length) {
+      return (
+        <div
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <div>
+            <CircularProgress size={60} thickness={7} />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <VideoTable
-        {...rest}
+        videos={videos}
         onClick={switchVideoTo}
       />
     );
@@ -35,11 +49,15 @@ VideoList.propTypes = {
   filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
   fetchVideos: PropTypes.func.isRequired,
   switchVideoTo: PropTypes.func.isRequired,
+  videos: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  requestVideos: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   const filter = state.visibilityFilter;
   return {
+    isFetching: getIsFetching(state, filter),
     videos: getVisibleVideos(state, state.visibilityFilter),
     filter,
   };

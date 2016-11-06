@@ -4,6 +4,11 @@ export const SWITCH_VIDEO = 'SWITCH_VIDEO';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 export const RECEIVE_VIDEOS = 'RECEIVE_VIDEOS';
 
+export const requestVideos = (filter) => ({
+  type: 'REQUEST_VIDEOS',
+  filter,
+});
+
 const receiveVideos = (filter, response) => ({
   type: RECEIVE_VIDEOS,
   filter,
