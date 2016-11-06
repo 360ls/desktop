@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_VIDEOS } from '../actions/videos';
-
 const createList = (filter) => { // eslint-disable-line arrow-body-style
   const ids = (state = [], action) => {
     if (action.filter !== filter) {
       return state;
     }
     switch (action.type) {
-      case RECEIVE_VIDEOS:
+      case 'FETCH_VIDEOS_SUCCESS':
         return action.response.map(video => video.id);
       default:
         return state;
@@ -20,10 +18,27 @@ const createList = (filter) => { // eslint-disable-line arrow-body-style
     }
 
     switch (action.type) {
-      case 'REQUEST_VIDEOS':
+      case 'FETCH_VIDEOS_REQUEST':
         return true;
-      case 'RECEIVE_VIDEOS':
+      case 'FETCH_VIDEOS_SUCCESS':
+      case 'FETCH_VIDEOS_FAILURE':
         return false;
+      default:
+        return state;
+    }
+  };
+
+  const errorMessage = (state = null, action) => {
+    if (filter !== action.filter) {
+      return state;
+    }
+
+    switch (action.type) {
+      case 'FETCH_VIDEOS_FAILURE':
+        return action.message;
+      case 'FETCH_VIDEOS_REQUEST':
+      case 'FETCH_VIDEOS_SUCCESS':
+        return null;
       default:
         return state;
     }
@@ -32,6 +47,7 @@ const createList = (filter) => { // eslint-disable-line arrow-body-style
   return combineReducers({
     ids,
     isFetching,
+    errorMessage,
   });
 };
 
@@ -39,3 +55,4 @@ export default createList;
 
 export const getIds = (state) => state.ids;
 export const getIsFetching = (state) => state.isFetching;
+export const getErrorMessage = (state) => state.errorMessage;

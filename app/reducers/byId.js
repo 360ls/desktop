@@ -1,8 +1,6 @@
-import { RECEIVE_VIDEOS } from '../actions/videos';
-
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case RECEIVE_VIDEOS: // eslint-disable-line no-case-declarations
+    case 'FETCH_VIDEOS_SUCCESS': // eslint-disable-line no-case-declarations
       const nextState = { ...state };
       action.response.forEach(video => {
         nextState[video.id] = video;

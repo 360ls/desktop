@@ -37,6 +37,10 @@ const delay = (ms) =>
 
 export const fetchVideos = (filter) => // eslint-disable-line import/prefer-default-export
   delay(500).then(() => {
+    if (Math.random() > 0.5) {
+      throw new Error('Error!');
+    }
+
     switch (filter) {
       case 'All':
         return mockDatabase.videos;
