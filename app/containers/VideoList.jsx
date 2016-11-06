@@ -17,8 +17,7 @@ class VideoList extends Component {
   }
 
   fetchData() {
-    const { filter, fetchVideos, requestVideos } = this.props;
-    requestVideos(filter);
+    const { filter, fetchVideos } = this.props;
     fetchVideos(filter);
   }
 

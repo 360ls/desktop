@@ -4,7 +4,7 @@ export const SWITCH_VIDEO = 'SWITCH_VIDEO';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 export const RECEIVE_VIDEOS = 'RECEIVE_VIDEOS';
 
-export const requestVideos = (filter) => ({
+const requestVideos = (filter) => ({
   type: 'REQUEST_VIDEOS',
   filter,
 });
@@ -15,10 +15,13 @@ const receiveVideos = (filter, response) => ({
   response,
 });
 
-export const fetchVideos = (filter) =>
-  api.fetchVideos(filter).then(response =>
-    receiveVideos(filter, response)
-  );
+export const fetchVideos = (filter) => (dispatch) => {
+  dispatch(requestVideos(filter));
+
+  return api.fetchVideos(filter).then(response => {
+    dispatch(receiveVideos(filter, response));
+  });
+};
 
 export const switchVideo = uri => ({
   type: SWITCH_VIDEO,
