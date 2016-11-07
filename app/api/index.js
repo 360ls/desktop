@@ -52,3 +52,10 @@ export const fetchVideos = (filter) => // eslint-disable-line import/prefer-defa
         throw new Error(`Unknown filter: ${filter}`);
     }
   });
+
+export const toggleVideo = (id) =>
+  delay(500).then(() => {
+    const video = mockDatabase.videos.find(v => v.id === id);
+    video.flagged = !video.flagged;
+    return video;
+  });

@@ -25,3 +25,6 @@ export const getIsFetching = (state, filter) =>
 
 export const getErrorMessage = (state, filter) =>
   fromList.getErrorMessage(state.videos.listByFilter[filter]);
+
+export const getVideoById = (state, id) =>
+  state.videos.byId[id];

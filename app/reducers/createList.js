@@ -1,12 +1,25 @@
 import { combineReducers } from 'redux';
+
 const createList = (filter) => { // eslint-disable-line arrow-body-style
+  const handleToggle = (state, action) => {
+    const { result: toggledId, entities } = action.response;
+    const { flagged } = entities.videos[toggledId];
+    const shouldRemove = (
+      (!flagged && filter === 'flagged')
+    );
+    return shouldRemove ?
+      state.filter(id => id !== toggledId) :
+      state;
+  };
+
   const ids = (state = [], action) => {
-    if (action.filter !== filter) {
-      return state;
-    }
     switch (action.type) {
       case 'FETCH_VIDEOS_SUCCESS':
-        return action.response.map(video => video.id);
+        return filter === action.filter ?
+          action.response.result :
+          state;
+      case 'TOGGLE_VIDEO_SUCCESS':
+        return handleToggle(state, action);
       default:
         return state;
     }

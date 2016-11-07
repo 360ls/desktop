@@ -22,7 +22,7 @@ const closeIcon = <FontIcon className="fa-close" />;
 const VideoTable = ({ videos, onClick, router, path }) => (
   <Table
     onRowSelection={rows => {
-      onClick(videos[rows[0]].uri);
+      onClick(videos[rows[0]].uri, videos[rows[0]].id);
       router.push(`${path}/${videos[rows[0]].id}`);
     }}
   >

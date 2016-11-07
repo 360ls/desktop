@@ -1,4 +1,6 @@
+import { normalize } from 'normalizr';
 import * as api from '../api';
+import * as schema from './schema';
 import { getIsFetching } from '../reducers/videos';
 
 export const SWITCH_VIDEO = 'SWITCH_VIDEO';
@@ -20,7 +22,7 @@ export const fetchVideos = (filter) => (dispatch, getState) => {
       dispatch({
         type: 'FETCH_VIDEOS_SUCCESS',
         filter,
-        response,
+        response: normalize(response, schema.arrayOfVideos),
       });
     },
     error => {
@@ -33,9 +35,10 @@ export const fetchVideos = (filter) => (dispatch, getState) => {
   );
 };
 
-export const switchVideo = uri => ({
+export const switchVideo = (uri, id) => ({
   type: SWITCH_VIDEO,
   uri,
+  id,
 });
 
 export const setVisibilityFilter = filter => ({
@@ -43,5 +46,13 @@ export const setVisibilityFilter = filter => ({
   filter,
 });
 
-export const switchVideoTo = (uri) =>
-  switchVideo(uri);
+export const switchVideoTo = (uri, id) =>
+  switchVideo(uri, id);
+
+export const toggleVideo = (id) => (dispatch) =>
+  api.toggleVideo(id).then(response => {
+    dispatch({
+      type: 'TOGGLE_VIDEO_SUCCESS',
+      response: normalize(response, schema.video),
+    });
+  });

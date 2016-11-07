@@ -3,7 +3,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
 
-const VideoInfo = ({ video, onToggle }) => (
+const VideoInfoList = ({ video, toggleVideo }) => (
   <List>
     <Subheader>General</Subheader>
     <ListItem
@@ -20,14 +20,14 @@ const VideoInfo = ({ video, onToggle }) => (
     />
     <ListItem
       primaryText="Flagged"
-      rightToggle={<Toggle toggled={video.flagged} onToggle={() => onToggle(video.id)} />}
+      rightToggle={<Toggle toggled={video.flagged} onToggle={() => toggleVideo(video.id)} />}
     />
   </List>
 );
 
-VideoInfo.propTypes = {
+VideoInfoList.propTypes = {
   video: PropTypes.object.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  toggleVideo: PropTypes.func.isRequired,
 };
 
-export default VideoInfo;
+export default VideoInfoList;
