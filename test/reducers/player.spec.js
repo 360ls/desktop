@@ -1,4 +1,4 @@
-import player, { initialState } from '../../app/reducers/player';
+import player from '../../app/reducers/player';
 import { SWITCH_VIDEO } from '../../app/actions/videos';
 
 describe('reducers', () => {
@@ -15,7 +15,7 @@ describe('reducers', () => {
     it('should handle switch in current video', () => {
       const uri = 'foo.mp4';
       const id = 'foo';
-      expect(player()(initialState, {
+      expect(player()(undefined, {
         type: SWITCH_VIDEO,
         uri,
         id,
