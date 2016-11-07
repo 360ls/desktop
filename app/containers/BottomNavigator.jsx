@@ -1,4 +1,3 @@
-
 import { connect } from 'react-redux';
 import BottomNav from '../components/BottomNav';
 import { select } from '../actions/navigation';

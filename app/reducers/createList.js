@@ -1,4 +1,10 @@
 import { combineReducers } from 'redux';
+import {
+  FETCH_VIDEOS_REQUEST,
+  FETCH_VIDEOS_SUCCESS,
+  FETCH_VIDEOS_FAILURE,
+  TOGGLE_VIDEO_SUCCESS,
+} from '../actions/videos';
 
 const createList = (filter) => { // eslint-disable-line arrow-body-style
   const handleToggle = (state, action) => {
@@ -14,11 +20,11 @@ const createList = (filter) => { // eslint-disable-line arrow-body-style
 
   const ids = (state = [], action) => {
     switch (action.type) {
-      case 'FETCH_VIDEOS_SUCCESS':
+      case FETCH_VIDEOS_SUCCESS:
         return filter === action.filter ?
           action.response.result :
           state;
-      case 'TOGGLE_VIDEO_SUCCESS':
+      case TOGGLE_VIDEO_SUCCESS:
         return handleToggle(state, action);
       default:
         return state;
@@ -31,10 +37,10 @@ const createList = (filter) => { // eslint-disable-line arrow-body-style
     }
 
     switch (action.type) {
-      case 'FETCH_VIDEOS_REQUEST':
+      case FETCH_VIDEOS_REQUEST:
         return true;
-      case 'FETCH_VIDEOS_SUCCESS':
-      case 'FETCH_VIDEOS_FAILURE':
+      case FETCH_VIDEOS_SUCCESS:
+      case FETCH_VIDEOS_FAILURE:
         return false;
       default:
         return state;
@@ -47,10 +53,10 @@ const createList = (filter) => { // eslint-disable-line arrow-body-style
     }
 
     switch (action.type) {
-      case 'FETCH_VIDEOS_FAILURE':
+      case FETCH_VIDEOS_FAILURE:
         return action.message;
-      case 'FETCH_VIDEOS_REQUEST':
-      case 'FETCH_VIDEOS_SUCCESS':
+      case FETCH_VIDEOS_REQUEST:
+      case FETCH_VIDEOS_SUCCESS:
         return null;
       default:
         return state;
