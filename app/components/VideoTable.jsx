@@ -6,7 +6,10 @@ import {
   TableHeaderColumn,
   TableRow,
   TableRowColumn } from 'material-ui/Table';
-import FontIcon from 'material-ui/FontIcon';
+import Done from 'material-ui/svg-icons/action/done';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Error from 'material-ui/svg-icons/alert/error';
+import { red500, green500, yellow500 } from 'material-ui/styles/colors';
 
 const rowHeader = [
   'Name',
@@ -15,9 +18,10 @@ const rowHeader = [
   'Upload Status',
   'Flag',
 ];
-const flagIcon = <FontIcon className="fa-flag" />;
-const checkIcon = <FontIcon className="fa-check" />;
-const closeIcon = <FontIcon className="fa-close" />;
+
+const flagIcon = <Error color={yellow500} />;
+const checkIcon = <Done color={green500} />;
+const closeIcon = <Close color={red500} />;
 
 const VideoTable = ({ videos, onClick, router, path }) => (
   <Table
