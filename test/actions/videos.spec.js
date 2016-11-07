@@ -3,11 +3,13 @@ import * as actions from '../../app/actions/videos';
 describe('actions', () => {
   it('should create an an action to switch the video', () => {
     const uri = 'video.mp4';
+    const id = 'foo';
     const expectedAction = {
       type: actions.SWITCH_VIDEO,
       uri,
+      id,
     };
-    expect(actions.switchVideo(uri)).toEqual(expectedAction);
+    expect(actions.switchVideo(uri, id)).toEqual(expectedAction);
   });
 
   it('should create an action to set the visibility filter', () => {
