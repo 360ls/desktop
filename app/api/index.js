@@ -9,7 +9,7 @@ const mockDatabase = {
       date: '10/1/2016',
       uploaded: false,
       flagged: true,
-      uri: '../static/cam1.mp4',
+      uri: 'https://vimeo.com/190568226',
     },
     {
       id: v4(),
@@ -18,7 +18,7 @@ const mockDatabase = {
       date: '10/2/2016',
       uploaded: true,
       flagged: false,
-      uri: '../static/cam2.mp4',
+      uri: 'https://vimeo.com/190568227',
     },
     {
       id: v4(),
@@ -27,7 +27,7 @@ const mockDatabase = {
       date: '10/3/2016',
       uploaded: false,
       flagged: true,
-      uri: '../static/cam3.mp4',
+      uri: 'https://vimeo.com/190568228',
     },
   ],
 };
