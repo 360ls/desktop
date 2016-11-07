@@ -6,7 +6,6 @@ import FilterBar from '../containers/FilterBar';
 const DVRPage = () => (
   <div>
     <FilterBar />
-    <VideoPlayer />
     <VideoList />
   </div>
 );

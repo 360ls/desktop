@@ -19,9 +19,12 @@ const flagIcon = <FontIcon className="fa-flag" />;
 const checkIcon = <FontIcon className="fa-check" />;
 const closeIcon = <FontIcon className="fa-close" />;
 
-const VideoTable = ({ videos, onClick }) => (
+const VideoTable = ({ videos, onClick, router, path }) => (
   <Table
-    onRowSelection={rows => onClick(videos[rows[0]].uri)}
+    onRowSelection={rows => {
+      onClick(videos[rows[0]].uri, videos[rows[0]].id);
+      router.push(`${path}/${videos[rows[0]].id}`);
+    }}
   >
     <TableHeader>
       <TableRow>
@@ -34,7 +37,9 @@ const VideoTable = ({ videos, onClick }) => (
     </TableHeader>
     <TableBody>
       {videos.map(video =>
-        <TableRow key={video.id}>
+        <TableRow
+          key={video.id}
+        >
           <TableRowColumn>{video.name}</TableRowColumn>
           <TableRowColumn>{video.location}</TableRowColumn>
           <TableRowColumn>{video.date}</TableRowColumn>
@@ -55,6 +60,8 @@ VideoTable.propTypes = {
     flagged: PropTypes.bool.isRequired,
   }).isRequired).isRequired,
   onClick: PropTypes.func.isRequired,
+  router: PropTypes.object.isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 export default VideoTable;

@@ -36,7 +36,11 @@ const delay = (ms) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
 export const fetchVideos = (filter) => // eslint-disable-line import/prefer-default-export
-  delay(500).then(() => {
+  delay(1000).then(() => {
+    if (Math.random() > 0.7) {
+      throw new Error('Network Error! Videos could not be fetched.');
+    }
+
     switch (filter) {
       case 'All':
         return mockDatabase.videos;
@@ -47,4 +51,11 @@ export const fetchVideos = (filter) => // eslint-disable-line import/prefer-defa
       default:
         throw new Error(`Unknown filter: ${filter}`);
     }
+  });
+
+export const toggleVideo = (id) =>
+  delay(500).then(() => {
+    const video = mockDatabase.videos.find(v => v.id === id);
+    video.flagged = !video.flagged;
+    return video;
   });

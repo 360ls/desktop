@@ -26,3 +26,6 @@ export default createNavigation;
 
 export const getNavStatus = (state) =>
   state.navigation.isOpen;
+
+export const getSelectedIndex = (state) =>
+  state.navigation.index;

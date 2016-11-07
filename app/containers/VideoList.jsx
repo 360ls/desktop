@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import CircularProgress from 'material-ui/CircularProgress';
+import { withRouter } from 'react-router';
 import VideoTable from '../components/VideoTable';
+import FetchErrorDialog from '../components/FetchErrorDialog';
 import * as actions from '../actions/videos';
-import { getVisibleVideos } from '../reducers/videos';
+import { getVisibleVideos, getIsFetching, getErrorMessage } from '../reducers/videos';
 
 class VideoList extends Component {
   componentDidMount() {
@@ -21,11 +24,50 @@ class VideoList extends Component {
   }
 
   render() {
-    const { switchVideoTo, ...rest } = this.props;
+    const {
+      switchVideoTo,
+      isFetching,
+      videos,
+      errorMessage,
+      router,
+      location
+    } = this.props;
+    if (isFetching && !videos.length) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <div
+            style={{
+              alignSelf: 'center',
+              marginTop: '100px'
+            }}
+          >
+            <CircularProgress size={80} thickness={5} />
+          </div>
+        </div>
+      );
+    }
+
+    if (errorMessage && !videos.length) {
+      return (
+        <FetchErrorDialog
+          message={errorMessage}
+          onRetry={() => this.fetchData()}
+          open={true}
+        />
+      );
+    }
+
     return (
       <VideoTable
-        {...rest}
+        videos={videos}
         onClick={switchVideoTo}
+        router={router}
+        path={location.pathname}
       />
     );
   }
@@ -35,19 +77,27 @@ VideoList.propTypes = {
   filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
   fetchVideos: PropTypes.func.isRequired,
   switchVideoTo: PropTypes.func.isRequired,
+  videos: PropTypes.array.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { router }) => {
   const filter = state.visibilityFilter;
   return {
+    isFetching: getIsFetching(state, filter),
     videos: getVisibleVideos(state, state.visibilityFilter),
     filter,
+    errorMessage: getErrorMessage(state, filter),
+    router,
   };
 };
 
-VideoList = connect(
+VideoList = withRouter(connect(
   mapStateToProps,
   actions
-)(VideoList);
+)(VideoList));
 
 export default VideoList;

@@ -11,8 +11,8 @@ export default (
   <Route path="/" component={App}>
     <Route path="dashboard" component={DashboardPage} />
     <Route path="dvr" component={DVRPage} />
+    <Route path="dvr/(:video)" component={LocalPage} />
     <Route path="live" component={LivePage} />
-    <Route path="local" component={LocalPage} />
     <Route path="preference" component={PreferencePage} />
   </Route>
 );

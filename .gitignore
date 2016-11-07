@@ -28,6 +28,7 @@ build/Release
 
 # Dependency directories
 node_modules
+app/node_modules
 jspm_packages
 
 # Optional npm cache directory
@@ -40,6 +41,14 @@ jspm_packages
 .DS_Store 
 
 # Packaged applications
-360*
-dist/
-static/
+release
+app/main.js
+app/main.js.map
+app/bundle.js
+app/bundle.js.map
+app/style.css
+app/style.css.map
+dist
+static
+main.js
+main.js.map
