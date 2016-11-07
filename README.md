@@ -1,6 +1,6 @@
 # 360ls-desktop
 
-[![Build Status](https://travis-ci.org/LukeJFernandez/360ls-desktop.svg?branch=master)](https://travis-ci.org/LukeJFernandez/360ls-desktop)
+[![Build Status](https://travis-ci.org/360ls/desktop.svg?branch=master)](https://travis-ci.org/360ls/desktop)
 
 This is the desktop interface for the `360ls` application,
 which stitches videos from 4 cameras into a single 360
