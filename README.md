@@ -10,7 +10,13 @@ using [Electron](http://electron.atom.io/apps/) with
 
 ## Pre-requisites
 
+We use the [Node](https://nodejs.org/en/) runtime and [npm](https://www.npmjs.com/)
+to run Electron. You can find the latest release for Node [here](https://nodejs.org/en/download/).
+
 For package management, we use the [Yarn](https://yarnpkg.com/) package manger.
+```bash
+npm install -g yarn
+```
 
 Install the dependencies:
 
@@ -21,7 +27,7 @@ yarn install
 ## Running
 
 ```bash
-yarn run dev
+npm run dev
 ```
 
 This will start up the build server that bundles the application
@@ -38,7 +44,7 @@ electron application.
 To lint run the following command:
 
 ```bash
-yarn lint
+npm lint
 ```
 
 ## Testing
@@ -48,5 +54,5 @@ The following command will run the test suite defined under the `test`
 directory.
 
 ```bash
-yarn test
+npm test
 ```
