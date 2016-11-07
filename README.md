@@ -56,3 +56,12 @@ directory.
 ```bash
 npm test
 ```
+
+# Building Executables
+
+Run the following commands. The executables will be output to the `release` directory.
+
+```bash
+npm run build
+npm run package
+```
