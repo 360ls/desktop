@@ -1,5 +1,6 @@
 {
   "name": "360ls-Desktop-Application",
+  "productName": "360ls",
   "version": "0.1.0",
   "description": "The desktop electron application for displaying a local video live-stream and a local version of the DVR web application.",
   "keywords": [
@@ -41,7 +42,7 @@
     "cleanup": "mop -v"
   },
   "build": {
-    "appId": "org.360ls.desktop",
+    "appId": "org.360ls.360ls",
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [
