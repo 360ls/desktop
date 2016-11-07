@@ -42,7 +42,8 @@ class VideoList extends Component {
         >
           <div
             style={{
-              alignSelf: 'center'
+              alignSelf: 'center',
+              marginTop: '100px'
             }}
           >
             <CircularProgress size={80} thickness={5} />
@@ -80,6 +81,7 @@ VideoList.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, { router }) => {
