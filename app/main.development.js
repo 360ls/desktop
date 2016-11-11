@@ -5,7 +5,7 @@ import { RECORD, STOP } from './services/ipcDispatcher';
 let menu;
 let template;
 let mainWindow = null;
-var proc;
+let proc = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -277,7 +277,11 @@ app.on('ready', async () => {
 });
 
 ipcMain.on(RECORD, () => {
-  proc = spawn('app/services/feed.py');
+  const cmd = 'app/services/feed.py';
+  proc = spawn('sh', ['-c', cmd], {
+    env: process.env,
+    stdio: 'inherit'
+  });
 });
 
 ipcMain.on(STOP, () => {
