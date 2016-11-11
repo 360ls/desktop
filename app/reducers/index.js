@@ -4,7 +4,7 @@ import videos from './videos';
 import createNavigation from './navigation';
 import createPlayer from './player';
 import visibilityFilter from './visibilityFilter';
-import live from './live';
+import createLive from './live';
 
 const rootReducer = combineReducers({
   videos,
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   player: createPlayer(),
   routing,
   visibilityFilter,
-  live,
+  live: createLive(),
 });
 
 export default rootReducer;
