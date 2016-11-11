@@ -9,7 +9,7 @@ const live = () => {
       default:
         return state;
     }
-  }
+  };
 
   return combineReducers({
     recording,
