@@ -5,7 +5,7 @@ import { RECORD, STOP } from './services/ipcDispatcher';
 let menu;
 let template;
 let mainWindow = null;
-let proc = null;
+let proc;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -286,6 +286,16 @@ ipcMain.on(RECORD, () => {
 
 ipcMain.on(STOP, () => {
   if (proc) {
-    proc.kill('SIGINT');
+    switch (process.platform) {
+      case 'darwin':
+      case 'linux':
+        proc.kill('SIGINT');
+        break;
+      case 'win32':
+        spawn('taskkill', ['/pid', proc.pid, '/f', '/t']);
+        break;
+      default:
+        console.log(process.platform);
+    }
   }
 });
