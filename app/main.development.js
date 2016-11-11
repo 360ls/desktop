@@ -1,8 +1,11 @@
-import { app, BrowserWindow, Menu, shell } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
+import { spawn } from 'child_process';
+import { RECORD, STOP } from './services/ipcDispatcher';
 
 let menu;
 let template;
 let mainWindow = null;
+let proc = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -270,5 +273,19 @@ app.on('ready', async () => {
     }];
     menu = Menu.buildFromTemplate(template);
     mainWindow.setMenu(menu);
+  }
+});
+
+ipcMain.on(RECORD, () => {
+  const cmd = 'app/services/feed.py';
+  proc = spawn('sh', ['-c', cmd], {
+    env: process.env,
+    stdio: 'inherit'
+  });
+});
+
+ipcMain.on(STOP, () => {
+  if (proc) {
+    proc.kill('SIGINT');
   }
 });

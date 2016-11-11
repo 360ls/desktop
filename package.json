@@ -137,6 +137,7 @@
     "webpack-validator": "^2.2.9"
   },
   "dependencies": {
+    "cross-spawn": "^5.0.1",
     "electron-debug": "^1.0.1",
     "font-awesome": "^4.7.0",
     "material-ui": "^0.16.1",
