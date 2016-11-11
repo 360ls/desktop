@@ -1,7 +1,10 @@
 import React from 'react';
+import RecordControl from '../containers/RecordControl';
 
 const LivePage = () => (
-  <h1>Live</h1>
+  <div>
+    <RecordControl />
+  </div>
 );
 
 export default LivePage;
