@@ -278,10 +278,20 @@ app.on('ready', async () => {
 
 ipcMain.on(RECORD, () => {
   const cmd = 'app/services/feed.py';
-  proc = spawn('sh', ['-c', cmd], {
-    env: process.env,
-    stdio: 'inherit'
-  });
+  switch (process.platform) {
+    case 'darwin':
+    case 'linux':
+      proc = spawn(cmd);
+      break;
+    case 'win32':
+      proc = spawn('sh', ['-c', cmd], {
+        env: process.env,
+        stdio: 'inherit'
+      });
+      break;
+    default:
+      console.log('unsupported platform');
+  }
 });
 
 ipcMain.on(STOP, () => {

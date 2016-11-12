@@ -10,16 +10,15 @@ except:
 try:
     import cv2
 except:
-    raise Exception('OpenCv is not installed')
+    raise Exception('OpenCV is not installed')
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('dist/sample.avi')
 
-while(True):
+while(cap.isOpened()):
     # Capture frame-by-frame
     ret, frame = cap.read()
 
-
-    # Display=`=jedi=0,  the resulting frame=`= (winname, *_*mat*_*) =`=jedi=`=
+    # Display the resulting frame
     cv2.imshow('frame', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
