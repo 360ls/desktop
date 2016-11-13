@@ -140,6 +140,7 @@
     "cross-spawn": "^5.0.1",
     "dropbox": "^2.4.0",
     "electron-debug": "^1.0.1",
+    "firebase": "^3.6.0",
     "font-awesome": "^4.7.0",
     "material-ui": "^0.16.1",
     "node-uuid": "^1.4.7",

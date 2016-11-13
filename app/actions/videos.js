@@ -55,6 +55,7 @@ export const switchVideoTo = (uri, id) =>
 
 export const toggleVideo = (id) => (dispatch) =>
   api.toggleVideo(id).then(response => {
+    console.log(response);
     dispatch({
       type: TOGGLE_VIDEO_SUCCESS,
       response: normalize(response, schema.video),
