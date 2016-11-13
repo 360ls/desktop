@@ -20,8 +20,7 @@ export const fetchVideos = (filter) =>
 const videoRef = (id) => Promise.resolve(database.ref(endpoint + id));
 
 export const toggleVideo = (id) =>
-  videoRef(id).then((ref) => ref).then((ref) => {
-    return ref.transaction((video) => {
+  videoRef(id).then((ref) => ref).then((ref) => { return ref.transaction((video) => {
       if (video) {
         video.flagged = !video.flagged;
       }
@@ -39,7 +38,7 @@ export const addVideo = (video) => {
   }, (err) => {
     throw new Error(err);
   });
-}
+};
 
 const filterVideos = (videos, filter) => {
   switch (filter) {
@@ -56,23 +55,16 @@ const filterVideos = (videos, filter) => {
 
 export const uploadVideo = (videoId, contents) =>
   dbx.filesUpload({ path: `/${videoId}`, contents })
-    .then((response) => {
-      console.log(response);
-      return response;
-    })
+    .then((response) => response)
     .catch((err) => {
-      console.log(err);
       throw new Error(`Upload Error: ${err}`);
     });
 
 export const getSharedLink = (videoId) =>
   dbx.sharingCreateSharedLink({
     path: `/${videoId}`
-  }).then((response) => {
-    console.log(response);
-    return response;
   })
+  .then((response) => response)
   .catch((err) => {
-    console.log(err);
     throw new Error(`Shared Link Error ${err}`);
   });

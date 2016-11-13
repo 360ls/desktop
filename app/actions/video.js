@@ -25,15 +25,12 @@ export const uploadVideo = (dispatch, fileName, data) => {
     type: UPLOAD_VIDEO_REQUEST,
   });
 
-  return api.uploadVideo(fileName, data).then(
-    response => {
+  return api.uploadVideo(fileName, data)
+    .then(() => api.getSharedLink(fileName))
+    .then(res => {
       dispatch({
         type: UPLOAD_VIDEO_SUCCESS,
-      });
-    },
-    error => {
-      dispatch({
-        type: UPLOAD_VIDEO_FAILURE,
+        link: res.url,
       });
     });
 };
