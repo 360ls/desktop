@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import { spawn } from 'child_process';
 import fs from 'fs';
+import { v4 } from 'uuid';
 import {
    RECORD,
    STOP,
@@ -284,10 +285,16 @@ app.on('ready', async () => {
 
 ipcMain.on(RECORD, () => {
   const cmd = 'app/services/feed.py';
+  const destDir = 'dist/';
+  const ext = '.mp4';
+  const id = v4();
+  const outPath = destDir + id + ext;
+  const args = ['-f', outPath];
+
   switch (process.platform) {
     case 'darwin':
     case 'linux':
-      proc = spawn(cmd);
+      proc = spawn(cmd, args);
       break;
     case 'win32':
       proc = spawn('sh', ['-c', cmd], {
