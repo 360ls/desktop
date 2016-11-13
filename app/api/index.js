@@ -68,10 +68,23 @@ export const toggleVideo = (id) =>
 
 export const uploadVideo = (videoId, contents) =>
   dbx.filesUpload({ path: `/${videoId}`, contents })
-    .then((response) =>
-      response
-    )
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
     .catch((err) => {
       console.log(err);
       throw new Error(`Upload Error: ${err}`);
     });
+
+export const getSharedLink = (videoId) =>
+  dbx.sharingCreateSharedLink({
+    path: `/${videoId}`
+  }).then((response) => {
+    console.log(response);
+    return response;
+  })
+  .catch((err) => {
+    console.log(err);
+    throw new Error(`Shared Link Error ${err}`);
+  });
