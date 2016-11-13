@@ -1,4 +1,5 @@
 import { v4 } from 'node-uuid';
+import DropBox from 'dropbox';
 
 const mockDatabase = {
   videos: [
@@ -32,6 +33,12 @@ const mockDatabase = {
   ],
 };
 
+const dropboxPath = '/Apps/360ls';
+const apiToken = 'KaR5yR5U9kAAAAAAAAAACEtwlnZ-37Qv8Pa403MeFDKOs8Ss7eakvlypcyEqJSG-';
+const dbx = new DropBox({
+  accessToken: apiToken,
+});
+
 const delay = (ms) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
@@ -59,3 +66,12 @@ export const toggleVideo = (id) =>
     video.flagged = !video.flagged;
     return video;
   });
+
+export const uploadVideo = (videoId, contents) =>
+  dbx.fileUpload({ path: `${dropboxPath}/videoId`, contents })
+    .then((response) =>
+      response
+    )
+    .catch((err) => {
+      throw new Error(`Upload Error: ${err}`);
+    });
