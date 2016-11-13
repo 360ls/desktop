@@ -10,9 +10,6 @@ export const FETCH_VIDEOS_REQUEST = 'FETCH_VIDEOS_REQUEST';
 export const FETCH_VIDEOS_SUCCESS = 'FETCH_VIDEOS_SUCCESS';
 export const FETCH_VIDEOS_FAILURE = 'FETCH_VIDEOS_FAILURE';
 export const TOGGLE_VIDEO_SUCCESS = 'TOGGLE_VIDEO_SUCCESS';
-export const UPLOAD_VIDEOS_REQUEST = 'UPLOAD_VIDEOS_REQUEST';
-export const UPLOAD_VIDEOS_SUCCESS = 'UPLOAD_VIDEOS_SUCCESS';
-export const UPLOAD_VIDEOS_FAILURE = 'UPLOAD_VIDEOS_FAILURE';
 
 export const fetchVideos = (filter) => (dispatch, getState) => {
   if (getIsFetching(getState(), filter)) {
