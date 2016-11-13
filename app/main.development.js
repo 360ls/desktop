@@ -319,6 +319,9 @@ ipcMain.on(STOP, () => {
 ipcMain.on(REQUEST_FILE, (event, arg) => {
   fs.readFile(arg.path, (err, data) => {
     if (err) throw err;
-    event.sender.send(RECEIVE_FILE, data);
+    event.sender.send(RECEIVE_FILE, {
+      path: arg.path,
+      data,
+    });
   });
 });

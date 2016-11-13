@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { isStreaming } from '../reducers/live';
-import { receiveVideo } from '../actions/video';
+import { receiveVideo, uploadVideo } from '../actions/video';
 
 export const RECORD = 'RECORD';
 export const STOP = 'STOP';
@@ -29,6 +29,7 @@ export const requestFile = (path) => {
 
 export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {
-    store.dispatch(receiveVideo(arg));
+    store.dispatch(receiveVideo(arg.path));
+    uploadVideo(store.dispatch, arg.data);
   });
 };

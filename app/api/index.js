@@ -33,7 +33,6 @@ const mockDatabase = {
   ],
 };
 
-const dropboxPath = '/Apps/360ls';
 const apiToken = 'KaR5yR5U9kAAAAAAAAAACEtwlnZ-37Qv8Pa403MeFDKOs8Ss7eakvlypcyEqJSG-';
 const dbx = new DropBox({
   accessToken: apiToken,
@@ -68,10 +67,11 @@ export const toggleVideo = (id) =>
   });
 
 export const uploadVideo = (videoId, contents) =>
-  dbx.fileUpload({ path: `${dropboxPath}/videoId`, contents })
+  dbx.filesUpload({ path: `/${videoId}`, contents })
     .then((response) =>
       response
     )
     .catch((err) => {
+      console.log(err);
       throw new Error(`Upload Error: ${err}`);
     });
