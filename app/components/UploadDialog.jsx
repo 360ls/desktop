@@ -13,7 +13,11 @@ const UploadDialog = ({ onClick, isReading, isUploading }) => {
   }
   return (
     <div>
-      <RaisedButton onClick={onClick(file)} />
+      <RaisedButton
+        label="Upload"
+        primary
+        onClick={() => onClick(file)}
+      />
     </div>
   );
 };
