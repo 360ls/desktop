@@ -1,6 +1,12 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import { spawn } from 'child_process';
-import { RECORD, STOP } from './services/ipcDispatcher';
+import fs from 'fs';
+import {
+   RECORD,
+   STOP,
+   REQUEST_FILE,
+   RECEIVE_FILE,
+ } from './services/ipcDispatcher';
 
 let menu;
 let template;
@@ -308,4 +314,11 @@ ipcMain.on(STOP, () => {
         console.log(process.platform);
     }
   }
+});
+
+ipcMain.on(REQUEST_FILE, (event, arg) => {
+  fs.readFile(arg.path, (err, data) => {
+    if (err) throw err;
+    event.sender.send(RECEIVE_FILE, data);
+  });
 });
