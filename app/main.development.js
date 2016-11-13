@@ -7,12 +7,17 @@ import {
    STOP,
    REQUEST_FILE,
    RECEIVE_FILE,
+   STOPPED_PROC,
+   UPLOADED,
  } from './services/ipcDispatcher';
+import { uploadVideo } from './api';
 
 let menu;
 let template;
 let mainWindow = null;
 let proc;
+let id;
+let outPath;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -287,8 +292,8 @@ ipcMain.on(RECORD, () => {
   const cmd = 'app/services/feed.py';
   const destDir = 'dist/';
   const ext = '.mp4';
-  const id = v4();
-  const outPath = destDir + id + ext;
+  id = v4();
+  outPath = destDir + id + ext;
   const args = ['-f', outPath];
 
   switch (process.platform) {
@@ -307,7 +312,7 @@ ipcMain.on(RECORD, () => {
   }
 });
 
-ipcMain.on(STOP, () => {
+ipcMain.on(STOP, (event, arg) => {
   if (proc) {
     switch (process.platform) {
       case 'darwin':
@@ -320,15 +325,24 @@ ipcMain.on(STOP, () => {
       default:
         console.log(process.platform);
     }
+    event.sender.send(STOPPED_PROC, {
+      id,
+      outPath,
+    });
   }
 });
 
+const delay = (ms) =>
+  new Promise(resolve => setTimeout(resolve, ms));
+
 ipcMain.on(REQUEST_FILE, (event, arg) => {
-  fs.readFile(arg.path, (err, data) => {
-    if (err) throw err;
-    event.sender.send(RECEIVE_FILE, {
-      path: arg.path,
-      data,
+  delay(1000).then(() => {
+    fs.readFile(arg.path, (err, data) => {
+      if (err) throw err;
+      event.sender.send(RECEIVE_FILE, {
+        path: arg.path,
+        data
+      });
     });
   });
 });

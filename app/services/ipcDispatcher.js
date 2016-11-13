@@ -1,11 +1,13 @@
 import { ipcRenderer } from 'electron';
 import { isStreaming } from '../reducers/live';
-import { receiveVideo, uploadVideo } from '../actions/video';
+import { requestVideo, receiveVideo, uploadVideo } from '../actions/video';
 
 export const RECORD = 'RECORD';
 export const STOP = 'STOP';
 export const REQUEST_FILE = 'REQUEST_FILE';
 export const RECEIVE_FILE = 'RECEIVE_FILE';
+export const STOPPED_PROC = 'STOPPED_PROC';
+export const UPLOADED = 'UPLOADED';
 
 let currState = false;
 export const handleChange = (store) => () => {
@@ -32,5 +34,11 @@ export const setupIPCHandler = (store) => {
     store.dispatch(receiveVideo(arg.path));
     const fileName = arg.path.substring(arg.path.lastIndexOf('/') + 1);
     uploadVideo(store.dispatch, fileName, arg.data);
+  });
+
+  ipcRenderer.on(STOPPED_PROC, (event, arg) => {
+    const videoPath = arg.outPath;
+    const videoId = arg.id;
+    store.dispatch(requestVideo(videoPath));
   });
 };
