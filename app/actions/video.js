@@ -20,12 +20,12 @@ export const receiveVideo = (video) => ({
   video,
 });
 
-export const uploadVideo = (dispatch, data) => {
+export const uploadVideo = (dispatch, fileName, data) => {
   dispatch({
     type: UPLOAD_VIDEO_REQUEST,
   });
 
-  return api.uploadVideo('foo.txt', data).then(
+  return api.uploadVideo(fileName, data).then(
     response => {
       dispatch({
         type: UPLOAD_VIDEO_SUCCESS,

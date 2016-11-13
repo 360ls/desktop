@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
 
 const UploadDialog = ({ onClick, isReading, isUploading }) => {
-  const file = 'dist/foo.txt';
+  const file = 'storage/local1.mp4';
   if (isReading || isUploading) {
     return (
       <div>

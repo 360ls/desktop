@@ -30,6 +30,7 @@ export const requestFile = (path) => {
 export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {
     store.dispatch(receiveVideo(arg.path));
-    uploadVideo(store.dispatch, arg.data);
+    const fileName = arg.path.substring(arg.path.lastIndexOf('/') + 1);
+    uploadVideo(store.dispatch, fileName, arg.data);
   });
 };
