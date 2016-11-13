@@ -27,8 +27,8 @@ export const requestFile = (path) => {
   });
 };
 
-export const setupIPCHandler = () => {
+export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {
-    receiveVideo(arg);
+    store.dispatch(receiveVideo(arg));
   });
 };

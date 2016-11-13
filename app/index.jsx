@@ -13,7 +13,7 @@ store.subscribe(handleChange(store));
 
 const history = syncHistoryWithStore(hashHistory, store);
 
-setupIPCHandler();
+setupIPCHandler(store);
 
 render((
   <Provider store={store}>
