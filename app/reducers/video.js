@@ -9,6 +9,7 @@ import { REQUEST_VIDEO, RECEIVE_VIDEO } from '../services/ipcDispatcher';
 const video = () => {
   const uploading = (state = false, action) => {
     switch (action.type) {
+      case REQUEST_VIDEO:
       case UPLOAD_VIDEO_REQUEST:
         return true;
       case UPLOAD_VIDEO_FAILURE:
