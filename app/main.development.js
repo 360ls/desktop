@@ -58,8 +58,8 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    width: 1280,
+    height: 720
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -288,10 +288,13 @@ app.on('ready', async () => {
   }
 });
 
-ipcMain.on(RECORD, () => {
-  const cmd = '/Users/dong/.360ls/feed.py';
-  const destDir = '/Users/dong/.360ls/recordings/';
+ipcMain.on(RECORD, (event, arg) => {
+  const recordLocation = arg.recordLocation;
+  const stitcherLocation = arg.stitcherLocation;
+  const cmd = stitcherLocation + 'feed.py';
+  const destDir = recordLocation;
   const ext = '.mp4';
+
   id = v4();
   outPath = destDir + id + ext;
   const args = ['-f', outPath];
