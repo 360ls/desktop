@@ -22,6 +22,39 @@ export const receiveVideo = (video) => ({
   video,
 });
 
+const createVideo = (id, url) => {
+  const today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  const yyyy = today.getFullYear();
+  const hour = today.getHours();
+  const minutes = today.getMinutes();
+
+  if (dd < 10) {
+      dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+      mm = '0' + mm;
+  }
+
+  const date = mm + '/' + dd + '/' + yyyy;
+  const timestamp = hour + ':' + minutes;
+  const name = 'Recording-' + timestamp;
+
+  const video = {
+    id,
+    uri: url,
+    date,
+    name,
+    uploaded: true,
+    flagged: false,
+    location: 'Chapel Hill, NC',
+  };
+
+  return video;
+};
+
 export const uploadVideo = (dispatch, fileName, data) => {
   dispatch({
     type: UPLOAD_VIDEO_REQUEST,
@@ -41,16 +74,7 @@ export const uploadVideo = (dispatch, fileName, data) => {
         type: ADD_VIDEO_REQUEST,
       });
 
-      const video = {
-        id: v4(),
-        name: 'Foo',
-        location: 'Chapel Hill, NC',
-        uploaded: true,
-        flagged: false,
-        uri: url,
-        date: '11/13/2016',
-      };
-
+      const video = createVideo(v4(), url);
       return api.addVideoEntry(video);
     })
     .then(response => {

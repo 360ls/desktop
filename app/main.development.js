@@ -289,8 +289,8 @@ app.on('ready', async () => {
 });
 
 ipcMain.on(RECORD, () => {
-  const cmd = 'app/services/feed.py';
-  const destDir = 'dist/';
+  const cmd = '/Users/dong/.360ls/feed.py';
+  const destDir = '/Users/dong/.360ls/recordings/';
   const ext = '.mp4';
   id = v4();
   outPath = destDir + id + ext;
