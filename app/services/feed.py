@@ -29,7 +29,7 @@ args = parser.parse_args()
 
 dest = args.f
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 out = cv2.VideoWriter(dest, -1, 20.0, (640, 480));
 
 while(True):

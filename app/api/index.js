@@ -53,6 +53,13 @@ const filterVideos = (videos, filter) => {
   }
 };
 
+export const addVideoEntry = (video) =>
+  database.ref(endpoint + video.id).set(video)
+    .then(response => video)
+    .catch((err) => {
+      throw new Error(`Failed to add video to database ${err}`);
+    });
+
 export const uploadVideo = (videoId, contents) =>
   dbx.filesUpload({ path: `/${videoId}`, contents })
     .then((response) => response)
