@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRedirect } from 'react-router';
 import App from './containers/App';
 import DashboardPage from './pages/DashboardPage';
 import DVRPage from './pages/DVRPage';
@@ -9,6 +9,7 @@ import PreferencePage from './pages/PreferencePage';
 
 export default (
   <Route path="/" component={App}>
+    <IndexRedirect to="/dvr" />
     <Route path="dashboard" component={DashboardPage} />
     <Route path="dvr" component={DVRPage} />
     <Route path="dvr/(:video)" component={LocalPage} />
