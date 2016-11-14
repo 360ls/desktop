@@ -1,10 +1,15 @@
 import React, { PropTypes } from 'react';
-import ReactPlayer from 'react-player';
+
+const convertUrl = (url) => {
+  return url.slice(0, -1) + '1';
+};
 
 const Video = ({ uri }) => (
-  <ReactPlayer
-    url={uri}
+  <video
+    controls
+    src={convertUrl(uri)}
     width={'100%'}
+    type={'video/mp4'}
   />
 );
 

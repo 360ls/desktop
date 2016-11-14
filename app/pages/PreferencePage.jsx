@@ -1,7 +1,10 @@
 import React from 'react';
+import Preferences from '../containers/Preferences';
 
 const PreferencePage = () => (
-  <h1>Preferences</h1>
+  <div className="container">
+    <Preferences />
+  </div>
 );
 
 export default PreferencePage;

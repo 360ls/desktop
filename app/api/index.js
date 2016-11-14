@@ -1,61 +1,86 @@
 import { v4 } from 'node-uuid';
+import DropBox from 'dropbox';
+import database from './firebase';
 
-const mockDatabase = {
-  videos: [
-    {
-      id: v4(),
-      name: 'Video 1',
-      location: 'Chapel Hill, NC',
-      date: '10/1/2016',
-      uploaded: false,
-      flagged: true,
-      uri: 'https://vimeo.com/190568226',
-    },
-    {
-      id: v4(),
-      name: 'Video 2',
-      location: 'Durham, NC',
-      date: '10/2/2016',
-      uploaded: true,
-      flagged: false,
-      uri: 'https://vimeo.com/190568227',
-    },
-    {
-      id: v4(),
-      name: 'Video 3',
-      location: 'Raleigh, NC',
-      date: '10/3/2016',
-      uploaded: false,
-      flagged: true,
-      uri: 'https://vimeo.com/190568228',
-    },
-  ],
-};
+const endpoint = '/videos/';
 
-const delay = (ms) =>
-  new Promise(resolve => setTimeout(resolve, ms));
+const apiToken = 'KaR5yR5U9kAAAAAAAAAACEtwlnZ-37Qv8Pa403MeFDKOs8Ss7eakvlypcyEqJSG-';
+const dbx = new DropBox({
+  accessToken: apiToken,
+});
 
-export const fetchVideos = (filter) => // eslint-disable-line import/prefer-default-export
-  delay(1000).then(() => {
-    if (Math.random() > 0.7) {
-      throw new Error('Network Error! Videos could not be fetched.');
-    }
-
-    switch (filter) {
-      case 'All':
-        return mockDatabase.videos;
-      case 'Uploaded':
-        return mockDatabase.videos.filter(t => t.uploaded);
-      case 'Flagged':
-        return mockDatabase.videos.filter(t => t.flagged);
-      default:
-        throw new Error(`Unknown filter: ${filter}`);
-    }
+const flatten = (object) => {
+  const arr = [];
+  Object.keys(object).forEach((key) => {
+    arr.push(object[key]);
   });
 
+  return arr;
+}
+
+export const fetchVideos = (filter) =>
+  database.ref(endpoint).once('value').then((snapshot) => {
+    const videos = flatten(snapshot.val());
+    return filterVideos(videos, filter);
+  }, (err) => {
+    throw new Error(err);
+  });
+
+const videoRef = (id) => Promise.resolve(database.ref(endpoint + id));
+
 export const toggleVideo = (id) =>
-  delay(500).then(() => {
-    const video = mockDatabase.videos.find(v => v.id === id);
-    video.flagged = !video.flagged;
+  videoRef(id).then((ref) => ref).then((ref) => { return ref.transaction((video) => {
+      if (video) {
+        video.flagged = !video.flagged;
+      }
+      return video;
+    });
+  }).then(video => video);
+
+export const addVideo = (video) => {
+  const key = endpoint + video.id;
+  const entry = {};
+  entry[key] = video;
+
+  database.ref.update(entry).then(() => {
     return video;
+  }, (err) => {
+    throw new Error(err);
+  });
+};
+
+const filterVideos = (videos, filter) => {
+  switch (filter) {
+    case 'All':
+      return videos;
+    case 'Uploaded':
+      return videos.filter(v => v.uploaded);
+    case 'Flagged':
+      return videos.filter(v => v.flagged);
+    default:
+      throw new Error(`Unknown filter ${filter}`);
+  }
+};
+
+export const addVideoEntry = (video) =>
+  database.ref(endpoint + video.id).set(video)
+    .then(response => video)
+    .catch((err) => {
+      throw new Error(`Failed to add video to database ${err}`);
+    });
+
+export const uploadVideo = (videoId, contents) =>
+  dbx.filesUpload({ path: `/${videoId}`, contents })
+    .then((response) => response)
+    .catch((err) => {
+      throw new Error(`Upload Error: ${err}`);
+    });
+
+export const getSharedLink = (videoId) =>
+  dbx.sharingCreateSharedLink({
+    path: `/${videoId}`
+  })
+  .then((response) => response)
+  .catch((err) => {
+    throw new Error(`Shared Link Error ${err}`);
   });

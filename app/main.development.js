@@ -1,11 +1,23 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import { spawn } from 'child_process';
-import { RECORD, STOP } from './services/ipcDispatcher';
+import fs from 'fs';
+import { v4 } from 'uuid';
+import {
+   RECORD,
+   STOP,
+   REQUEST_FILE,
+   RECEIVE_FILE,
+   STOPPED_PROC,
+   UPLOADED,
+ } from './services/ipcDispatcher';
+import { uploadVideo } from './api';
 
 let menu;
 let template;
 let mainWindow = null;
-let proc = null;
+let proc;
+let id;
+let outPath;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -46,8 +58,8 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    width: 1280,
+    height: 720
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -276,16 +288,64 @@ app.on('ready', async () => {
   }
 });
 
-ipcMain.on(RECORD, () => {
-  const cmd = 'app/services/feed.py';
-  proc = spawn('sh', ['-c', cmd], {
-    env: process.env,
-    stdio: 'inherit'
-  });
+ipcMain.on(RECORD, (event, arg) => {
+  const recordLocation = arg.recordLocation;
+  const stitcherLocation = arg.stitcherLocation;
+  const cmd = stitcherLocation + 'feed.py';
+  const destDir = recordLocation;
+  const ext = '.mp4';
+
+  id = v4();
+  outPath = destDir + id + ext;
+  const args = ['-f', outPath];
+
+  switch (process.platform) {
+    case 'darwin':
+    case 'linux':
+      proc = spawn(cmd, args);
+      break;
+    case 'win32':
+      proc = spawn('sh', ['-c', cmd], {
+        env: process.env,
+        stdio: 'inherit'
+      });
+      break;
+    default:
+      console.log('unsupported platform');
+  }
 });
 
-ipcMain.on(STOP, () => {
+ipcMain.on(STOP, (event, arg) => {
   if (proc) {
-    proc.kill('SIGINT');
+    switch (process.platform) {
+      case 'darwin':
+      case 'linux':
+        proc.kill('SIGINT');
+        break;
+      case 'win32':
+        spawn('taskkill', ['/pid', proc.pid, '/f', '/t']);
+        break;
+      default:
+        console.log(process.platform);
+    }
+    event.sender.send(STOPPED_PROC, {
+      id,
+      outPath,
+    });
   }
+});
+
+const delay = (ms) =>
+  new Promise(resolve => setTimeout(resolve, ms));
+
+ipcMain.on(REQUEST_FILE, (event, arg) => {
+  delay(1000).then(() => {
+    fs.readFile(arg.path, (err, data) => {
+      if (err) throw err;
+      event.sender.send(RECEIVE_FILE, {
+        path: arg.path,
+        data
+      });
+    });
+  });
 });
