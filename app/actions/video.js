@@ -48,6 +48,7 @@ export const uploadVideo = (dispatch, fileName, data) => {
         uploaded: true,
         flagged: false,
         uri: url,
+        date: '11/13/2016',
       };
 
       return api.addVideoEntry(video);

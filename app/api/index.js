@@ -9,9 +9,18 @@ const dbx = new DropBox({
   accessToken: apiToken,
 });
 
+const flatten = (object) => {
+  const arr = [];
+  Object.keys(object).forEach((key) => {
+    arr.push(object[key]);
+  });
+
+  return arr;
+}
+
 export const fetchVideos = (filter) =>
   database.ref(endpoint).once('value').then((snapshot) => {
-    const videos = snapshot.val();
+    const videos = flatten(snapshot.val());
     return filterVideos(videos, filter);
   }, (err) => {
     throw new Error(err);
