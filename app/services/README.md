@@ -1,4 +1,4 @@
-## Sticher
+# Sticher
 
 The electron application uses the stitcher functionality provided by the
 python script defined in `stitcher.py`.
