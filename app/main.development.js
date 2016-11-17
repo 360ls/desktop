@@ -291,7 +291,8 @@ app.on('ready', async () => {
 ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = arg.recordLocation;
   const stitcherLocation = arg.stitcherLocation;
-  const cmd = stitcherLocation + 'feed.py';
+  const stitcher = 'stitcher.py';
+  const cmd = stitcherLocation + stitcher;
   const destDir = recordLocation;
   const ext = '.mp4';
 
