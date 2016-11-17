@@ -292,11 +292,13 @@ ipcMain.on(RECORD, (event, arg) => {
   const stitcher = 'stitcher.py';
   const cmd = stitcherLocation + stitcher;
   const destDir = recordLocation;
-  const ext = '.mp4';
 
   id = v4();
-  outPath = destDir + id + ext;
-  const args = ['-f', outPath];
+  outPath = destDir + id;
+  index = 0;
+  width = 640
+  height = 480
+  const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
 
   switch (process.platform) {
     case 'darwin':
@@ -304,7 +306,7 @@ ipcMain.on(RECORD, (event, arg) => {
       proc = spawn(cmd, args);
       break;
     case 'win32':
-      proc = spawn('sh', ['-c', cmd], {
+      proc = spawn('sh', ['-c', cmd, args], {
         env: process.env,
         stdio: 'inherit'
       });
