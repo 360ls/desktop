@@ -34,8 +34,9 @@ def handler(signum, frame):
     sys.exit(0)
 
 signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGTERM, handler)
 
-ext = '.avi'
+ext = ''
 args = parse_args()
 dest = args.f + ext
 index = args.i

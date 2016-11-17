@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 import { spawn } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
+import path from 'path';
 import {
    RECORD,
    STOP,
@@ -290,14 +291,15 @@ ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = arg.recordLocation;
   const stitcherLocation = arg.stitcherLocation;
   const stitcher = 'stitcher.py';
-  const cmd = stitcherLocation + stitcher;
-  const destDir = recordLocation;
+  const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
+  const destDir = path.join(getHomeDirectory(), recordLocation);
 
   id = v4();
-  outPath = destDir + id;
-  index = 0;
-  width = 640
-  height = 480
+  const ext = '.avi';
+  outPath = path.join(destDir, id + ext);
+  const index = 0;
+  const width = 640;
+  const height = 480;
   const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
 
   switch (process.platform) {
@@ -306,10 +308,8 @@ ipcMain.on(RECORD, (event, arg) => {
       proc = spawn(cmd, args);
       break;
     case 'win32':
-      proc = spawn('sh', ['-c', cmd, args], {
-        env: process.env,
-        stdio: 'inherit'
-      });
+      args.unshift(cmd);
+      proc = spawn('python', args);
       break;
     default:
       console.log('unsupported platform');
@@ -338,7 +338,8 @@ ipcMain.on(STOP, (event, arg) => {
 
 ipcMain.on(REQUEST_FILE, (event, arg) => {
   setTimeout(() => {
-    fs.readFile(arg.path, (err, data) => {
+    const videoPath = path.join(getHomeDirectory(), arg.path);
+    fs.readFile(videoPath, (err, data) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {
         path: arg.path,
@@ -347,3 +348,7 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
     });
   }, 1000);
 });
+
+const getHomeDirectory = () => {
+  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
+};

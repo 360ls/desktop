@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-const baseDir = '/Users/dong/.360ls/';
-const recordDir = '/Users/dong/.360ls/recordings/';
+const baseDir = '.360ls/';
+const recordDir = '.360ls/recordings/';
 
 const preference = () => {
   const recordLocation = (state = recordDir, action) => {
