@@ -11,11 +11,13 @@ except:
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f')
-    parser.add_argument('-i', type=int)
-    parser.add_argument('--height', type=int)
-    parser.add_argument('--width', type=int)
-    return  parser.parse_args()
+    parser.add_argument('-f', default='')
+    parser.add_argument('-i', type=int, default=0)
+    parser.add_argument('--height', type=int, default=480)
+    parser.add_argument('--width', type=int, default=640)
+    parser.add_argument('-p', dest='preview', action='store_true')
+    parser.set_defaults(preview=False)
+    return parser.parse_args()
 
 def check_index(index):
     sample_cap = cv2.VideoCapture(index)
@@ -38,6 +40,7 @@ signal.signal(signal.SIGTERM, handler)
 
 ext = ''
 args = parse_args()
+
 dest = args.f + ext
 index = args.i
 height = args.height
@@ -53,7 +56,8 @@ while(True):
 
     frame = cv2.resize(frame, (width, height))
 
-    out.write(frame);
+    if not args.preview:
+        out.write(frame);
 
     # Display the resulting frame
     cv2.imshow('frame', frame)

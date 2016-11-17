@@ -8,9 +8,10 @@ The following command line options are expected from the python script:
 
 * `-f`: The file path to which the video stream from the camera will
 be save to excluding the extension.
-* `-i`: The index of the camera to be captured.
-* `--height`: The height dimension of the output video.
-* `--width`: The width dimension of the output video.
+* `-i`: The index of the camera to be captured (default is 0).
+* `--height`: The height dimension of the output video (default is 480).
+* `--width`: The width dimension of the output video (default is 640).
+* `-p`: Preview the camera stream. Will not write to file.
 
 ## IPC
 
