@@ -8,9 +8,7 @@ import {
    REQUEST_FILE,
    RECEIVE_FILE,
    STOPPED_PROC,
-   UPLOADED,
  } from './services/ipcDispatcher';
-import { uploadVideo } from './api';
 
 let menu;
 let template;
@@ -336,11 +334,8 @@ ipcMain.on(STOP, (event, arg) => {
   }
 });
 
-const delay = (ms) =>
-  new Promise(resolve => setTimeout(resolve, ms));
-
 ipcMain.on(REQUEST_FILE, (event, arg) => {
-  delay(1000).then(() => {
+  setTimeout(() => {
     fs.readFile(arg.path, (err, data) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {
@@ -348,5 +343,5 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
         data
       });
     });
-  });
+  }, 1000);
 });
