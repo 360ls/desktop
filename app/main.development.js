@@ -295,9 +295,9 @@ ipcMain.on(RECORD, (event, arg) => {
   const destDir = path.join(getHomeDirectory(), recordLocation);
 
   id = v4();
-  const ext = '.avi';
+  const ext = '.mp4';
   outPath = path.join(destDir, id + ext);
-  const index = 0;
+  const index = arg.cameraIndex;
   const width = 640;
   const height = 480;
   const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
