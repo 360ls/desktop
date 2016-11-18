@@ -25,9 +25,7 @@ const closeIcon = <Close color={red500} />;
 
 const sortVideos = (videos) => {
   return videos.concat().sort((a, b) => {
-    const dateA = new Date(a);
-    const dateB = new Date(b);
-    return dateA - dateB;
+    return new Date(a.date).getTime() - new Date(b.date).getTime()  ;
   });
 };
 
