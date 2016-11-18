@@ -12,7 +12,6 @@ class PreferenceForm extends React.Component {
       stitcherLoc: props.stitcherLoc,
       recordingLoc: props.recordLoc,
     };
-    console.log(this.state);
   }
 
   handleDropdownChange = (event, index, value) => {
@@ -34,9 +33,9 @@ class PreferenceForm extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
+        <h4>Camera Index</h4>
         <DropDownMenu value={this.state.cameraIndex} onChange={this.handleDropdownChange}>
           <MenuItem value={0} primaryText="0" />
           <MenuItem value={1} primaryText="1" />
@@ -47,11 +46,13 @@ class PreferenceForm extends React.Component {
         <TextField
           defaultValue={this.state.stitcherLoc}
           floatingLabelText="Stitcher Directory"
+          onChange={this.handleStitcherChange}
         />
         <br />
         <TextField
           defaultValue={this.state.recordingLoc}
           floatingLabelText="Recording Directory"
+          onChange={this.handleRecordingChange}
         />
         <br />
         <RaisedButton

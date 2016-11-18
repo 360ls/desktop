@@ -338,7 +338,7 @@ ipcMain.on(STOP, (event, arg) => {
 
 ipcMain.on(REQUEST_FILE, (event, arg) => {
   setTimeout(() => {
-    const videoPath = path.join(getHomeDirectory(), arg.path);
+    const videoPath = path.join(arg.path);
     fs.readFile(videoPath, (err, data) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {

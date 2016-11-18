@@ -51,7 +51,8 @@ height = args.height
 width = args.width
 
 cap = cv2.VideoCapture(index)
-codec = cv2.cv.CV_FOURCC('M', 'J', 'P', 'G')
+# codec = cv2.cv.CV_FOURCC('M', 'J', 'P', 'G')
+codec = cv2.cv.CV_FOURCC('m', 'p', '4', 'v')
 out = cv2.VideoWriter(dest, codec, 20.0, (width, height));
 dimensions = str(width) + 'x' + str(height)
 
