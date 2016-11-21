@@ -1,7 +1,11 @@
 import { ipcRenderer } from 'electron';
 import { isStreaming } from '../reducers/live';
 import { requestVideo, receiveVideo, uploadVideo } from '../actions/video';
-import { getRecordLocation, getStitcherLocation } from '../reducers/preference';
+import {
+  getRecordLocation,
+  getStitcherLocation,
+  getCameraIndex,
+} from '../reducers/preference';
 
 export const RECORD = 'RECORD';
 export const STOP = 'STOP';
@@ -17,9 +21,11 @@ export const handleChange = (store) => () => {
 
   if (prevState !== currState) {
     if (currState) {
+      const storeState = store.getState();
       const arg = {
-        recordLocation: getRecordLocation(store.getState()),
-        stitcherLocation: getStitcherLocation(store.getState()),
+        recordLocation: getRecordLocation(storeState),
+        stitcherLocation: getStitcherLocation(storeState),
+        cameraIndex: getCameraIndex(storeState),
       };
       ipcRenderer.send(RECORD, arg);
     } else {

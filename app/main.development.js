@@ -1,16 +1,15 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
-import { spawn } from 'child_process';
+import { spawn, exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
+import path from 'path';
 import {
    RECORD,
    STOP,
    REQUEST_FILE,
    RECEIVE_FILE,
    STOPPED_PROC,
-   UPLOADED,
  } from './services/ipcDispatcher';
-import { uploadVideo } from './api';
 
 let menu;
 let template;
@@ -18,6 +17,7 @@ let mainWindow = null;
 let proc;
 let id;
 let outPath;
+let convertedPath;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -291,29 +291,41 @@ app.on('ready', async () => {
 ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = arg.recordLocation;
   const stitcherLocation = arg.stitcherLocation;
-  const cmd = stitcherLocation + 'feed.py';
-  const destDir = recordLocation;
-  const ext = '.mp4';
+  const stitcher = 'stitcher.py';
+  const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
+  const destDir = path.join(getHomeDirectory(), recordLocation);
 
   id = v4();
-  outPath = destDir + id + ext;
-  const args = ['-f', outPath];
+  const ext = '.avi';
+  const convertedExt = '.mp4';
+  outPath = path.join(destDir, id + ext);
+  convertedPath = path.join(destDir, id + convertedExt);
+  const index = arg.cameraIndex;
+  const width = 640;
+  const height = 480;
+  const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
+  const stdio = [null, null, null, 'ipc'];
 
   switch (process.platform) {
     case 'darwin':
     case 'linux':
-      proc = spawn(cmd, args);
+      proc = spawn(cmd, args, {
+        stdio: stdio
+      });
+      proc.on('message', (message) => {
+        console.log('Received message');
+        console.log(message);
+      });
       break;
     case 'win32':
-      proc = spawn('sh', ['-c', cmd], {
-        env: process.env,
-        stdio: 'inherit'
-      });
+      args.unshift(cmd);
+      proc = spawn('python', args);
       break;
     default:
       console.log('unsupported platform');
   }
 });
+
 
 ipcMain.on(STOP, (event, arg) => {
   if (proc) {
@@ -328,24 +340,34 @@ ipcMain.on(STOP, (event, arg) => {
       default:
         console.log(process.platform);
     }
-    event.sender.send(STOPPED_PROC, {
-      id,
-      outPath,
-    });
+
+    setTimeout(() => {
+      const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
+      const child = exec(cmd);
+      child.stdout.pipe(process.stdout);
+      child.on('exit', () => {
+        event.sender.send(STOPPED_PROC, {
+          id,
+          outPath: convertedPath,
+        });
+      });
+    }, 500);
   }
 });
 
-const delay = (ms) =>
-  new Promise(resolve => setTimeout(resolve, ms));
-
 ipcMain.on(REQUEST_FILE, (event, arg) => {
-  delay(1000).then(() => {
-    fs.readFile(arg.path, (err, data) => {
+  setTimeout(() => {
+    const videoPath = path.join(arg.path);
+    fs.readFile(videoPath, (err, data) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {
         path: arg.path,
         data
       });
     });
-  });
+  }, 1000);
 });
+
+const getHomeDirectory = () => {
+  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
+};

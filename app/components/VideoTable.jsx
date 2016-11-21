@@ -23,6 +23,12 @@ const flagIcon = <Error color={yellow500} />;
 const checkIcon = <Done color={green500} />;
 const closeIcon = <Close color={red500} />;
 
+const sortVideos = (videos) => {
+  return videos.concat().sort((a, b) => {
+    return new Date(a.date).getTime() - new Date(b.date).getTime()  ;
+  });
+};
+
 const VideoTable = ({ videos, onClick, router, path }) => (
   <Table
     onRowSelection={rows => {
@@ -40,7 +46,7 @@ const VideoTable = ({ videos, onClick, router, path }) => (
       </TableRow>
     </TableHeader>
     <TableBody>
-      {videos.map(video =>
+      {sortVideos(videos).map(video =>
         <TableRow
           key={video.id}
         >
