@@ -45,13 +45,15 @@ export const handlePreviewChange = (store) => () => {
   currPreviewState = isPreviewing(storeState);
 
   if (prevState !== currPreviewState) {
-    const arg = {
-      index: getPreviewIndex(storeState),
-      stitcherLocation: getStitcherLocation(storeState),
-    };
-    ipcRenderer.send(START_PREVIEW, arg);
-  } else {
-    ipcRenderer.send(STOP_PREVIEW);
+    if (currPreviewState) {
+      const arg = {
+        index: getPreviewIndex(storeState),
+        stitcherLocation: getStitcherLocation(storeState),
+      };
+      ipcRenderer.send(START_PREVIEW, arg);
+    } else {
+      ipcRenderer.send(STOP_PREVIEW);
+    }
   }
 };
 
