@@ -12,7 +12,7 @@ class PreferenceForm extends React.Component {
       sndCameraIndex: props.sndCameraIndex,
       previewIndex: props.previewIndex,
       stitcherLoc: props.stitcherLoc,
-      recordingLoc: props.recordLoc,
+      recordingLoc: props.recordingLoc,
     };
   }
 
@@ -66,7 +66,7 @@ class PreferenceForm extends React.Component {
         </DropDownMenu>
         <br />
         <h4>Preview Index</h4>
-        <DropDownMenu value={this.state.previewIndex} onChange={this.handleDropdownChange}>
+        <DropDownMenu value={this.state.previewIndex} onChange={this.handlePreviewDropdownChange}>
           <MenuItem value={0} primaryText="0" />
           <MenuItem value={1} primaryText="1" />
           <MenuItem value={2} primaryText="2" />
@@ -86,17 +86,11 @@ class PreferenceForm extends React.Component {
         />
         <br />
         <RaisedButton
-          label="Preview"
-          secondary
-          onClick={() => {
-            this.props.onPreview();
-          }}
-        />
-        <RaisedButton
           label="Apply"
           primary
           onClick={() => {
-            this.props.onSave(
+            console.log(this.props);
+            this.props.savePreference(
               this.state.cameraIndex,
               this.state.sndCameraIndex,
               this.state.previewIndex,
@@ -116,7 +110,6 @@ PreferenceForm.propTypes = {
   sndCameraIndex: PropTypes.number.isRequired,
   previewIndex: PropTypes.number.isRequired,
   stitcherLoc: PropTypes.string.isRequired,
-  recordLoc: PropTypes.string.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onPreview: PropTypes.func.isRequired,
+  recordingLoc: PropTypes.string.isRequired,
+  savePreference: PropTypes.func.isRequired,
 };
