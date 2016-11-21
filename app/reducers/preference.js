@@ -41,19 +41,10 @@ const preference = () => {
     }
   };
 
-  const thirdCameraIndex = (state = 2, action) => {
+  const previewIndex = (state = 0, action) => {
     switch (action.type) {
       case PREFERENCE_SAVED:
-        return action.thirdCameraIndex;
-      default:
-        return state;
-    }
-  };
-
-  const fourthCameraIndex = (state = 3, action) => {
-    switch (action.type) {
-      case PREFERENCE_SAVED:
-        return action.fourthCameraIndex;
+        return action.previewIndex;
       default:
         return state;
     }
@@ -64,8 +55,7 @@ const preference = () => {
     stitcherLocation,
     cameraIndex,
     sndCameraIndex,
-    thirdCameraIndex,
-    fourthCameraIndex,
+    previewIndex,
   });
 };
 
@@ -83,8 +73,5 @@ export const getCameraIndex = (state) =>
 export const getSndCameraIndex = (state) =>
   state.preference.sndCameraIndex;
 
-export const getThirdCameraIndex = (state) =>
-  state.preference.thirdCameraIndex;
-
-export const getFourthCameraIndex = (state) =>
-  state.preference.fourthCameraIndex;
+export const getPreviewIndex = (state) =>
+  state.preference.previewIndex;
