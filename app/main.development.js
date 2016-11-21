@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
-import { spawn } from 'child_process';
+import { spawn, exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
 import path from 'path';
@@ -17,6 +17,7 @@ let mainWindow = null;
 let proc;
 let id;
 let outPath;
+let convertedPath;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -295,17 +296,26 @@ ipcMain.on(RECORD, (event, arg) => {
   const destDir = path.join(getHomeDirectory(), recordLocation);
 
   id = v4();
-  const ext = '.mp4';
+  const ext = '.avi';
+  const convertedExt = '.mp4';
   outPath = path.join(destDir, id + ext);
+  convertedPath = path.join(destDir, id + convertedExt);
   const index = arg.cameraIndex;
   const width = 640;
   const height = 480;
   const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
+  const stdio = [null, null, null, 'ipc'];
 
   switch (process.platform) {
     case 'darwin':
     case 'linux':
-      proc = spawn(cmd, args);
+      proc = spawn(cmd, args, {
+        stdio: stdio
+      });
+      proc.on('message', (message) => {
+        console.log('Received message');
+        console.log(message);
+      });
       break;
     case 'win32':
       args.unshift(cmd);
@@ -315,6 +325,7 @@ ipcMain.on(RECORD, (event, arg) => {
       console.log('unsupported platform');
   }
 });
+
 
 ipcMain.on(STOP, (event, arg) => {
   if (proc) {
@@ -329,10 +340,18 @@ ipcMain.on(STOP, (event, arg) => {
       default:
         console.log(process.platform);
     }
-    event.sender.send(STOPPED_PROC, {
-      id,
-      outPath,
-    });
+
+    setTimeout(() => {
+      const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
+      const child = exec(cmd);
+      child.stdout.pipe(process.stdout);
+      child.on('exit', () => {
+        event.sender.send(STOPPED_PROC, {
+          id,
+          outPath: convertedPath,
+        });
+      });
+    }, 500);
   }
 });
 
