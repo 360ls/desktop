@@ -32,10 +32,40 @@ const preference = () => {
     }
   };
 
+  const sndCameraIndex = (state = 1, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.sndCameraIndex;
+      default:
+        return state;
+    }
+  };
+
+  const thirdCameraIndex = (state = 2, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.thirdCameraIndex;
+      default:
+        return state;
+    }
+  };
+
+  const fourthCameraIndex = (state = 3, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.fourthCameraIndex;
+      default:
+        return state;
+    }
+  };
+
   return combineReducers({
     recordLocation,
     stitcherLocation,
     cameraIndex,
+    sndCameraIndex,
+    thirdCameraIndex,
+    fourthCameraIndex,
   });
 };
 
@@ -49,3 +79,12 @@ export const getStitcherLocation = (state) =>
 
 export const getCameraIndex = (state) =>
   state.preference.cameraIndex;
+
+export const getSndCameraIndex = (state) =>
+  state.preference.sndCameraIndex;
+
+export const getThirdCameraIndex = (state) =>
+  state.preference.thirdCameraIndex;
+
+export const getFourthCameraIndex = (state) =>
+  state.preference.fourthCameraIndex;
