@@ -9,6 +9,8 @@ import {
    REQUEST_FILE,
    RECEIVE_FILE,
    STOPPED_PROC,
+   START_PREVIEW,
+   STOP_PREVIEW,
  } from './services/ipcDispatcher';
 
 let menu;
@@ -18,6 +20,7 @@ let proc;
 let id;
 let outPath;
 let convertedPath;
+const stitcher = 'stitcher.py';
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -288,10 +291,40 @@ app.on('ready', async () => {
   }
 });
 
+const killProc = (childProc) => {
+  if (childProc) {
+    switch (process.platform) {
+      case 'darwin':
+      case 'linux':
+        childProc.kill('SIGINT');
+        break;
+      case 'win32':
+        spawn('taskkill', ['/pid', childProc.pid, '/f', '/t']);
+        break;
+      default:
+        console.log(process.platform);
+    }
+  }
+};
+
+const spawnProc = (cmd, args) => {
+  switch (process.platform) {
+    case 'darwin':
+    case 'linux':
+      proc = spawn(cmd, args);
+      break;
+    case 'win32':
+      args.unshift(cmd);
+      proc = spawn('python', args);
+      break;
+    default:
+      console.log('unsupported platform');
+  }
+};
+
 ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = arg.recordLocation;
   const stitcherLocation = arg.stitcherLocation;
-  const stitcher = 'stitcher.py';
   const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
   const destDir = path.join(getHomeDirectory(), recordLocation);
 
@@ -304,55 +337,24 @@ ipcMain.on(RECORD, (event, arg) => {
   const width = 640;
   const height = 480;
   const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
-  const stdio = [null, null, null, 'ipc'];
 
-  switch (process.platform) {
-    case 'darwin':
-    case 'linux':
-      proc = spawn(cmd, args, {
-        stdio: stdio
-      });
-      proc.on('message', (message) => {
-        console.log('Received message');
-        console.log(message);
-      });
-      break;
-    case 'win32':
-      args.unshift(cmd);
-      proc = spawn('python', args);
-      break;
-    default:
-      console.log('unsupported platform');
-  }
+  spawnProc(cmd, args);
 });
 
 
 ipcMain.on(STOP, (event, arg) => {
-  if (proc) {
-    switch (process.platform) {
-      case 'darwin':
-      case 'linux':
-        proc.kill('SIGINT');
-        break;
-      case 'win32':
-        spawn('taskkill', ['/pid', proc.pid, '/f', '/t']);
-        break;
-      default:
-        console.log(process.platform);
-    }
-
-    setTimeout(() => {
-      const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
-      const child = exec(cmd);
-      child.stdout.pipe(process.stdout);
-      child.on('exit', () => {
-        event.sender.send(STOPPED_PROC, {
-          id,
-          outPath: convertedPath,
-        });
+  killProc(proc);
+  setTimeout(() => {
+    const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
+    const child = exec(cmd);
+    child.stdout.pipe(process.stdout);
+    child.on('exit', () => {
+      event.sender.send(STOPPED_PROC, {
+        id,
+        outPath: convertedPath,
       });
-    }, 500);
-  }
+    });
+  }, 500);
 });
 
 ipcMain.on(REQUEST_FILE, (event, arg) => {
@@ -366,6 +368,19 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
       });
     });
   }, 1000);
+});
+
+ipcMain.on(START_PREVIEW, (event, arg) => {
+  const stitcherLocation = arg.stitcherLocation;
+  const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
+  const index = arg.index;
+  const args = ['-p', '-i', index];
+
+  spawnProc(cmd, args);
+});
+
+ipcMain.on(STOP_PREVIEW, (event, arg) => {
+  killProc(proc);
 });
 
 const getHomeDirectory = () => {
