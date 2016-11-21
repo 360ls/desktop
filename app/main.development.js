@@ -96,7 +96,8 @@ const killProc = (childProc) => {
     switch (process.platform) {
       case 'darwin':
       case 'linux':
-        childProc.kill('SIGINT');
+        console.log(childProc.pid);
+        childProc.kill();
         break;
       case 'win32':
         spawn('taskkill', ['/pid', childProc.pid, '/f', '/t']);
@@ -140,9 +141,8 @@ ipcMain.on(RECORD, (event, arg) => {
   const height = 480;
   const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
 
-  spawnProc(cmd, args);
+  streamProc = spawnProc(cmd, args);
 });
-
 
 ipcMain.on(STOP, (event, arg) => {
   killProc(streamProc);
