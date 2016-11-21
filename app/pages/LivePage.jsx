@@ -6,6 +6,7 @@ import Notification from '../containers/Notification';
 const LivePage = () => (
   <div>
     <RecordControl />
+    <br />
     <PreviewControl />
     <Notification />
   </div>

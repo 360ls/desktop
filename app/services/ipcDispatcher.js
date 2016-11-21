@@ -46,7 +46,8 @@ export const handlePreviewChange = (store) => () => {
 
   if (prevState !== currPreviewState) {
     const arg = {
-      previewIndex: getPreviewIndex(storeState),
+      index: getPreviewIndex(storeState),
+      stitcherLocation: getStitcherLocation(storeState),
     };
     ipcRenderer.send(START_PREVIEW, arg);
   } else {

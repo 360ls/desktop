@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const PreviewButton = ({ togglePreview, isPreview }) => {
+const PreviewButton = ({ togglePreview, isPreviewing }) => {
   const startButton = (
     <RaisedButton
       label="Preview"
@@ -22,14 +22,14 @@ const PreviewButton = ({ togglePreview, isPreview }) => {
 
   return (
     <div>
-      {isPreview ? stopButton : startButton}
+      {isPreviewing ? stopButton : startButton}
     </div>
   );
 };
 
 PreviewButton.propTypes = {
   togglePreview: PropTypes.func.isRequired,
-  isPreview: PropTypes.bool.isRequired,
+  isPreviewing: PropTypes.bool.isRequired,
 };
 
 export default PreviewButton;
