@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('--width', type=int, default=640)
     parser.add_argument('-p', dest='preview', action='store_true')
     parser.add_argument('-s', dest='stream', action='store_true')
-    parser.add_argument('--url', default='rtmp://152.23.133.52:1935/live/myStream')
+    parser.add_argument('--url', default='rtmp://54.227.214.22:1935/live/myStream')
     parser.set_defaults(preview=False)
     parser.set_defaults(stream=False)
     return parser.parse_args()
@@ -72,7 +72,7 @@ while(True):
     if not args.preview:
         out.write(frame);
     if args.stream:
-        proc.stdin.write(frame.toString())
+        proc.stdin.write(frame.tostring())
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
