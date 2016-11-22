@@ -13,6 +13,7 @@ class PreferenceForm extends React.Component {
       previewIndex: props.previewIndex,
       stitcherLoc: props.stitcherLoc,
       recordingLoc: props.recordingLoc,
+      streamUrl: props.streamUrl,
     };
   }
 
@@ -45,6 +46,12 @@ class PreferenceForm extends React.Component {
       recordingLoc: e.target.value,
     });
   }
+
+  handleUrlChange = (e) => {
+    this.setState({
+      streamUrl: e.target.value,
+    });
+  };
 
   render() {
     return (
@@ -85,17 +92,24 @@ class PreferenceForm extends React.Component {
           onChange={this.handleRecordingChange}
         />
         <br />
+        <TextField
+          defaultValue={this.state.streamUrl}
+          floatingLabelText="RTMP Stream URL"
+          onChange={this.handleUrlChange}
+        />
+        <br />
         <RaisedButton
           label="Apply"
           primary
           onClick={() => {
-            console.log(this.props);
             this.props.savePreference(
               this.state.cameraIndex,
               this.state.sndCameraIndex,
               this.state.previewIndex,
               this.state.stitcherLoc,
-              this.state.recordingLoc);
+              this.state.recordingLoc,
+              this.state.streamUrl
+            );
           }}
         />
       </div>
@@ -112,4 +126,5 @@ PreferenceForm.propTypes = {
   stitcherLoc: PropTypes.string.isRequired,
   recordingLoc: PropTypes.string.isRequired,
   savePreference: PropTypes.func.isRequired,
+  streamUrl: PropTypes.string.isRequired,
 };
