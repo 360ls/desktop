@@ -6,6 +6,7 @@ import {
   getStitcherLocation,
   getCameraIndex,
   getPreviewIndex,
+  getStreamUrl,
 } from '../reducers/preference';
 
 export const RECORD = 'RECORD';
@@ -70,6 +71,7 @@ export const handleBroadcastChange = (store) => () => {
       const arg = {
         index: getPreviewIndex(storeState),
         stitcherLocation: getStitcherLocation(storeState),
+        url: getStreamUrl(storeState),
       };
       ipcRenderer.send(START_STREAM, arg);
     } else {
