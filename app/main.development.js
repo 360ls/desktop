@@ -11,6 +11,8 @@ import {
    STOPPED_PROC,
    START_PREVIEW,
    STOP_PREVIEW,
+   START_STREAM,
+   STOP_STREAM,
  } from './services/ipcDispatcher';
 
 let mainWindow = null;
@@ -86,6 +88,8 @@ app.on('ready', async () => {
 
 let streamProc = null;
 let previewProc = null;
+let stitcherProc = null;
+let ffmpegProc = null;
 let id;
 let outPath;
 let convertedPath;
@@ -183,6 +187,34 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
 
 ipcMain.on(STOP_PREVIEW, (event, arg) => {
   killProc(previewProc);
+});
+
+ipcMain.on(START_STREAM, (event, arg) => {
+  const stitcherLocation = arg.stitcherLocation;
+  const stitcherCmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
+  const index = arg.index;
+  const streamUrl = arg.url;
+  const stitcherArgs = ['-s', '-i', index];
+
+  const ffmpegCmd = 'ffmpeg';
+  const ffmpegArgs = [
+    '-y', '-f', 'rawvideo',
+    '-s', '640x480', '-pix_fmt', 'bgr24', '-i', 'pipe:0', '-vcodec',
+    'libx264', '-pix_fmt', 'uyvy422', '-r', '28', '-an', '-f', 'flv', streamUrl
+  ];
+
+  stitcherProc = spawnProc(stitcherCmd, stitcherArgs);
+  ffmpegProc = spawnProc(ffmpegCmd, ffmpegArgs);
+
+  const inStream = stitcherProc.stdout;
+  const outStream = ffmpegProc.stdin;
+
+  inStream.pipe(outStream);
+});
+
+ipcMain.on(STOP_STREAM, (event, arg) => {
+  killProc(stitcherProc);
+  killProc(ffmpegProc);
 });
 
 const getHomeDirectory = () => {
