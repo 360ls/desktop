@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { isStreaming, isPreviewing } from '../reducers/live';
+import { isStreaming, isPreviewing, isBroadcasting } from '../reducers/live';
 import { requestVideo, receiveVideo, uploadVideo } from '../actions/video';
 import {
   getRecordLocation,
@@ -17,6 +17,8 @@ export const UPLOADED = 'UPLOADED';
 export const START_PREVIEW = 'START_PREVIEW';
 export const STOP_PREVIEW = 'STOP_PREVIEW';
 export const STOPPED_PREVIEW = 'STOPPED_PREVIEW';
+export const START_STREAM = 'START_STREAM';
+export const STOP_STREAM = 'STOP_STREAM';
 
 let currState = false;
 export const handleChange = (store) => () => {
@@ -53,6 +55,25 @@ export const handlePreviewChange = (store) => () => {
       ipcRenderer.send(START_PREVIEW, arg);
     } else {
       ipcRenderer.send(STOP_PREVIEW);
+    }
+  }
+};
+
+let currBroadcastState = false;
+export const handleBroadcastChange = (store) => () => {
+  const prevState = currBroadcastState;
+  const storeState = store.getStore();
+  currBroadcastState = isBroadcasting(storeState);
+
+  if (prevState !== currBroadcastState) {
+    if (currBroadcastState) {
+      const arg = {
+        index: getPreviewIndex(storeState),
+        stitcherLocation: getStitcherLocation(storeState),
+      };
+      ipcRenderer.send(START_STREAM, arg);
+    } else {
+      ipcRenderer.send(STOP_STREAM);
     }
   }
 };
