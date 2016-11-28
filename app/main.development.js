@@ -25,6 +25,9 @@ import {
   getStitcherCmd,
   getFFmpegCmd,
   getConversionCmd,
+  getHomeDirectory,
+  getTargetPath,
+  getConvertedTargetPath,
 } from './utils/proc';
 import {
   getRecordingLocation,
@@ -117,14 +120,11 @@ let convertedPath;
 ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = getRecordingLocation(arg);
   const stitcherLocation = getStitcherLocation(arg);
-  const destDir = path.join(getHomeDirectory(), recordLocation);
   const streamUrl = getStreamUrl(arg);
 
   id = v4();
-  const ext = '.avi';
-  const convertedExt = '.mp4';
-  outPath = path.join(destDir, id + ext);
-  convertedPath = path.join(destDir, id + convertedExt);
+  outPath = getTargetPath(recordLocation, id);
+  convertedPath = getConvertedTargetPath(recordLocation, id);
   const index = getCameraIndex(arg);
   const width = 640;
   const height = 480;
@@ -137,7 +137,7 @@ ipcMain.on(RECORD, (event, arg) => {
   connect(streamProc, ffmpegProc);
 });
 
-ipcMain.on(STOP, (event, arg) => {
+ipcMain.on(STOP, (event) => {
   killProc(streamProc);
   killProc(ffmpegProc);
   setTimeout(() => {
@@ -173,7 +173,7 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
     getStitcherCmd(stitcherLocation), getStitcherArgsForPreview(index));
 });
 
-ipcMain.on(STOP_PREVIEW, (event, arg) => {
+ipcMain.on(STOP_PREVIEW, () => {
   killProc(previewProc);
 });
 
@@ -189,11 +189,7 @@ ipcMain.on(START_STREAM, (event, arg) => {
   connect(stitcherProc, ffmpegProc);
 });
 
-ipcMain.on(STOP_STREAM, (event, arg) => {
+ipcMain.on(STOP_STREAM, () => {
   killProc(stitcherProc);
   killProc(ffmpegProc);
 });
-
-const getHomeDirectory = () => {
-  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
-};

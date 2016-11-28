@@ -48,7 +48,7 @@ export const getStreamArgs = (streamUrl) => {
   return ffmpegArgs;
 };
 
-const getHomeDirectory = () =>
+export const getHomeDirectory = () =>
   process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 
 export const getStitcherArgsForPreview = (previewIndex) => {
@@ -87,4 +87,26 @@ export const getFFmpegCmd = () => {
 export const getConversionCmd = (sourcePath, convertedPath) => {
   const cmd = `ffmpeg -i ${sourcePath} ${convertedPath}`;
   return cmd;
+};
+
+export const getTargetExt = () => {
+  const ext = '.avi';
+  return ext;
+};
+
+export const getConvertedExt = () => {
+  const ext = '.mp4';
+  return ext;
+};
+
+export const getTargetPath = (recordLocation, id) => {
+  const destDir = path.join(getHomeDirectory(), recordLocation);
+  const videoName = id + getTargetExt();
+  return path.join(destDir, videoName);
+};
+
+export const getConvertedTargetPath = (recordLocation, id) => {
+  const destDir = path.join(getHomeDirectory(), recordLocation);
+  const videoName = id + getConvertedExt();
+  return path.join(destDir, videoName);
 };
