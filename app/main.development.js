@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
-import { spawn, exec } from 'child_process';
+import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
 import path from 'path';
@@ -14,6 +14,18 @@ import {
    START_STREAM,
    STOP_STREAM,
  } from './services/ipcDispatcher';
+import {
+  spawnProc,
+  killProc,
+  connect,
+  getStreamArgs,
+  getStitcherArgsForPreview,
+  getStitcherArgsForStream,
+  getStitcherArgsForRecording,
+  getStitcherCmd,
+  getFFmpegCmd,
+  getConversionCmd,
+} from './utils/proc';
 
 let mainWindow = null;
 
@@ -93,54 +105,12 @@ let ffmpegProc = null;
 let id;
 let outPath;
 let convertedPath;
-const stitcher = 'stitcher.py';
-
-const killProc = (childProc) => {
-  if (childProc) {
-    switch (process.platform) {
-      case 'darwin':
-      case 'linux':
-        childProc.kill();
-        break;
-      case 'win32':
-        spawn('taskkill', ['/pid', childProc.pid, '/f', '/t']);
-        break;
-      default:
-        console.log(process.platform);
-    }
-  }
-};
-
-const spawnProc = (cmd, args) => {
-  let proc = null;
-  switch (process.platform) {
-    case 'darwin':
-    case 'linux':
-      proc = spawn(cmd, args);
-      break;
-    case 'win32':
-      args.unshift(cmd);
-      proc = spawn('python', args);
-      break;
-    default:
-      console.log('unsupported platform');
-  }
-  return proc;
-};
 
 ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = arg.recordLocation;
   const stitcherLocation = arg.stitcherLocation;
-  const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
   const destDir = path.join(getHomeDirectory(), recordLocation);
   const streamUrl = arg.url;
-
-  const ffmpegCmd = 'ffmpeg';
-  const ffmpegArgs = [
-    '-y', '-f', 'rawvideo',
-    '-s', '640x480', '-pix_fmt', 'bgr24', '-i', 'pipe:0', '-vcodec',
-    'libx264', '-pix_fmt', 'uyvy422', '-r', '28', '-an', '-f', 'flv', streamUrl
-  ];
 
   id = v4();
   const ext = '.avi';
@@ -150,29 +120,20 @@ ipcMain.on(RECORD, (event, arg) => {
   const index = arg.cameraIndex;
   const width = 640;
   const height = 480;
-  const args = [
-    '-f', outPath,
-    '-i', index,
-    '--width', width,
-    '--height', height,
-    '-s',
-  ];
 
-  streamProc = spawnProc(cmd, args);
-  ffmpegProc = spawnProc(ffmpegCmd, ffmpegArgs);
+  streamProc = spawnProc(
+    getStitcherCmd(stitcherLocation),
+    getStitcherArgsForRecording(width, height, index, outPath));
+  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
 
-  const inStream = streamProc.stdout;
-  const outStream = ffmpegProc.stdin;
-
-  inStream.pipe(outStream);
+  connect(streamProc, ffmpegProc);
 });
 
 ipcMain.on(STOP, (event, arg) => {
   killProc(streamProc);
   killProc(ffmpegProc);
   setTimeout(() => {
-    const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
-    const child = exec(cmd);
+    const child = exec(getConversionCmd(outPath, convertedPath));
     child.stdout.pipe(process.stdout);
     child.on('exit', () => {
       event.sender.send(STOPPED_PROC, {
@@ -198,11 +159,10 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
 
 ipcMain.on(START_PREVIEW, (event, arg) => {
   const stitcherLocation = arg.stitcherLocation;
-  const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
   const index = arg.index;
-  const args = ['-p', '-i', index];
 
-  previewProc = spawnProc(cmd, args);
+  previewProc = spawnProc(
+    getStitcherCmd(stitcherLocation), getStitcherArgsForPreview(index));
 });
 
 ipcMain.on(STOP_PREVIEW, (event, arg) => {
@@ -211,25 +171,14 @@ ipcMain.on(STOP_PREVIEW, (event, arg) => {
 
 ipcMain.on(START_STREAM, (event, arg) => {
   const stitcherLocation = arg.stitcherLocation;
-  const stitcherCmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
   const index = arg.index;
   const streamUrl = arg.url;
-  const stitcherArgs = ['-s', '-i', index];
 
-  const ffmpegCmd = 'ffmpeg';
-  const ffmpegArgs = [
-    '-y', '-f', 'rawvideo',
-    '-s', '640x480', '-pix_fmt', 'bgr24', '-i', 'pipe:0', '-vcodec',
-    'libx264', '-pix_fmt', 'uyvy422', '-r', '28', '-an', '-f', 'flv', streamUrl
-  ];
+  stitcherProc = spawnProc(
+    getStitcherCmd(stitcherLocation), getStitcherArgsForStream(index));
+  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
 
-  stitcherProc = spawnProc(stitcherCmd, stitcherArgs);
-  ffmpegProc = spawnProc(ffmpegCmd, ffmpegArgs);
-
-  const inStream = stitcherProc.stdout;
-  const outStream = ffmpegProc.stdin;
-
-  inStream.pipe(outStream);
+  connect(stitcherProc, ffmpegProc);
 });
 
 ipcMain.on(STOP_STREAM, (event, arg) => {
