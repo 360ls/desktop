@@ -9,14 +9,29 @@ class PreferenceForm extends React.Component {
     super(props);
     this.state = {
       cameraIndex: props.cameraIndex,
+      sndCameraIndex: props.sndCameraIndex,
+      previewIndex: props.previewIndex,
       stitcherLoc: props.stitcherLoc,
-      recordingLoc: props.recordLoc,
+      recordingLoc: props.recordingLoc,
+      streamUrl: props.streamUrl,
     };
   }
 
   handleDropdownChange = (event, index, value) => {
     this.setState({
       cameraIndex: value,
+    });
+  }
+
+  handleSndDropdownChange = (event, index, value) => {
+    this.setState({
+      sndCameraIndex: value,
+    });
+  }
+
+  handlePreviewDropdownChange = (event, index, value) => {
+    this.setState({
+      previewIndex: value,
     });
   }
 
@@ -32,11 +47,33 @@ class PreferenceForm extends React.Component {
     });
   }
 
+  handleUrlChange = (e) => {
+    this.setState({
+      streamUrl: e.target.value,
+    });
+  };
+
   render() {
     return (
       <div>
-        <h4>Camera Index</h4>
+        <h4>First Camera Index</h4>
         <DropDownMenu value={this.state.cameraIndex} onChange={this.handleDropdownChange}>
+          <MenuItem value={0} primaryText="0" />
+          <MenuItem value={1} primaryText="1" />
+          <MenuItem value={2} primaryText="2" />
+          <MenuItem value={3} primaryText="3" />
+        </DropDownMenu>
+        <br />
+        <h4>Second Camera Index</h4>
+        <DropDownMenu value={this.state.sndCameraIndex} onChange={this.handleSndDropdownChange}>
+          <MenuItem value={0} primaryText="0" />
+          <MenuItem value={1} primaryText="1" />
+          <MenuItem value={2} primaryText="2" />
+          <MenuItem value={3} primaryText="3" />
+        </DropDownMenu>
+        <br />
+        <h4>Preview Index</h4>
+        <DropDownMenu value={this.state.previewIndex} onChange={this.handlePreviewDropdownChange}>
           <MenuItem value={0} primaryText="0" />
           <MenuItem value={1} primaryText="1" />
           <MenuItem value={2} primaryText="2" />
@@ -55,14 +92,24 @@ class PreferenceForm extends React.Component {
           onChange={this.handleRecordingChange}
         />
         <br />
+        <TextField
+          defaultValue={this.state.streamUrl}
+          floatingLabelText="RTMP Stream URL"
+          onChange={this.handleUrlChange}
+        />
+        <br />
         <RaisedButton
           label="Apply"
           primary
           onClick={() => {
-            this.props.onSave(
+            this.props.savePreference(
               this.state.cameraIndex,
+              this.state.sndCameraIndex,
+              this.state.previewIndex,
               this.state.stitcherLoc,
-              this.state.recordingLoc);
+              this.state.recordingLoc,
+              this.state.streamUrl
+            );
           }}
         />
       </div>
@@ -74,7 +121,10 @@ export default PreferenceForm;
 
 PreferenceForm.propTypes = {
   cameraIndex: PropTypes.number.isRequired,
+  sndCameraIndex: PropTypes.number.isRequired,
+  previewIndex: PropTypes.number.isRequired,
   stitcherLoc: PropTypes.string.isRequired,
-  recordLoc: PropTypes.string.isRequired,
-  onSave: PropTypes.func.isRequired,
+  recordingLoc: PropTypes.string.isRequired,
+  savePreference: PropTypes.func.isRequired,
+  streamUrl: PropTypes.string.isRequired,
 };

@@ -1,10 +1,12 @@
 import { ipcRenderer } from 'electron';
-import { isStreaming } from '../reducers/live';
+import { isStreaming, isPreviewing, isBroadcasting } from '../reducers/live';
 import { requestVideo, receiveVideo, uploadVideo } from '../actions/video';
 import {
   getRecordLocation,
   getStitcherLocation,
   getCameraIndex,
+  getPreviewIndex,
+  getStreamUrl,
 } from '../reducers/preference';
 
 export const RECORD = 'RECORD';
@@ -13,6 +15,11 @@ export const REQUEST_FILE = 'REQUEST_FILE';
 export const RECEIVE_FILE = 'RECEIVE_FILE';
 export const STOPPED_PROC = 'STOPPED_PROC';
 export const UPLOADED = 'UPLOADED';
+export const START_PREVIEW = 'START_PREVIEW';
+export const STOP_PREVIEW = 'STOP_PREVIEW';
+export const STOPPED_PREVIEW = 'STOPPED_PREVIEW';
+export const START_STREAM = 'START_STREAM';
+export const STOP_STREAM = 'STOP_STREAM';
 
 let currState = false;
 export const handleChange = (store) => () => {
@@ -26,10 +33,50 @@ export const handleChange = (store) => () => {
         recordLocation: getRecordLocation(storeState),
         stitcherLocation: getStitcherLocation(storeState),
         cameraIndex: getCameraIndex(storeState),
+        url: getStreamUrl(storeState),
       };
       ipcRenderer.send(RECORD, arg);
     } else {
       ipcRenderer.send(STOP);
+    }
+  }
+};
+
+let currPreviewState = false;
+export const handlePreviewChange = (store) => () => {
+  const prevState = currPreviewState;
+  const storeState = store.getState();
+  currPreviewState = isPreviewing(storeState);
+
+  if (prevState !== currPreviewState) {
+    if (currPreviewState) {
+      const arg = {
+        index: getPreviewIndex(storeState),
+        stitcherLocation: getStitcherLocation(storeState),
+      };
+      ipcRenderer.send(START_PREVIEW, arg);
+    } else {
+      ipcRenderer.send(STOP_PREVIEW);
+    }
+  }
+};
+
+let currBroadcastState = false;
+export const handleBroadcastChange = (store) => () => {
+  const prevState = currBroadcastState;
+  const storeState = store.getState();
+  currBroadcastState = isBroadcasting(storeState);
+
+  if (prevState !== currBroadcastState) {
+    if (currBroadcastState) {
+      const arg = {
+        index: getPreviewIndex(storeState),
+        stitcherLocation: getStitcherLocation(storeState),
+        url: getStreamUrl(storeState),
+      };
+      ipcRenderer.send(START_STREAM, arg);
+    } else {
+      ipcRenderer.send(STOP_STREAM);
     }
   }
 };
@@ -39,6 +86,7 @@ export const requestFile = (path) => {
     path,
   });
 };
+
 
 export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {

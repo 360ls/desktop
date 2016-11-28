@@ -5,11 +5,13 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
-import { handleChange, setupIPCHandler } from './services/ipcDispatcher';
+import { handleChange, handlePreviewChange, handleBroadcastChange, setupIPCHandler } from './services/ipcDispatcher';
 
 const store = configureStore();
 
 store.subscribe(handleChange(store));
+store.subscribe(handlePreviewChange(store));
+store.subscribe(handleBroadcastChange(store));
 
 const history = syncHistoryWithStore(hashHistory, store);
 

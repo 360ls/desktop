@@ -15,19 +15,19 @@ to run Electron. You can find the latest release for Node [here](https://nodejs.
 
 For package management, we use the [Yarn](https://yarnpkg.com/) package manger.
 ```bash
-npm install -g yarn
+$ npm install -g yarn
 ```
 
 Install the dependencies:
 
 ```bash
-yarn install
+$ yarn install
 ```
 
 ## Running
 
 ```bash
-npm run dev
+$ npm run dev
 ```
 
 This will start up the build server that bundles the application
@@ -44,7 +44,7 @@ electron application.
 To lint run the following command:
 
 ```bash
-npm lint
+$ npm lint
 ```
 
 ## Testing
@@ -54,7 +54,7 @@ The following command will run the test suite defined under the `test`
 directory.
 
 ```bash
-npm test
+$ npm test
 ```
 
 # Building Executables
@@ -62,6 +62,6 @@ npm test
 Run the following commands. The executables will be output to the `release` directory.
 
 ```bash
-npm run build
-npm run package
+$ npm run build
+$ npm run package
 ```

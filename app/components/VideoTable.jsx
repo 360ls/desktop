@@ -32,7 +32,7 @@ const sortVideos = (videos) => {
 const VideoTable = ({ videos, onClick, router, path }) => (
   <Table
     onRowSelection={rows => {
-      onClick(videos[rows[0]].uri, videos[rows[0]].id);
+      onClick(sortVideos(videos)[rows[0]].uri, videos[rows[0]].id);
       router.push(`${path}/${videos[rows[0]].id}`);
     }}
   >

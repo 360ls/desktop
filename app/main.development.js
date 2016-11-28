@@ -1,23 +1,42 @@
-import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
-import { spawn, exec } from 'child_process';
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
-import path from 'path';
 import {
    RECORD,
    STOP,
    REQUEST_FILE,
    RECEIVE_FILE,
    STOPPED_PROC,
+   START_PREVIEW,
+   STOP_PREVIEW,
+   START_STREAM,
+   STOP_STREAM,
  } from './services/ipcDispatcher';
+import {
+  spawnProc,
+  killProc,
+  connect,
+  getStreamArgs,
+  getStitcherArgsForPreview,
+  getStitcherArgsForStream,
+  getStitcherArgsForRecording,
+  getStitcherCmd,
+  getFFmpegCmd,
+  getConversionCmd,
+  getTargetPath,
+  getConvertedTargetPath,
+} from './utils/proc';
+import {
+  getRecordingLocation,
+  getStitcherLocation,
+  getCameraIndex,
+  getIndex,
+  getStreamUrl,
+  getVideoPath,
+} from './utils/arg';
 
-let menu;
-let template;
 let mainWindow = null;
-let proc;
-let id;
-let outPath;
-let convertedPath;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -86,288 +105,89 @@ app.on('ready', async () => {
       }]).popup(mainWindow);
     });
   }
-
-  if (process.platform === 'darwin') {
-    template = [{
-      label: 'Electron',
-      submenu: [{
-        label: 'About ElectronReact',
-        selector: 'orderFrontStandardAboutPanel:'
-      }, {
-        type: 'separator'
-      }, {
-        label: 'Services',
-        submenu: []
-      }, {
-        type: 'separator'
-      }, {
-        label: 'Hide ElectronReact',
-        accelerator: 'Command+H',
-        selector: 'hide:'
-      }, {
-        label: 'Hide Others',
-        accelerator: 'Command+Shift+H',
-        selector: 'hideOtherApplications:'
-      }, {
-        label: 'Show All',
-        selector: 'unhideAllApplications:'
-      }, {
-        type: 'separator'
-      }, {
-        label: 'Quit',
-        accelerator: 'Command+Q',
-        click() {
-          app.quit();
-        }
-      }]
-    }, {
-      label: 'Edit',
-      submenu: [{
-        label: 'Undo',
-        accelerator: 'Command+Z',
-        selector: 'undo:'
-      }, {
-        label: 'Redo',
-        accelerator: 'Shift+Command+Z',
-        selector: 'redo:'
-      }, {
-        type: 'separator'
-      }, {
-        label: 'Cut',
-        accelerator: 'Command+X',
-        selector: 'cut:'
-      }, {
-        label: 'Copy',
-        accelerator: 'Command+C',
-        selector: 'copy:'
-      }, {
-        label: 'Paste',
-        accelerator: 'Command+V',
-        selector: 'paste:'
-      }, {
-        label: 'Select All',
-        accelerator: 'Command+A',
-        selector: 'selectAll:'
-      }]
-    }, {
-      label: 'View',
-      submenu: (process.env.NODE_ENV === 'development') ? [{
-        label: 'Reload',
-        accelerator: 'Command+R',
-        click() {
-          mainWindow.webContents.reload();
-        }
-      }, {
-        label: 'Toggle Full Screen',
-        accelerator: 'Ctrl+Command+F',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }, {
-        label: 'Toggle Developer Tools',
-        accelerator: 'Alt+Command+I',
-        click() {
-          mainWindow.toggleDevTools();
-        }
-      }] : [{
-        label: 'Toggle Full Screen',
-        accelerator: 'Ctrl+Command+F',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }]
-    }, {
-      label: 'Window',
-      submenu: [{
-        label: 'Minimize',
-        accelerator: 'Command+M',
-        selector: 'performMiniaturize:'
-      }, {
-        label: 'Close',
-        accelerator: 'Command+W',
-        selector: 'performClose:'
-      }, {
-        type: 'separator'
-      }, {
-        label: 'Bring All to Front',
-        selector: 'arrangeInFront:'
-      }]
-    }, {
-      label: 'Help',
-      submenu: [{
-        label: 'Learn More',
-        click() {
-          shell.openExternal('http://electron.atom.io');
-        }
-      }, {
-        label: 'Documentation',
-        click() {
-          shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme');
-        }
-      }, {
-        label: 'Community Discussions',
-        click() {
-          shell.openExternal('https://discuss.atom.io/c/electron');
-        }
-      }, {
-        label: 'Search Issues',
-        click() {
-          shell.openExternal('https://github.com/atom/electron/issues');
-        }
-      }]
-    }];
-
-    menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
-  } else {
-    template = [{
-      label: '&File',
-      submenu: [{
-        label: '&Open',
-        accelerator: 'Ctrl+O'
-      }, {
-        label: '&Close',
-        accelerator: 'Ctrl+W',
-        click() {
-          mainWindow.close();
-        }
-      }]
-    }, {
-      label: '&View',
-      submenu: (process.env.NODE_ENV === 'development') ? [{
-        label: '&Reload',
-        accelerator: 'Ctrl+R',
-        click() {
-          mainWindow.webContents.reload();
-        }
-      }, {
-        label: 'Toggle &Full Screen',
-        accelerator: 'F11',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }, {
-        label: 'Toggle &Developer Tools',
-        accelerator: 'Alt+Ctrl+I',
-        click() {
-          mainWindow.toggleDevTools();
-        }
-      }] : [{
-        label: 'Toggle &Full Screen',
-        accelerator: 'F11',
-        click() {
-          mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-      }]
-    }, {
-      label: 'Help',
-      submenu: [{
-        label: 'Learn More',
-        click() {
-          shell.openExternal('http://electron.atom.io');
-        }
-      }, {
-        label: 'Documentation',
-        click() {
-          shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme');
-        }
-      }, {
-        label: 'Community Discussions',
-        click() {
-          shell.openExternal('https://discuss.atom.io/c/electron');
-        }
-      }, {
-        label: 'Search Issues',
-        click() {
-          shell.openExternal('https://github.com/atom/electron/issues');
-        }
-      }]
-    }];
-    menu = Menu.buildFromTemplate(template);
-    mainWindow.setMenu(menu);
-  }
 });
+
+let streamProc = null;
+let previewProc = null;
+let stitcherProc = null;
+let ffmpegProc = null;
+let id;
+let outPath;
+let convertedPath;
 
 ipcMain.on(RECORD, (event, arg) => {
-  const recordLocation = arg.recordLocation;
-  const stitcherLocation = arg.stitcherLocation;
-  const stitcher = 'stitcher.py';
-  const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
-  const destDir = path.join(getHomeDirectory(), recordLocation);
+  const recordLocation = getRecordingLocation(arg);
+  const stitcherLocation = getStitcherLocation(arg);
+  const streamUrl = getStreamUrl(arg);
 
   id = v4();
-  const ext = '.avi';
-  const convertedExt = '.mp4';
-  outPath = path.join(destDir, id + ext);
-  convertedPath = path.join(destDir, id + convertedExt);
-  const index = arg.cameraIndex;
+  outPath = getTargetPath(recordLocation, id);
+  convertedPath = getConvertedTargetPath(recordLocation, id);
+  const index = getCameraIndex(arg);
   const width = 640;
   const height = 480;
-  const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
-  const stdio = [null, null, null, 'ipc'];
 
-  switch (process.platform) {
-    case 'darwin':
-    case 'linux':
-      proc = spawn(cmd, args, {
-        stdio: stdio
-      });
-      proc.on('message', (message) => {
-        console.log('Received message');
-        console.log(message);
-      });
-      break;
-    case 'win32':
-      args.unshift(cmd);
-      proc = spawn('python', args);
-      break;
-    default:
-      console.log('unsupported platform');
-  }
+  streamProc = spawnProc(
+    getStitcherCmd(stitcherLocation),
+    getStitcherArgsForRecording(width, height, index, outPath));
+  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
+
+  connect(streamProc, ffmpegProc);
 });
 
-
-ipcMain.on(STOP, (event, arg) => {
-  if (proc) {
-    switch (process.platform) {
-      case 'darwin':
-      case 'linux':
-        proc.kill('SIGINT');
-        break;
-      case 'win32':
-        spawn('taskkill', ['/pid', proc.pid, '/f', '/t']);
-        break;
-      default:
-        console.log(process.platform);
-    }
-
-    setTimeout(() => {
-      const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
-      const child = exec(cmd);
-      child.stdout.pipe(process.stdout);
-      child.on('exit', () => {
-        event.sender.send(STOPPED_PROC, {
-          id,
-          outPath: convertedPath,
-        });
+ipcMain.on(STOP, (event) => {
+  killProc(streamProc);
+  killProc(ffmpegProc);
+  setTimeout(() => {
+    const child = exec(getConversionCmd(outPath, convertedPath));
+    child.stdout.pipe(process.stdout);
+    child.on('exit', () => {
+      event.sender.send(STOPPED_PROC, {
+        id,
+        outPath: convertedPath,
       });
-    }, 500);
-  }
+    });
+  }, 500);
 });
 
 ipcMain.on(REQUEST_FILE, (event, arg) => {
   setTimeout(() => {
-    const videoPath = path.join(arg.path);
+    const videoPath = getVideoPath(arg);
     fs.readFile(videoPath, (err, data) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {
-        path: arg.path,
+        path: videoPath,
         data
       });
     });
   }, 1000);
 });
 
-const getHomeDirectory = () => {
-  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
-};
+ipcMain.on(START_PREVIEW, (event, arg) => {
+  const stitcherLocation = getStitcherLocation(arg);
+  const index = getIndex(arg);
+
+  previewProc = spawnProc(
+    getStitcherCmd(stitcherLocation), getStitcherArgsForPreview(index));
+});
+
+ipcMain.on(STOP_PREVIEW, () => {
+  killProc(previewProc);
+});
+
+ipcMain.on(START_STREAM, (event, arg) => {
+  const stitcherLocation = getStitcherLocation(arg);
+  const index = getIndex(arg);
+  const streamUrl = getStreamUrl(arg);
+
+  stitcherProc = spawnProc(
+    getStitcherCmd(stitcherLocation), getStitcherArgsForStream(index));
+  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
+
+  connect(stitcherProc, ffmpegProc);
+});
+
+ipcMain.on(STOP_STREAM, () => {
+  killProc(stitcherProc);
+  killProc(ffmpegProc);
+});

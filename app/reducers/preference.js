@@ -3,6 +3,7 @@ import { PREFERENCE_SAVED } from '../actions/preference';
 
 const baseDir = '.360ls/';
 const recordDir = '.360ls/recordings/';
+const url = 'rtmp://54.227.214.22:1935/live/myStream';
 
 const preference = () => {
   const recordLocation = (state = recordDir, action) => {
@@ -32,10 +33,40 @@ const preference = () => {
     }
   };
 
+  const sndCameraIndex = (state = 1, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.sndCameraIndex;
+      default:
+        return state;
+    }
+  };
+
+  const previewIndex = (state = 0, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.previewIndex;
+      default:
+        return state;
+    }
+  };
+
+  const streamUrl = (state = url, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.streamUrl;
+      default:
+        return state;
+    }
+  };
+
   return combineReducers({
     recordLocation,
     stitcherLocation,
     cameraIndex,
+    sndCameraIndex,
+    previewIndex,
+    streamUrl,
   });
 };
 
@@ -49,3 +80,12 @@ export const getStitcherLocation = (state) =>
 
 export const getCameraIndex = (state) =>
   state.preference.cameraIndex;
+
+export const getSndCameraIndex = (state) =>
+  state.preference.sndCameraIndex;
+
+export const getPreviewIndex = (state) =>
+  state.preference.previewIndex;
+
+export const getStreamUrl = (state) =>
+  state.preference.streamUrl;

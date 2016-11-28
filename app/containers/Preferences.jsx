@@ -4,24 +4,24 @@ import {
   getRecordLocation,
   getStitcherLocation,
   getCameraIndex,
+  getSndCameraIndex,
+  getPreviewIndex,
+  getStreamUrl,
 } from '../reducers/preference';
-import { savePreference } from '../actions/preference';
+import * as actions from '../actions/preference';
 
 const mapStateToProps = state => ({
-  recordLoc: getRecordLocation(state),
+  recordingLoc: getRecordLocation(state),
   stitcherLoc: getStitcherLocation(state),
   cameraIndex: getCameraIndex(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSave: (cam, stitcher, record) => {
-    dispatch(savePreference(cam, stitcher, record));
-  },
+  sndCameraIndex: getSndCameraIndex(state),
+  previewIndex: getPreviewIndex(state),
+  streamUrl: getStreamUrl(state),
 });
 
 const Preferences = connect(
   mapStateToProps,
-  mapDispatchToProps
+  actions,
 )(PreferenceForm);
 
 export default Preferences;

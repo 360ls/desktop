@@ -8,6 +8,8 @@ describe('reducers', () => {
         type: 'unknown',
       })).toEqual({
         recording: false,
+        broadcast: false,
+        preview: false,
       });
     });
 
@@ -18,6 +20,8 @@ describe('reducers', () => {
         type: TOGGLE_STREAM,
       })).toEqual({
         recording: true,
+        broadcast: false,
+        preview: false,
       });
     });
 
@@ -28,6 +32,8 @@ describe('reducers', () => {
         type: TOGGLE_STREAM,
       })).toEqual({
         recording: false,
+        broadcast: false,
+        preview: false,
       });
     });
   });
