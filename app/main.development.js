@@ -161,7 +161,7 @@ ipcMain.on(RECORD, (event, arg) => {
   streamProc = spawnProc(cmd, args);
   ffmpegProc = spawnProc(ffmpegCmd, ffmpegArgs);
 
-  const inStream = stitcherProc.stdout;
+  const inStream = streamProc.stdout;
   const outStream = ffmpegProc.stdin;
 
   inStream.pipe(outStream);
