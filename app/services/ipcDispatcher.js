@@ -33,6 +33,7 @@ export const handleChange = (store) => () => {
         recordLocation: getRecordLocation(storeState),
         stitcherLocation: getStitcherLocation(storeState),
         cameraIndex: getCameraIndex(storeState),
+        url: getStreamUrl(storeState),
       };
       ipcRenderer.send(RECORD, arg);
     } else {

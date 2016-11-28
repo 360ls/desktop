@@ -133,6 +133,14 @@ ipcMain.on(RECORD, (event, arg) => {
   const stitcherLocation = arg.stitcherLocation;
   const cmd = path.join(getHomeDirectory(), stitcherLocation, stitcher);
   const destDir = path.join(getHomeDirectory(), recordLocation);
+  const streamUrl = arg.url;
+
+  const ffmpegCmd = 'ffmpeg';
+  const ffmpegArgs = [
+    '-y', '-f', 'rawvideo',
+    '-s', '640x480', '-pix_fmt', 'bgr24', '-i', 'pipe:0', '-vcodec',
+    'libx264', '-pix_fmt', 'uyvy422', '-r', '28', '-an', '-f', 'flv', streamUrl
+  ];
 
   id = v4();
   const ext = '.avi';
@@ -142,13 +150,26 @@ ipcMain.on(RECORD, (event, arg) => {
   const index = arg.cameraIndex;
   const width = 640;
   const height = 480;
-  const args = ['-f', outPath, '-i', index, '--width', width, '--height', height];
+  const args = [
+    '-f', outPath,
+    '-i', index,
+    '--width', width,
+    '--height', height,
+    '-s',
+  ];
 
   streamProc = spawnProc(cmd, args);
+  ffmpegProc = spawnProc(ffmpegCmd, ffmpegArgs);
+
+  const inStream = stitcherProc.stdout;
+  const outStream = ffmpegProc.stdin;
+
+  inStream.pipe(outStream);
 });
 
 ipcMain.on(STOP, (event, arg) => {
   killProc(streamProc);
+  killProc(ffmpegProc);
   setTimeout(() => {
     const cmd = 'ffmpeg -i ' + outPath + ' ' + convertedPath;
     const child = exec(cmd);
