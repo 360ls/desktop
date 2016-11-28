@@ -54,17 +54,19 @@ export const getHomeDirectory = () =>
   process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 
 export const getStitcherArgsForPreview = (previewIndex) => {
-  const stitcherArgs = ['-p', '-i', previewIndex];
+  const stitcherArgs = ['-m', 'app.stitcher.stitch', '-p', '-i', previewIndex];
   return stitcherArgs;
 };
 
 export const getStitcherArgsForStream = (streamIndex) => {
-  const stitcherArgs = ['-s', '-i', streamIndex];
+  const stitcherArgs = ['-m', 'app.stitcher.stitch', '-s', '-i', streamIndex, '--width', 640, '--height', 480];
   return stitcherArgs;
 };
 
 export const getStitcherArgsForRecording = (width, height, index, videoPath) => {
   const stitcherArgs = [
+    '-m',
+    'app.stitcher.stitch',
     '-f', videoPath,
     '-i', index,
     '--width', width,
