@@ -35,7 +35,9 @@ export const killProc = (childProc) => {
 };
 
 export const connect = (outProc, inProc) => {
-  outProc.stdout.pipe(inProc.stdin.stdin);
+  const outStream = outProc.stdout;
+  const inStream = inProc.stdin;
+  outStream.pipe(inStream);
 };
 
 export const getStreamArgs = (streamUrl) => {
