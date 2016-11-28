@@ -26,6 +26,14 @@ import {
   getFFmpegCmd,
   getConversionCmd,
 } from './utils/proc';
+import {
+  getRecordingLocation,
+  getStitcherLocation,
+  getCameraIndex,
+  getIndex,
+  getStreamUrl,
+  getVideoPath,
+} from './utils/arg';
 
 let mainWindow = null;
 
@@ -107,17 +115,17 @@ let outPath;
 let convertedPath;
 
 ipcMain.on(RECORD, (event, arg) => {
-  const recordLocation = arg.recordLocation;
-  const stitcherLocation = arg.stitcherLocation;
+  const recordLocation = getRecordingLocation(arg);
+  const stitcherLocation = getStitcherLocation(arg);
   const destDir = path.join(getHomeDirectory(), recordLocation);
-  const streamUrl = arg.url;
+  const streamUrl = getStreamUrl(arg);
 
   id = v4();
   const ext = '.avi';
   const convertedExt = '.mp4';
   outPath = path.join(destDir, id + ext);
   convertedPath = path.join(destDir, id + convertedExt);
-  const index = arg.cameraIndex;
+  const index = getCameraIndex(arg);
   const width = 640;
   const height = 480;
 
@@ -146,11 +154,11 @@ ipcMain.on(STOP, (event, arg) => {
 
 ipcMain.on(REQUEST_FILE, (event, arg) => {
   setTimeout(() => {
-    const videoPath = path.join(arg.path);
+    const videoPath = getVideoPath(arg);
     fs.readFile(videoPath, (err, data) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {
-        path: arg.path,
+        path: videoPath,
         data
       });
     });
@@ -158,8 +166,8 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
 });
 
 ipcMain.on(START_PREVIEW, (event, arg) => {
-  const stitcherLocation = arg.stitcherLocation;
-  const index = arg.index;
+  const stitcherLocation = getStitcherLocation(arg);
+  const index = getIndex(arg);
 
   previewProc = spawnProc(
     getStitcherCmd(stitcherLocation), getStitcherArgsForPreview(index));
@@ -170,9 +178,9 @@ ipcMain.on(STOP_PREVIEW, (event, arg) => {
 });
 
 ipcMain.on(START_STREAM, (event, arg) => {
-  const stitcherLocation = arg.stitcherLocation;
-  const index = arg.index;
-  const streamUrl = arg.url;
+  const stitcherLocation = getStitcherLocation(arg);
+  const index = getIndex(arg);
+  const streamUrl = getStreamUrl(arg);
 
   stitcherProc = spawnProc(
     getStitcherCmd(stitcherLocation), getStitcherArgsForStream(index));
