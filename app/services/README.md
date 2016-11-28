@@ -10,24 +10,23 @@ The following command line options are expected from the python script:
 be save to excluding the extension.
 * `-i`: index of the camera to be captured (default is `0`).
 * `-p`: preview the camera stream; will not write stream to file.
-* `-s`: stream the camera feed with `ffmpeg`.
+* `-s`: stream the camera feed.
 * `--leftIndex`: index of left stream
 * `--rightIndex`: index of right stream
 * `--width`: width dimension of the output video (default is `640`).
 * `--height`: height dimension of the output video (default is `480`).
-* `--url`: `RTMP` url to be streamed to.
 * `--stitch`: stitch two incoming streams specified by `leftIndex` and `rightIndex`.
+
+## Stitcher Implementation
+The stitcher is expected to output serialized frames to stdout, which will be piped to the `ffmpeg` process by electron.
+
+For saving the frames, `mp4v` encoding has been tested with `OpenCV v2.4`.
 
 ## Expected Usage
 
 Preview index 0:
 ```bash
 $  ./stitcher.py -p -i 0
-```
-
-Stream index 0 to `rtmp:stream_address`:
-```bash
-$  ./stitcher.py -s -i 0 --url rtmp:stream_address
 ```
 
 Save stream 0 to `out.avi`:
@@ -50,15 +49,7 @@ Stitch index 0 and index 1 and save to `out.avi`
 $  ./stitcher.py --stitch --leftIndex 0 --rightIndex 1 -f out.avi
 ```
 
-Stitch index 0 and index 1 and save to `out.avi` and stream to `rtmp:stream_address`
+Stream stitched stream of index 0 and index 1 and save to `out.avi`
 ```bash
-$  ./stitcher.py -s --stitch --leftIndex 0 --rightIndex 1 -f out.avi --url rtmp:stream_address
+$  ./stitcher.py -s --stitch --leftIndex 0 --rightIndex 1 -f out.avi
 ```
-
-
-## IPC
-
-The electron application will be communicating with the python
-script via IPC. The following information will be expected from the python script.
-
-* `validated`: `true` if the specified camera index was valid.
