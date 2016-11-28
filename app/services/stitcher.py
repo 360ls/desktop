@@ -18,7 +18,6 @@ def parse_args():
     parser.add_argument('--width', type=int, default=640)
     parser.add_argument('-p', dest='preview', action='store_true')
     parser.add_argument('-s', dest='stream', action='store_true')
-    parser.add_argument('--url', default='rtmp://54.227.214.22:1935/live/myStream')
     parser.set_defaults(preview=False)
     parser.set_defaults(stream=False)
     return parser.parse_args()
@@ -51,17 +50,9 @@ height = args.height
 width = args.width
 
 cap = cv2.VideoCapture(index)
-# codec = cv2.cv.CV_FOURCC('M', 'J', 'P', 'G')
 codec = cv2.cv.CV_FOURCC('m', 'p', '4', 'v')
 out = cv2.VideoWriter(dest, codec, 20.0, (width, height));
 dimensions = str(width) + 'x' + str(height)
-
-if args.stream:
-    proc = subprocess.Popen([
-        'ffmpeg', '-y', '-f', 'rawvideo',
-        '-s', dimensions, '-pix_fmt', 'bgr24', '-i','pipe:0','-vcodec',
-        'libx264','-pix_fmt','uyvy422','-r','28','-an', '-f','flv',
-        args.url], stdin=subprocess.PIPE)
 
 while(True):
     # Capture frame-by-frame
@@ -71,8 +62,9 @@ while(True):
 
     if not args.preview:
         out.write(frame);
+
     if args.stream:
-        proc.stdin.write(frame.tostring())
+        print frame.tostring()
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
