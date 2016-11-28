@@ -2,7 +2,6 @@ import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
-import path from 'path';
 import {
    RECORD,
    STOP,
@@ -25,7 +24,6 @@ import {
   getStitcherCmd,
   getFFmpegCmd,
   getConversionCmd,
-  getHomeDirectory,
   getTargetPath,
   getConvertedTargetPath,
 } from './utils/proc';
