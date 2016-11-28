@@ -1,8 +1,7 @@
 import React from 'react';
-import Uploader from '../containers/Uploader';
 
 const DashboardPage = () => (
-  <Uploader />
+  <div />
 );
 
 export default DashboardPage;
