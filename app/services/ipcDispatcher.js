@@ -63,7 +63,7 @@ export const handlePreviewChange = (store) => () => {
 let currBroadcastState = false;
 export const handleBroadcastChange = (store) => () => {
   const prevState = currBroadcastState;
-  const storeState = store.getStore();
+  const storeState = store.getState();
   currBroadcastState = isBroadcasting(storeState);
 
   if (prevState !== currBroadcastState) {

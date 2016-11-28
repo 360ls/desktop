@@ -100,7 +100,6 @@ const killProc = (childProc) => {
     switch (process.platform) {
       case 'darwin':
       case 'linux':
-        console.log(childProc.pid);
         childProc.kill();
         break;
       case 'win32':

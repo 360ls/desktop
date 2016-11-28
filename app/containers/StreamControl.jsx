@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { isBroadcasting } from '../reducers/live';
 import * as actions from '../actions/live';
-import RecordButton from '../components/RecordButton';
+import StreamButton from '../components/StreamButton';
 
 const mapStateToProps = state => ({
   isBroadcasting: isBroadcasting(state),
@@ -10,6 +10,6 @@ const mapStateToProps = state => ({
 const StreamControl = connect(
   mapStateToProps,
   actions
-)(RecordButton);
+)(StreamButton);
 
 export default StreamControl;
