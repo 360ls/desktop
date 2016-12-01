@@ -1,0 +1,11 @@
+export const RECORD = 'RECORD';
+export const STOP = 'STOP';
+export const REQUEST_FILE = 'REQUEST_FILE';
+export const RECEIVE_FILE = 'RECEIVE_FILE';
+export const STOPPED_PROC = 'STOPPED_PROC';
+export const UPLOADED = 'UPLOADED';
+export const START_PREVIEW = 'START_PREVIEW';
+export const STOP_PREVIEW = 'STOP_PREVIEW';
+export const STOPPED_PREVIEW = 'STOPPED_PREVIEW';
+export const START_STREAM = 'START_STREAM';
+export const STOP_STREAM = 'STOP_STREAM';

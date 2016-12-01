@@ -12,7 +12,7 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
- } from './services/ipcDispatcher';
+ } from './services/signals';
 import {
   spawnProc,
   killProc,
