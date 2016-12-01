@@ -13,7 +13,7 @@ export const spawnProc = (cmd, args) => {
       proc = spawn('python', args);
       break;
     default:
-      console.error('unsupported platform');
+      console.error('unsupported platform'); // eslint-disable-line no-console
   }
   return proc;
 };
@@ -29,7 +29,7 @@ export const killProc = (childProc) => {
         spawn('taskkill', ['/pid', childProc.pid, '/f', '/t']);
         break;
       default:
-        console.error(process.platform);
+        console.error(process.platform); // eslint-disable-line no-console
     }
   }
 };

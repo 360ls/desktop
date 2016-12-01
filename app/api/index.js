@@ -1,4 +1,3 @@
-import { v4 } from 'node-uuid';
 import DropBox from 'dropbox';
 import database from './firebase';
 
@@ -16,7 +15,7 @@ const flatten = (object) => {
   });
 
   return arr;
-}
+};
 
 export const fetchVideos = (filter) =>
   database.ref(endpoint).once('value').then((snapshot) => {
@@ -26,28 +25,15 @@ export const fetchVideos = (filter) =>
     throw new Error(err);
   });
 
-const videoRef = (id) => Promise.resolve(database.ref(endpoint + id));
-
-export const toggleVideo = (id) =>
-  videoRef(id).then((ref) => ref).then((ref) => { return ref.transaction((video) => {
-      if (video) {
-        video.flagged = !video.flagged;
-      }
-      return video;
-    });
-  }).then(video => video);
-
-export const addVideo = (video) => {
-  const key = endpoint + video.id;
-  const entry = {};
-  entry[key] = video;
-
-  database.ref.update(entry).then(() => {
-    return video;
-  }, (err) => {
-    throw new Error(err);
+const getToggledVideo = (video) => {
+  const toggledVideo = Object.assign({}, video, {
+    flagged: !video.flagged,
   });
+  return toggledVideo;
 };
+
+export const toggleVideo = (video) =>
+  addVideoEntry(getToggledVideo(video));
 
 const filterVideos = (videos, filter) => {
   switch (filter) {

@@ -96,7 +96,6 @@ export const setupIPCHandler = (store) => {
 
   ipcRenderer.on(STOPPED_PROC, (event, arg) => {
     const videoPath = arg.outPath;
-    const videoId = arg.id;
     store.dispatch(requestVideo(videoPath));
   });
 };
