@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { PREFERENCE_SAVED } from '../actions/preference';
 
-const baseDir = '.360ls/';
+const baseDir = '.360ls/stitcher/';
 const recordDir = '.360ls/recordings/';
 const url = 'rtmp://54.227.214.22:1935/live/myStream';
 

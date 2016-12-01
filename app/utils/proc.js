@@ -1,6 +1,15 @@
 import { spawn } from 'child_process';
 import path from 'path';
 
+const getStitcherProg = () => {
+  const prog = 'app.stitcher.stitch';
+  return prog;
+};
+
+export const changeToDir = (targetDir) => {
+  process.chdir(path.join(getHomeDirectory(), targetDir));
+};
+
 export const spawnProc = (cmd, args) => {
   let proc = null;
   switch (process.platform) {
@@ -8,14 +17,15 @@ export const spawnProc = (cmd, args) => {
     case 'linux':
       proc = spawn(cmd, args);
       break;
-    case 'win32':
-      args.unshift(cmd);
-      proc = spawn('python', args);
-      break;
     default:
       console.error('unsupported platform'); // eslint-disable-line no-console
   }
   return proc;
+};
+
+export const spawnPythonProc = (args) => {
+  const pythonProg = 'python';
+  return spawnProc(pythonProg, args);
 };
 
 export const killProc = (childProc) => {
@@ -24,9 +34,6 @@ export const killProc = (childProc) => {
       case 'darwin':
       case 'linux':
         childProc.kill();
-        break;
-      case 'win32':
-        spawn('taskkill', ['/pid', childProc.pid, '/f', '/t']);
         break;
       default:
         console.error(process.platform); // eslint-disable-line no-console
@@ -54,19 +61,22 @@ export const getHomeDirectory = () =>
   process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 
 export const getStitcherArgsForPreview = (previewIndex) => {
-  const stitcherArgs = ['-m', 'app.stitcher.stitch', '-p', '-i', previewIndex];
+  const stitcher = getStitcherProg();
+  const stitcherArgs = ['-m', stitcher, '-p', '-i', previewIndex];
   return stitcherArgs;
 };
 
 export const getStitcherArgsForStream = (streamIndex) => {
-  const stitcherArgs = ['-m', 'app.stitcher.stitch', '-s', '-i', streamIndex, '--width', 640, '--height', 480];
+  const stitcher = getStitcherProg();
+  const stitcherArgs = ['-m', stitcher, '-s', '-i', streamIndex, '--width', 640, '--height', 480];
   return stitcherArgs;
 };
 
 export const getStitcherArgsForRecording = (width, height, index, videoPath) => {
+  const stitcher = getStitcherProg();
   const stitcherArgs = [
     '-m',
-    'app.stitcher.stitch',
+    stitcher,
     '-f', videoPath,
     '-i', index,
     '--width', width,
@@ -89,7 +99,8 @@ export const getFFmpegCmd = () => {
 };
 
 export const getConversionCmd = (sourcePath, convertedPath) => {
-  const cmd = `ffmpeg -i ${sourcePath} ${convertedPath}`;
+  const ffmpegCmd = getFFmpegCmd();
+  const cmd = `${ffmpegCmd} -i ${sourcePath} ${convertedPath}`;
   return cmd;
 };
 

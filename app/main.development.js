@@ -21,11 +21,11 @@ import {
   getStitcherArgsForPreview,
   getStitcherArgsForStream,
   getStitcherArgsForRecording,
-  getStitcherCmd,
   getFFmpegCmd,
   getConversionCmd,
   getTargetPath,
   getConvertedTargetPath,
+  changeToDir,
 } from './utils/proc';
 import {
   getRecordingLocation,
@@ -37,8 +37,6 @@ import {
 } from './utils/arg';
 
 let mainWindow = null;
-
-const stitcherDir = '/home/ubuntu/.360ls/360ls-stitcher';
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -129,7 +127,7 @@ ipcMain.on(RECORD, (event, arg) => {
   const width = 640;
   const height = 480;
 
-  process.chdir(stitcherDir);
+  changeToDir(stitcherLocation);
   streamProc = spawnProc(
     'python',
     getStitcherArgsForRecording(width, height, index, outPath));
@@ -170,7 +168,7 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
   const stitcherLocation = getStitcherLocation(arg);
   const index = getIndex(arg);
 
-  process.chdir(stitcherDir);
+  changeToDir(stitcherLocation);
 
   previewProc = spawnProc(
     'python', getStitcherArgsForPreview(index));
@@ -185,7 +183,7 @@ ipcMain.on(START_STREAM, (event, arg) => {
   const index = getIndex(arg);
   const streamUrl = getStreamUrl(arg);
 
-  process.chdir(stitcherDir);
+  changeToDir(stitcherLocation);
 
   stitcherProc = spawnProc(
     'python', getStitcherArgsForStream(index));
