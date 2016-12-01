@@ -25,15 +25,19 @@ const closeIcon = <Close color={red500} />;
 
 const sortVideos = (videos) => {
   return videos.concat().sort((a, b) => {
-    return new Date(a.date).getTime() - new Date(b.date).getTime()  ;
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
   });
 };
+
+const getSortedVideos = (videos) =>
+  sortVideos(videos);
 
 const VideoTable = ({ videos, onClick, router, path }) => (
   <Table
     onRowSelection={rows => {
-      onClick(sortVideos(videos)[rows[0]].uri, videos[rows[0]].id);
-      router.push(`${path}/${videos[rows[0]].id}`);
+      const index = rows[0];
+      onClick(getSortedVideos(videos)[index].uri, getSortedVideos(videos)[index].id);
+      router.push(`${path}/${videos[index].id}`);
     }}
   >
     <TableHeader>
@@ -46,7 +50,7 @@ const VideoTable = ({ videos, onClick, router, path }) => (
       </TableRow>
     </TableHeader>
     <TableBody>
-      {sortVideos(videos).map(video =>
+      {getSortedVideos(videos).map(video =>
         <TableRow
           key={video.id}
         >
