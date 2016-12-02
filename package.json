@@ -2,7 +2,7 @@
   "name": "360ls-Desktop-Application",
   "productName": "360ls",
   "version": "1.0.1",
-  "description": "The desktop electron application for displaying a local video live-stream and a local version of the DVR web application.",
+  "description": "The desktop application for displaying a local video live-stream and a local version of the DVR web application.",
   "keywords": [
     "live-stream",
     "python",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/360ls/desktop.git"
+    "url": "https://github.com/360ls/desktop.git"
   },
   "jest": {
     "testPathDirs": [
