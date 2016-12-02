@@ -7,8 +7,7 @@ const getStitcherProg = () => {
 };
 
 export const changeToDir = (targetDir) => {
-  const defaultHomeDir = '/home/ubuntu/';
-  process.chdir(path.join(getHomeDirectory() || defaultHomeDir, targetDir));
+  process.chdir(path.join(getHomeDirectory(), targetDir));
 };
 
 export const spawnProc = (cmd, args) => {
@@ -58,8 +57,11 @@ export const getStreamArgs = (streamUrl) => {
   return ffmpegArgs;
 };
 
-export const getHomeDirectory = () =>
-  process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
+export const getHomeDirectory = () => {
+  const homeDir = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
+  const defaultHomeDir = '/home/ubuntu/';
+  return (homeDir || defaultHomeDir);
+};
 
 export const getStitcherArgsForPreview = (previewIndex) => {
   const stitcher = getStitcherProg();
