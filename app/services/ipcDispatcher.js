@@ -18,7 +18,7 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
- } from '../services/signals';
+} from './signals';
 
 let currState = false;
 export const handleChange = (store) => () => {
