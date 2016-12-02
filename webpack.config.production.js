@@ -2,7 +2,6 @@
  * Build config for electron 'Renderer Process' file
  */
 
-import path from 'path';
 import webpack from 'webpack';
 import validate from 'webpack-validator';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
@@ -19,7 +18,6 @@ const config = validate(merge(baseConfig, {
   ],
 
   output: {
-    path: path.join(__dirname, 'app/dist'),
     publicPath: '../dist/'
   },
 

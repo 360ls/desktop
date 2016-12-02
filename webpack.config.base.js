@@ -2,7 +2,6 @@
  * Base webpack config used across other specific configs
  */
 
-import webpack from 'webpack';
 import path from 'path';
 import validate from 'webpack-validator';
 
