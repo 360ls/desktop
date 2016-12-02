@@ -70,9 +70,8 @@ export const setVisibilityFilter = filter => ({
 export const switchVideoTo = (uri, id) =>
   switchVideo(uri, id);
 
-export const toggleVideo = (id) => (dispatch) =>
-  api.toggleVideo(id).then(response => {
-    console.log(response);
+export const toggleVideo = (video) => (dispatch) =>
+  api.toggleVideo(video).then(response => {
     dispatch({
       type: TOGGLE_VIDEO_SUCCESS,
       response: normalize(response, schema.video),

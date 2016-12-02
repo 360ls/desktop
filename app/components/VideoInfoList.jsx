@@ -20,7 +20,7 @@ const VideoInfoList = ({ video, toggleVideo }) => (
     />
     <ListItem
       primaryText="Flagged"
-      rightToggle={<Toggle toggled={video.flagged} onToggle={() => toggleVideo(video.id)} />}
+      rightToggle={<Toggle toggled={video.flagged} onToggle={() => toggleVideo(video)} />}
     />
   </List>
 );

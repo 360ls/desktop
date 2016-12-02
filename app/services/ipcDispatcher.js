@@ -8,18 +8,17 @@ import {
   getPreviewIndex,
   getStreamUrl,
 } from '../reducers/preference';
-
-export const RECORD = 'RECORD';
-export const STOP = 'STOP';
-export const REQUEST_FILE = 'REQUEST_FILE';
-export const RECEIVE_FILE = 'RECEIVE_FILE';
-export const STOPPED_PROC = 'STOPPED_PROC';
-export const UPLOADED = 'UPLOADED';
-export const START_PREVIEW = 'START_PREVIEW';
-export const STOP_PREVIEW = 'STOP_PREVIEW';
-export const STOPPED_PREVIEW = 'STOPPED_PREVIEW';
-export const START_STREAM = 'START_STREAM';
-export const STOP_STREAM = 'STOP_STREAM';
+import {
+   RECORD,
+   STOP,
+   REQUEST_FILE,
+   RECEIVE_FILE,
+   STOPPED_PROC,
+   START_PREVIEW,
+   STOP_PREVIEW,
+   START_STREAM,
+   STOP_STREAM,
+ } from '../services/signals';
 
 let currState = false;
 export const handleChange = (store) => () => {
@@ -97,7 +96,6 @@ export const setupIPCHandler = (store) => {
 
   ipcRenderer.on(STOPPED_PROC, (event, arg) => {
     const videoPath = arg.outPath;
-    const videoId = arg.id;
     store.dispatch(requestVideo(videoPath));
   });
 };

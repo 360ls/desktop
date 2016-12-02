@@ -62,6 +62,5 @@ $ npm test
 Run the following commands. The executables will be output to the `release` directory.
 
 ```bash
-$ npm run build
 $ npm run package
 ```

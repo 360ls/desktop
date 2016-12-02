@@ -12,7 +12,7 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
- } from './services/ipcDispatcher';
+ } from './services/signals';
 import {
   spawnProc,
   killProc,
@@ -21,11 +21,12 @@ import {
   getStitcherArgsForPreview,
   getStitcherArgsForStream,
   getStitcherArgsForRecording,
-  getStitcherCmd,
   getFFmpegCmd,
   getConversionCmd,
   getTargetPath,
   getConvertedTargetPath,
+  changeToDir,
+  spawnPythonProc,
 } from './utils/proc';
 import {
   getRecordingLocation,
@@ -127,9 +128,8 @@ ipcMain.on(RECORD, (event, arg) => {
   const width = 640;
   const height = 480;
 
-  streamProc = spawnProc(
-    getStitcherCmd(stitcherLocation),
-    getStitcherArgsForRecording(width, height, index, outPath));
+  changeToDir(stitcherLocation);
+  streamProc = spawnPythonProc(getStitcherArgsForRecording(width, height, index, outPath));
   ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
 
   connect(streamProc, ffmpegProc);
@@ -167,8 +167,9 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
   const stitcherLocation = getStitcherLocation(arg);
   const index = getIndex(arg);
 
-  previewProc = spawnProc(
-    getStitcherCmd(stitcherLocation), getStitcherArgsForPreview(index));
+  changeToDir(stitcherLocation);
+
+  previewProc = spawnPythonProc(getStitcherArgsForPreview(index));
 });
 
 ipcMain.on(STOP_PREVIEW, () => {
@@ -180,8 +181,9 @@ ipcMain.on(START_STREAM, (event, arg) => {
   const index = getIndex(arg);
   const streamUrl = getStreamUrl(arg);
 
-  stitcherProc = spawnProc(
-    getStitcherCmd(stitcherLocation), getStitcherArgsForStream(index));
+  changeToDir(stitcherLocation);
+
+  stitcherProc = spawnPythonProc(getStitcherArgsForStream(index));
   ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
 
   connect(stitcherProc, ffmpegProc);

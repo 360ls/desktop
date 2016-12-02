@@ -31,16 +31,16 @@ const createVideo = (id, url) => {
   const minutes = today.getMinutes();
 
   if (dd < 10) {
-      dd = '0' + dd;
+    dd = `0${dd}`;
   }
 
   if (mm < 10) {
-      mm = '0' + mm;
+    mm = `0${mm}`;
   }
 
-  const date = mm + '/' + dd + '/' + yyyy;
-  const timestamp = hour + ':' + minutes;
-  const name = 'Recording-' + timestamp;
+  const date = `${mm}/$${dd}/${yyyy}`;
+  const timestamp = `${hour}:${minutes}`;
+  const name = `Recording-${timestamp}`;
 
   const video = {
     id,
