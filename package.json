@@ -42,6 +42,7 @@
   },
   "build": {
     "appId": "org.360ls.360ls",
+    "asar": false,
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [
