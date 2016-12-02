@@ -1,8 +1,15 @@
 import { spawn } from 'child_process';
 import path from 'path';
 
+const debug = 1;
+
 const getStitcherProg = () => {
-  const prog = 'app.stitcher.stitch';
+  let prog;
+  if (debug) {
+    prog = 'stitcher.py';
+  } else {
+    prog = 'app.stitcher.stitch';
+  }
   return prog;
 };
 
@@ -65,35 +72,71 @@ export const getHomeDirectory = () => {
 
 export const getStitcherArgsForPreview = (previewIndex) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = ['-m', stitcher, '-p', '-i', previewIndex];
+  let stitcherArgs;
+
+  if (debug) {
+    stitcherArgs = [stitcher, '-p', '-i', previewIndex];
+  } else {
+    stitcherArgs = ['-m', stitcher, '-p', '-i', previewIndex];
+  }
+
   return stitcherArgs;
 };
 
 export const getStitcherArgsForStream = (streamIndex, streamUrl) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = [
-    '-m', stitcher,
-    '-s',
-    '--url', streamUrl,
-    '-i', streamIndex,
-    '--width', 640,
-    '--height', 480
-  ];
+  let stitcherArgs;
+
+  if (debug) {
+    stitcherArgs = [
+      stitcher,
+      '-s',
+      '--url', streamUrl,
+      '-i', streamIndex,
+      '--width', 640,
+      '--height', 480
+    ];
+  } else {
+    stitcherArgs = [
+      '-m', stitcher,
+      '-s',
+      '--url', streamUrl,
+      '-i', streamIndex,
+      '--width', 640,
+      '--height', 480
+    ];
+  }
+
   return stitcherArgs;
 };
 
 export const getStitcherArgsForRecording = (width, height, index, videoPath, streamUrl) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = [
-    '-m',
-    stitcher,
-    '-f', videoPath,
-    '-i', index,
-    '--width', width,
-    '--height', height,
-    '-s',
-    '--url', streamUrl
-  ];
+  let stitcherArgs;
+
+  if (debug) {
+    stitcherArgs = [
+      stitcher,
+      '-f', videoPath,
+      '-i', index,
+      '--width', width,
+      '--height', height,
+      '-s',
+      '--url', streamUrl
+    ];
+  } else {
+    stitcherArgs = [
+      '-m',
+      stitcher,
+      '-f', videoPath,
+      '-i', index,
+      '--width', width,
+      '--height', height,
+      '-s',
+      '--url', streamUrl
+    ];
+  }
+
   return stitcherArgs;
 };
 
