@@ -69,13 +69,20 @@ export const getStitcherArgsForPreview = (previewIndex) => {
   return stitcherArgs;
 };
 
-export const getStitcherArgsForStream = (streamIndex) => {
+export const getStitcherArgsForStream = (streamIndex, streamUrl) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = ['-m', stitcher, '-s', '-i', streamIndex, '--width', 640, '--height', 480];
+  const stitcherArgs = [
+    '-m', stitcher,
+    '-s',
+    '--url', streamUrl,
+    '-i', streamIndex,
+    '--width', 640,
+    '--height', 480
+  ];
   return stitcherArgs;
 };
 
-export const getStitcherArgsForRecording = (width, height, index, videoPath) => {
+export const getStitcherArgsForRecording = (width, height, index, videoPath, streamUrl) => {
   const stitcher = getStitcherProg();
   const stitcherArgs = [
     '-m',
@@ -85,6 +92,7 @@ export const getStitcherArgsForRecording = (width, height, index, videoPath) => 
     '--width', width,
     '--height', height,
     '-s',
+    '--url', streamUrl
   ];
   return stitcherArgs;
 };

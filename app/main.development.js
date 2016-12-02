@@ -14,14 +14,10 @@ import {
    STOP_STREAM,
  } from './services/signals';
 import {
-  spawnProc,
   killProc,
-  connect,
-  getStreamArgs,
   getStitcherArgsForPreview,
   getStitcherArgsForStream,
   getStitcherArgsForRecording,
-  getFFmpegCmd,
   getConversionCmd,
   getTargetPath,
   getConvertedTargetPath,
@@ -111,7 +107,6 @@ app.on('ready', async () => {
 let streamProc = null;
 let previewProc = null;
 let stitcherProc = null;
-let ffmpegProc = null;
 let id;
 let outPath;
 let convertedPath;
@@ -129,15 +124,12 @@ ipcMain.on(RECORD, (event, arg) => {
   const height = 480;
 
   changeToDir(stitcherLocation);
-  streamProc = spawnPythonProc(getStitcherArgsForRecording(width, height, index, outPath));
-  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
-
-  connect(streamProc, ffmpegProc);
+  streamProc = spawnPythonProc(
+    getStitcherArgsForRecording(width, height, index, outPath, streamUrl));
 });
 
 ipcMain.on(STOP, (event) => {
   killProc(streamProc);
-  killProc(ffmpegProc);
   setTimeout(() => {
     const child = exec(getConversionCmd(outPath, convertedPath));
     child.stdout.pipe(process.stdout);
@@ -183,13 +175,9 @@ ipcMain.on(START_STREAM, (event, arg) => {
 
   changeToDir(stitcherLocation);
 
-  stitcherProc = spawnPythonProc(getStitcherArgsForStream(index));
-  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
-
-  connect(stitcherProc, ffmpegProc);
+  stitcherProc = spawnPythonProc(getStitcherArgsForStream(index, streamUrl));
 });
 
 ipcMain.on(STOP_STREAM, () => {
   killProc(stitcherProc);
-  killProc(ffmpegProc);
 });
