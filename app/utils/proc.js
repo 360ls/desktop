@@ -7,7 +7,8 @@ const getStitcherProg = () => {
 };
 
 export const changeToDir = (targetDir) => {
-  process.chdir(path.join(getHomeDirectory(), targetDir));
+  const defaultHomeDir = '/home/ubuntu/';
+  process.chdir(path.join(getHomeDirectory() || defaultHomeDir, targetDir));
 };
 
 export const spawnProc = (cmd, args) => {
