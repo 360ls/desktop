@@ -50,6 +50,5 @@ before_script:
   - sleep 3
 
 script:
-  - npm run test
-  - npm run build
-  - npm run package-linux
+  - npm test
+  - npm run release
