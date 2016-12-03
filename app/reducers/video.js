@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import {
-   UPLOAD_VIDEO_REQUEST,
-   UPLOAD_VIDEO_SUCCESS,
-   UPLOAD_VIDEO_FAILURE,
+  UPLOAD_VIDEO_REQUEST,
+  UPLOAD_VIDEO_SUCCESS,
+  UPLOAD_VIDEO_FAILURE,
+} from '../actions/video';
+import {
   REQUEST_FILE,
   RECEIVE_FILE
-  } from '../actions/video';
+} from '../services/signals';
 
 const liveState = {
   idle: 0,
