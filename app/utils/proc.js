@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import path from 'path';
 
-const debug = 0;
+const debug = 1;
 
 const getStitcherProg = () => {
   let prog;
