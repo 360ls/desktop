@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
 import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
@@ -12,6 +12,7 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
+   ERROR_CAUGHT,
  } from './services/signals';
 import {
   killProc,
@@ -180,4 +181,14 @@ ipcMain.on(START_STREAM, (event, arg) => {
 
 ipcMain.on(STOP_STREAM, () => {
   killProc(stitcherProc);
+});
+
+ipcMain.on(ERROR_CAUGHT, (event, arg) => {
+  dialog.showMessageBox({
+    buttons: [
+      'ok'
+    ],
+    title: 'Error',
+    message: arg.msg,
+  });
 });
