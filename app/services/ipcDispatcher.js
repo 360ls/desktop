@@ -18,6 +18,7 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
+   ERROR_CAUGHT,
 } from './signals';
 
 let currState = false;
@@ -86,6 +87,11 @@ export const requestFile = (path) => {
   });
 };
 
+export const reportError = (msg) => {
+  ipcRenderer.send(ERROR_CAUGHT, {
+    msg,
+  });
+};
 
 export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {
