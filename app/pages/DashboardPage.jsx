@@ -1,7 +1,7 @@
 import React from 'react';
 
 const DashboardPage = () => (
-  <div>
+  <div className="container">
     <h1>
         Welcome to the 360 Life Stream Desktop Application.
     </h1>

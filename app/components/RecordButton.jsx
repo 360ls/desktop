@@ -9,8 +9,8 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
       backgroundColor='#A01D27'
       onClick={() => toggleStream()}
       buttonStyle={{
-        height: '200',
-        width: '400'
+        height: 200,
+        width: 400,
       }}
     />
   );
@@ -22,8 +22,8 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
       backgroundColor='#ACBEBE'
       onClick={() => toggleStream()}
       buttonStyle={{
-        height: '200',
-        width: '400'
+        height: 200,
+        width: 400
       }}
     />
   );
