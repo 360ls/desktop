@@ -52,3 +52,6 @@ script:
   - npm run lint
   - npm test
   - npm run release
+
+notifications:
+  slack: 360ls:ACrb8PdRogRNddvQkluul3tF
