@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
 import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
@@ -12,16 +12,13 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
+   ERROR_CAUGHT,
  } from './services/signals';
 import {
-  spawnProc,
   killProc,
-  connect,
-  getStreamArgs,
   getStitcherArgsForPreview,
   getStitcherArgsForStream,
   getStitcherArgsForRecording,
-  getFFmpegCmd,
   getConversionCmd,
   getTargetPath,
   getConvertedTargetPath,
@@ -35,6 +32,8 @@ import {
   getIndex,
   getStreamUrl,
   getVideoPath,
+  getWidth,
+  getHeight,
 } from './utils/arg';
 
 let mainWindow = null;
@@ -111,7 +110,6 @@ app.on('ready', async () => {
 let streamProc = null;
 let previewProc = null;
 let stitcherProc = null;
-let ffmpegProc = null;
 let id;
 let outPath;
 let convertedPath;
@@ -125,19 +123,16 @@ ipcMain.on(RECORD, (event, arg) => {
   outPath = getTargetPath(recordLocation, id);
   convertedPath = getConvertedTargetPath(recordLocation, id);
   const index = getCameraIndex(arg);
-  const width = 640;
-  const height = 480;
+  const width = getWidth(arg);
+  const height = getHeight(arg);
 
   changeToDir(stitcherLocation);
-  streamProc = spawnPythonProc(getStitcherArgsForRecording(width, height, index, outPath));
-  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
-
-  connect(streamProc, ffmpegProc);
+  streamProc = spawnPythonProc(
+    getStitcherArgsForRecording(width, height, index, outPath, streamUrl));
 });
 
 ipcMain.on(STOP, (event) => {
   killProc(streamProc);
-  killProc(ffmpegProc);
   setTimeout(() => {
     const child = exec(getConversionCmd(outPath, convertedPath));
     child.stdout.pipe(process.stdout);
@@ -166,10 +161,12 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
 ipcMain.on(START_PREVIEW, (event, arg) => {
   const stitcherLocation = getStitcherLocation(arg);
   const index = getIndex(arg);
+  const width = getWidth(arg);
+  const height = getHeight(arg);
 
   changeToDir(stitcherLocation);
 
-  previewProc = spawnPythonProc(getStitcherArgsForPreview(index));
+  previewProc = spawnPythonProc(getStitcherArgsForPreview(index, width, height));
 });
 
 ipcMain.on(STOP_PREVIEW, () => {
@@ -180,16 +177,25 @@ ipcMain.on(START_STREAM, (event, arg) => {
   const stitcherLocation = getStitcherLocation(arg);
   const index = getIndex(arg);
   const streamUrl = getStreamUrl(arg);
+  const width = getWidth(arg);
+  const height = getHeight(arg);
 
   changeToDir(stitcherLocation);
 
-  stitcherProc = spawnPythonProc(getStitcherArgsForStream(index));
-  ffmpegProc = spawnProc(getFFmpegCmd(), getStreamArgs(streamUrl));
-
-  connect(stitcherProc, ffmpegProc);
+  stitcherProc = spawnPythonProc(
+    getStitcherArgsForStream(index, streamUrl, width, height));
 });
 
 ipcMain.on(STOP_STREAM, () => {
   killProc(stitcherProc);
-  killProc(ffmpegProc);
+});
+
+ipcMain.on(ERROR_CAUGHT, (event, arg) => {
+  dialog.showMessageBox({
+    buttons: [
+      'ok'
+    ],
+    title: 'Error',
+    message: arg.msg,
+  });
 });

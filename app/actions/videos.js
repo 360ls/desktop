@@ -25,6 +25,8 @@ export const addVideo = (video) => (dispatch) => {
         type: ADD_VIDEO_SUCCESS,
         response: normalize(response, schema.video),
       });
+
+      return response;
     });
 };
 
@@ -45,6 +47,8 @@ export const fetchVideos = (filter) => (dispatch, getState) => {
         filter,
         response: normalize(response, schema.arrayOfVideos),
       });
+
+      return response;
     },
     error => {
       dispatch({
@@ -76,4 +80,6 @@ export const toggleVideo = (video) => (dispatch) =>
       type: TOGGLE_VIDEO_SUCCESS,
       response: normalize(response, schema.video),
     });
+
+    return response;
   });

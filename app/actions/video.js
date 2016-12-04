@@ -3,7 +3,8 @@ import * as api from '../api';
 import {
    REQUEST_FILE,
    RECEIVE_FILE,
-   requestFile } from '../services/ipcDispatcher';
+} from '../services/signals';
+import { requestFile, reportError } from '../services/ipcDispatcher';
 import { ADD_VIDEO_REQUEST, ADD_VIDEO_SUCCESS } from './videos';
 
 export const UPLOAD_VIDEO_REQUEST = 'UPLOAD_VIDEO_REQUEST';
@@ -38,7 +39,7 @@ const createVideo = (id, url) => {
     mm = `0${mm}`;
   }
 
-  const date = `${mm}/$${dd}/${yyyy}`;
+  const date = `${mm}/${dd}/${yyyy}`;
   const timestamp = `${hour}:${minutes}`;
   const name = `Recording-${timestamp}`;
 
@@ -81,5 +82,10 @@ export const uploadVideo = (dispatch, fileName, data) => {
       dispatch({
         type: ADD_VIDEO_SUCCESS,
       });
+
+      return response;
+    })
+    .catch((err) => {
+      reportError(err);
     });
 };

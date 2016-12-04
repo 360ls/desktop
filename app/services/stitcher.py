@@ -54,6 +54,13 @@ codec = cv2.cv.CV_FOURCC('m', 'p', '4', 'v')
 out = cv2.VideoWriter(dest, codec, 20.0, (width, height));
 dimensions = str(width) + 'x' + str(height)
 
+if args.stream:
+    proc = subprocess.Popen([
+        'ffmpeg', '-y', '-f', 'rawvideo',
+        '-s', dimensions, '-pix_fmt', 'bgr24', '-i','pipe:0','-vcodec',
+        'libx264','-pix_fmt','uyvy422','-r','28','-an', '-f','flv',
+        args.url], stdin=subprocess.PIPE)
+
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
@@ -64,7 +71,7 @@ while(True):
         out.write(frame);
 
     if args.stream:
-        print frame.tostring()
+        proc.stdin.write(frame.toString())
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
