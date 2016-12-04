@@ -32,6 +32,8 @@ import {
   getIndex,
   getStreamUrl,
   getVideoPath,
+  getWidth,
+  getHeight,
 } from './utils/arg';
 
 let mainWindow = null;
@@ -121,8 +123,8 @@ ipcMain.on(RECORD, (event, arg) => {
   outPath = getTargetPath(recordLocation, id);
   convertedPath = getConvertedTargetPath(recordLocation, id);
   const index = getCameraIndex(arg);
-  const width = 640;
-  const height = 480;
+  const width = getWidth(arg);
+  const height = getHeight(arg);
 
   changeToDir(stitcherLocation);
   streamProc = spawnPythonProc(
@@ -159,10 +161,12 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
 ipcMain.on(START_PREVIEW, (event, arg) => {
   const stitcherLocation = getStitcherLocation(arg);
   const index = getIndex(arg);
+  const width = getWidth(arg);
+  const height = getHeight(arg);
 
   changeToDir(stitcherLocation);
 
-  previewProc = spawnPythonProc(getStitcherArgsForPreview(index));
+  previewProc = spawnPythonProc(getStitcherArgsForPreview(index, width, height));
 });
 
 ipcMain.on(STOP_PREVIEW, () => {
@@ -173,10 +177,13 @@ ipcMain.on(START_STREAM, (event, arg) => {
   const stitcherLocation = getStitcherLocation(arg);
   const index = getIndex(arg);
   const streamUrl = getStreamUrl(arg);
+  const width = getWidth(arg);
+  const height = getHeight(arg);
 
   changeToDir(stitcherLocation);
 
-  stitcherProc = spawnPythonProc(getStitcherArgsForStream(index, streamUrl));
+  stitcherProc = spawnPythonProc(
+    getStitcherArgsForStream(index, streamUrl, width, height));
 });
 
 ipcMain.on(STOP_STREAM, () => {

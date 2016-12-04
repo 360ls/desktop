@@ -7,6 +7,8 @@ import {
   getCameraIndex,
   getPreviewIndex,
   getStreamUrl,
+  getWidth,
+  getHeight,
 } from '../reducers/preference';
 import {
    RECORD,
@@ -34,6 +36,8 @@ export const handleChange = (store) => () => {
         stitcherLocation: getStitcherLocation(storeState),
         cameraIndex: getCameraIndex(storeState),
         url: getStreamUrl(storeState),
+        width: getWidth(storeState),
+        height: getHeight(storeState),
       };
       ipcRenderer.send(RECORD, arg);
     } else {
@@ -53,6 +57,8 @@ export const handlePreviewChange = (store) => () => {
       const arg = {
         index: getPreviewIndex(storeState),
         stitcherLocation: getStitcherLocation(storeState),
+        width: getWidth(storeState),
+        height: getHeight(storeState),
       };
       ipcRenderer.send(START_PREVIEW, arg);
     } else {
@@ -73,6 +79,8 @@ export const handleBroadcastChange = (store) => () => {
         index: getPreviewIndex(storeState),
         stitcherLocation: getStitcherLocation(storeState),
         url: getStreamUrl(storeState),
+        width: getWidth(storeState),
+        height: getHeight(storeState),
       };
       ipcRenderer.send(START_STREAM, arg);
     } else {

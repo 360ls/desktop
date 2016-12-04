@@ -15,3 +15,9 @@ export const getStreamUrl = (arg) =>
 
 export const getVideoPath = (arg) =>
   arg.path;
+
+export const getWidth = (arg) =>
+  arg.width;
+
+export const getHeight = (arg) =>
+  arg.height;

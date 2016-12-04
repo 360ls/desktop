@@ -70,20 +70,31 @@ export const getHomeDirectory = () => {
   return (homeDir || defaultHomeDir);
 };
 
-export const getStitcherArgsForPreview = (previewIndex) => {
+export const getStitcherArgsForPreview = (previewIndex, width, height) => {
   const stitcher = getStitcherProg();
   let stitcherArgs;
 
   if (debug) {
-    stitcherArgs = [stitcher, '-p', '-i', previewIndex];
+    stitcherArgs = [
+      stitcher, '-p',
+      '-i', previewIndex,
+      '--width', width,
+      '--height', height,
+    ];
   } else {
-    stitcherArgs = ['-m', stitcher, '-p', '-i', previewIndex];
+    stitcherArgs = [
+      '-m',
+      stitcher, '-p',
+      '-i', previewIndex,
+      '--width', width,
+      '--height', height,
+    ];
   }
 
   return stitcherArgs;
 };
 
-export const getStitcherArgsForStream = (streamIndex, streamUrl) => {
+export const getStitcherArgsForStream = (streamIndex, streamUrl, width, height) => {
   const stitcher = getStitcherProg();
   let stitcherArgs;
 
@@ -93,8 +104,8 @@ export const getStitcherArgsForStream = (streamIndex, streamUrl) => {
       '-s',
       '--url', streamUrl,
       '-i', streamIndex,
-      '--width', 640,
-      '--height', 480
+      '--width', width,
+      '--height', height
     ];
   } else {
     stitcherArgs = [
@@ -102,8 +113,8 @@ export const getStitcherArgsForStream = (streamIndex, streamUrl) => {
       '-s',
       '--url', streamUrl,
       '-i', streamIndex,
-      '--width', 640,
-      '--height', 480
+      '--width', width,
+      '--height', height
     ];
   }
 
