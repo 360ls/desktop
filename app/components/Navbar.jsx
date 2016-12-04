@@ -32,6 +32,9 @@ const Navbar = ({ open, onToggle, onChange, onClose }) => (
       title="360 Life Stream"
       iconClassNameRight="muidocs-icon-navigation-expand-more"
       onLeftIconButtonTouchTap={onToggle}
+      style={{
+        backgroundColor: '#192333'
+      }}
     />
     <Drawer
       docked={false}
