@@ -14,6 +14,8 @@ class PreferenceForm extends React.Component {
       stitcherLoc: props.stitcherLoc,
       recordingLoc: props.recordingLoc,
       streamUrl: props.streamUrl,
+      width: props.width,
+      height: props.height,
     };
   }
 
@@ -50,6 +52,18 @@ class PreferenceForm extends React.Component {
   handleUrlChange = (e) => {
     this.setState({
       streamUrl: e.target.value,
+    });
+  };
+
+  handleWidthChange = (e) => {
+    this.setState({
+      width: e.target.value,
+    });
+  };
+
+  handleHeightChange = (e) => {
+    this.setState({
+      height: e.target.value,
     });
   };
 
@@ -98,6 +112,18 @@ class PreferenceForm extends React.Component {
           onChange={this.handleUrlChange}
         />
         <br />
+        <TextField
+          defaultValue={this.state.width}
+          floatingLabelText="Recording Width (px)"
+          onChange={this.handleWidthChange}
+        />
+        <br />
+        <TextField
+          defaultValue={this.state.height}
+          floatingLabelText="Recording Height (px)"
+          onChange={this.handleHeightChange}
+        />
+        <br />
         <RaisedButton
           label="Apply"
           primary
@@ -108,7 +134,9 @@ class PreferenceForm extends React.Component {
               this.state.previewIndex,
               this.state.stitcherLoc,
               this.state.recordingLoc,
-              this.state.streamUrl
+              this.state.streamUrl,
+              this.state.height,
+              this.state.width,
             );
           }}
         />
@@ -127,4 +155,6 @@ PreferenceForm.propTypes = {
   recordingLoc: PropTypes.string.isRequired,
   savePreference: PropTypes.func.isRequired,
   streamUrl: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
 };
