@@ -5,18 +5,26 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
   const startButton = (
     <RaisedButton
       label="Preview"
-      primary
-      fullWidth
+      labelColor='#192333'
+      backgroundColor='#ACBEBE'
       onClick={() => togglePreview()}
+      buttonStyle={{
+        height: '200',
+        width: '400'
+      }}
     />
   );
 
   const stopButton = (
     <RaisedButton
       label="Stop"
-      secondary
-      fullWidth
+      labelColor='#192333'
+      backgroundColor='#ACBEBE'
       onClick={() => togglePreview()}
+      buttonStyle={{
+        height: '200',
+        width: '400'
+      }}
     />
   );
 

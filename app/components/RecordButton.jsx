@@ -5,18 +5,26 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
   const startButton = (
     <RaisedButton
       label="Record"
-      primary
-      fullWidth
+      labelColor='#F4F4EF'
+      backgroundColor='#A01D27'
       onClick={() => toggleStream()}
+      buttonStyle={{
+        height: '200',
+        width: '400'
+      }}
     />
   );
 
   const stopButton = (
     <RaisedButton
       label="Stop"
-      secondary
-      fullWidth
+      labelColor='#192333'
+      backgroundColor='#ACBEBE'
       onClick={() => toggleStream()}
+      buttonStyle={{
+        height: '200',
+        width: '400'
+      }}
     />
   );
 

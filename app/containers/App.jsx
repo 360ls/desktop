@@ -1,5 +1,5 @@
 import React from 'react';
-import { lightBlueA200 } from 'material-ui/styles/colors';
+import { white } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -9,11 +9,13 @@ injectTapEventPlugin();
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: lightBlueA200,
+    primary1Color: '#192333',
+    canvasColor: white
   },
   appBar: {
     height: 50,
   },
+
 });
 
 const App = ({ children }) => (
