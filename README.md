@@ -2,18 +2,25 @@
 
 [![Build Status](https://travis-ci.org/360ls/desktop.svg?branch=master)](https://travis-ci.org/360ls/desktop)
 
-This is the desktop interface for the `360ls` application,
+This is the desktop interface for the [360ls](https://360ls.github.io/360ls/) application,
 which stitches videos from 4 cameras into a single 360
-video and streams them over RTMP. The `360ls` application is built
-using [Electron](http://electron.atom.io/apps/) with
-[React](https://facebook.github.io/react/) and [Redux](http://redux.js.org/).
+video and streams them over RTMP.
 
 ## Pre-requisites
 
-We use the [Node](https://nodejs.org/en/) runtime and [npm](https://www.npmjs.com/)
-to run Electron. You can find the latest release for Node [here](https://nodejs.org/en/download/).
+The application is targeted for the [Jetson TX1](http://www.nvidia.com/object/jetson-tx1-module.html) hardware. Before you can run the application, you'll need to provision the Jetson with pre-requisite applications and binaries. Check our [provisioning repository](https://github.com/360ls/provision) for more details.
 
-For package management, we use the [Yarn](https://yarnpkg.com/) package manger.
+## Installation
+
+Download the latest armv7l zipped binary from our [releases page](https://github.com/360ls/desktop/releases).
+Extract the zip and open the `360ls` executable.
+
+## Development
+
+### Environment Setup
+
+Install [Node](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/).
+
 ```bash
 $ npm install -g yarn
 ```
@@ -24,24 +31,16 @@ Install the dependencies:
 $ yarn install
 ```
 
-## Running
+### Running a Development Build
 
 ```bash
 $ npm run dev
 ```
 
 This will start up the build server that bundles the application
-with [webpack](https://webpack.github.io/) and open up the
-electron application.
+with [webpack](https://webpack.github.io/) and start the electron application with debugging enabled.
 
-
-## Linting
-
-[ESlint](http://eslint.org/) is used to lint `js`/`jsx` files under the
-`app` and `test` directories using the `React` style guide from
-[Airbnb](https://github.com/airbnb/javascript/blob/master/react/README.md).
-
-To lint run the following command:
+### Linting
 
 ```bash
 $ npm lint
@@ -57,9 +56,7 @@ directory.
 $ npm test
 ```
 
-# Building Executables
-
-Run the following commands. The executables will be output to the `release` directory.
+## Building Executables
 
 ```bash
 $ npm run package
