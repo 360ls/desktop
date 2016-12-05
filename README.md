@@ -2,9 +2,8 @@
 
 [![Build Status](https://travis-ci.org/360ls/desktop.svg?branch=master)](https://travis-ci.org/360ls/desktop)
 
-This is the desktop interface for the [360ls](https://360ls.github.io/360ls/) application,
-which stitches videos from 4 cameras into a single 360
-video and streams them over RTMP.
+This is the desktop interface for the [360ls](https://360ls.github.io/360ls/) application, which
+creates a single 360 panoramic stitch from a 4 camera array and streams it over RTMP. 
 
 ## Pre-requisites
 
@@ -61,3 +60,5 @@ $ npm test
 ```bash
 $ npm run package
 ```
+
+You can find the executables under the `release` directory.
