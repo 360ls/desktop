@@ -15,14 +15,8 @@ import {
    ERROR_CAUGHT,
  } from './services/signals';
 import {
-  killProc,
-  getStitcherArgsForPreview,
-  getStitcherArgsForStream,
-  getStitcherArgsForRecording,
-  getConversionCmd,
-  getTargetPath,
-  getConvertedTargetPath,
   changeToDir,
+  killProc,
   spawnPythonProc,
 } from './utils/proc';
 import {
@@ -35,6 +29,14 @@ import {
   getWidth,
   getHeight,
 } from './utils/arg';
+import {
+  getStitcherArgsForPreview,
+  getStitcherArgsForStream,
+  getStitcherArgsForRecording,
+  getConversionCmd,
+  getTargetPath,
+  getConvertedTargetPath,
+} from './utils/cmd';
 
 let mainWindow = null;
 
@@ -128,7 +130,8 @@ ipcMain.on(RECORD, (event, arg) => {
 
   changeToDir(stitcherLocation);
   streamProc = spawnPythonProc(
-    getStitcherArgsForRecording(width, height, index, outPath, streamUrl));
+    getStitcherArgsForRecording(stitcherLocation,
+      width, height, index, outPath, streamUrl));
 });
 
 ipcMain.on(STOP, (event) => {
@@ -166,7 +169,8 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
 
   changeToDir(stitcherLocation);
 
-  previewProc = spawnPythonProc(getStitcherArgsForPreview(index, width, height));
+  previewProc = spawnPythonProc(
+    getStitcherArgsForPreview(stitcherLocation, index, width, height));
 });
 
 ipcMain.on(STOP_PREVIEW, () => {
@@ -183,7 +187,7 @@ ipcMain.on(START_STREAM, (event, arg) => {
   changeToDir(stitcherLocation);
 
   stitcherProc = spawnPythonProc(
-    getStitcherArgsForStream(index, streamUrl, width, height));
+    getStitcherArgsForStream(stitcherLocation, index, streamUrl, width, height));
 });
 
 ipcMain.on(STOP_STREAM, () => {
