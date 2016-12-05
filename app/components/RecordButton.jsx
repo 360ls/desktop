@@ -19,7 +19,7 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
     <RaisedButton
       label="Stop"
       labelColor='#192333'
-      backgroundColor='#ACBEBE'
+      backgroundColor='#D3D3D3'
       onClick={() => toggleStream()}
       buttonStyle={{
         height: 200,

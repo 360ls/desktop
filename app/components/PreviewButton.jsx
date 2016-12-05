@@ -6,11 +6,14 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
     <RaisedButton
       label="Preview"
       labelColor='#192333'
-      secondary
+      backgroundColor='#ACBEBE'
       onClick={() => togglePreview()}
+      labelStyle={{
+        height: 200
+      }}
       buttonStyle={{
         height: 200,
-        width: 400
+        width: 400,
       }}
     />
   );
@@ -19,7 +22,7 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
     <RaisedButton
       label="Stop"
       labelColor='#192333'
-      backgroundColor='#ACBEBE'
+      backgroundColor='#D3D3D3'
       onClick={() => togglePreview()}
       buttonStyle={{
         height: 200,

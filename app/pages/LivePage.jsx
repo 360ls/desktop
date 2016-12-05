@@ -8,9 +8,9 @@ const LivePage = () => (
   <div>
     <RecordControl />
     <br />
-    <PreviewControl />
-    <br />
     <StreamControl />
+    <br />
+    <PreviewControl />
     <Notification />
   </div>
 );
