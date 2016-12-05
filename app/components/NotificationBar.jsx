@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Snackbar from 'material-ui/Snackbar';
 
-const duration = 5000;
+const duration = 15000;
 
 const NotificationBar = ({
   isUploading,
