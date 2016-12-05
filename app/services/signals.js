@@ -9,3 +9,4 @@ export const STOP_PREVIEW = 'STOP_PREVIEW';
 export const STOPPED_PREVIEW = 'STOPPED_PREVIEW';
 export const START_STREAM = 'START_STREAM';
 export const STOP_STREAM = 'STOP_STREAM';
+export const ERROR_CAUGHT = 'ERROR_CAUGHT';

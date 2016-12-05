@@ -7,6 +7,8 @@ import {
   getSndCameraIndex,
   getPreviewIndex,
   getStreamUrl,
+  getWidth,
+  getHeight,
 } from '../reducers/preference';
 import * as actions from '../actions/preference';
 
@@ -17,6 +19,8 @@ const mapStateToProps = state => ({
   sndCameraIndex: getSndCameraIndex(state),
   previewIndex: getPreviewIndex(state),
   streamUrl: getStreamUrl(state),
+  width: getWidth(state),
+  height: getHeight(state),
 });
 
 const Preferences = connect(

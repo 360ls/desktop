@@ -4,6 +4,8 @@ import { PREFERENCE_SAVED } from '../actions/preference';
 const baseDir = '.360ls/stitcher/';
 const recordDir = '.360ls/recordings/';
 const url = 'rtmp://54.227.214.22:1935/live/myStream';
+const defaultWidth = 1280;
+const defaultHeight = 720;
 
 const preference = () => {
   const recordLocation = (state = recordDir, action) => {
@@ -60,6 +62,24 @@ const preference = () => {
     }
   };
 
+  const width = (state = defaultWidth, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.width;
+      default:
+        return state;
+    }
+  };
+
+  const height = (state = defaultHeight, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.height;
+      default:
+        return state;
+    }
+  };
+
   return combineReducers({
     recordLocation,
     stitcherLocation,
@@ -67,6 +87,8 @@ const preference = () => {
     sndCameraIndex,
     previewIndex,
     streamUrl,
+    width,
+    height,
   });
 };
 
@@ -89,3 +111,9 @@ export const getPreviewIndex = (state) =>
 
 export const getStreamUrl = (state) =>
   state.preference.streamUrl;
+
+export const getWidth = (state) =>
+  state.preference.width;
+
+export const getHeight = (state) =>
+  state.preference.height;

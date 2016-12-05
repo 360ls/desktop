@@ -3,7 +3,6 @@ sudo: false
 language: node_js
 
 node_js:
-  - 7
   - 6
 
 cache:
@@ -50,5 +49,9 @@ before_script:
   - sleep 3
 
 script:
+  - npm run lint
   - npm test
   - npm run release
+
+notifications:
+  slack: 360ls:ACrb8PdRogRNddvQkluul3tF

@@ -7,6 +7,8 @@ import {
   getCameraIndex,
   getPreviewIndex,
   getStreamUrl,
+  getWidth,
+  getHeight,
 } from '../reducers/preference';
 import {
    RECORD,
@@ -18,7 +20,8 @@ import {
    STOP_PREVIEW,
    START_STREAM,
    STOP_STREAM,
- } from '../services/signals';
+   ERROR_CAUGHT,
+} from './signals';
 
 let currState = false;
 export const handleChange = (store) => () => {
@@ -33,6 +36,8 @@ export const handleChange = (store) => () => {
         stitcherLocation: getStitcherLocation(storeState),
         cameraIndex: getCameraIndex(storeState),
         url: getStreamUrl(storeState),
+        width: getWidth(storeState),
+        height: getHeight(storeState),
       };
       ipcRenderer.send(RECORD, arg);
     } else {
@@ -52,6 +57,8 @@ export const handlePreviewChange = (store) => () => {
       const arg = {
         index: getPreviewIndex(storeState),
         stitcherLocation: getStitcherLocation(storeState),
+        width: getWidth(storeState),
+        height: getHeight(storeState),
       };
       ipcRenderer.send(START_PREVIEW, arg);
     } else {
@@ -72,6 +79,8 @@ export const handleBroadcastChange = (store) => () => {
         index: getPreviewIndex(storeState),
         stitcherLocation: getStitcherLocation(storeState),
         url: getStreamUrl(storeState),
+        width: getWidth(storeState),
+        height: getHeight(storeState),
       };
       ipcRenderer.send(START_STREAM, arg);
     } else {
@@ -86,6 +95,11 @@ export const requestFile = (path) => {
   });
 };
 
+export const reportError = (msg) => {
+  ipcRenderer.send(ERROR_CAUGHT, {
+    msg,
+  });
+};
 
 export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {

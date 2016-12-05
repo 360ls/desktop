@@ -1,14 +1,20 @@
 import { spawn } from 'child_process';
 import path from 'path';
 
+const debug = 1;
+
 const getStitcherProg = () => {
-  const prog = 'app.stitcher.stitch';
+  let prog;
+  if (debug) {
+    prog = 'stitcher.py';
+  } else {
+    prog = 'app.stitcher.stitch';
+  }
   return prog;
 };
 
 export const changeToDir = (targetDir) => {
-  const defaultHomeDir = '/home/ubuntu/';
-  process.chdir(path.join(getHomeDirectory() || defaultHomeDir, targetDir));
+  process.chdir(path.join(getHomeDirectory(), targetDir));
 };
 
 export const spawnProc = (cmd, args) => {
@@ -58,32 +64,90 @@ export const getStreamArgs = (streamUrl) => {
   return ffmpegArgs;
 };
 
-export const getHomeDirectory = () =>
-  process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
+export const getHomeDirectory = () => {
+  const homeDir = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
+  const defaultHomeDir = '/home/ubuntu/';
+  return (homeDir || defaultHomeDir);
+};
 
-export const getStitcherArgsForPreview = (previewIndex) => {
+export const getStitcherArgsForPreview = (previewIndex, width, height) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = ['-m', stitcher, '-p', '-i', previewIndex];
+  let stitcherArgs;
+
+  if (debug) {
+    stitcherArgs = [
+      stitcher, '-p',
+      '-i', previewIndex,
+      '--width', width,
+      '--height', height,
+    ];
+  } else {
+    stitcherArgs = [
+      '-m',
+      stitcher, '-p',
+      '-i', previewIndex,
+      '--width', width,
+      '--height', height,
+    ];
+  }
+
   return stitcherArgs;
 };
 
-export const getStitcherArgsForStream = (streamIndex) => {
+export const getStitcherArgsForStream = (streamIndex, streamUrl, width, height) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = ['-m', stitcher, '-s', '-i', streamIndex, '--width', 640, '--height', 480];
+  let stitcherArgs;
+
+  if (debug) {
+    stitcherArgs = [
+      stitcher,
+      '-s',
+      '--url', streamUrl,
+      '-i', streamIndex,
+      '--width', width,
+      '--height', height
+    ];
+  } else {
+    stitcherArgs = [
+      '-m', stitcher,
+      '-s',
+      '--url', streamUrl,
+      '-i', streamIndex,
+      '--width', width,
+      '--height', height
+    ];
+  }
+
   return stitcherArgs;
 };
 
-export const getStitcherArgsForRecording = (width, height, index, videoPath) => {
+export const getStitcherArgsForRecording = (width, height, index, videoPath, streamUrl) => {
   const stitcher = getStitcherProg();
-  const stitcherArgs = [
-    '-m',
-    stitcher,
-    '-f', videoPath,
-    '-i', index,
-    '--width', width,
-    '--height', height,
-    '-s',
-  ];
+  let stitcherArgs;
+
+  if (debug) {
+    stitcherArgs = [
+      stitcher,
+      '-f', videoPath,
+      '-i', index,
+      '--width', width,
+      '--height', height,
+      '-s',
+      '--url', streamUrl
+    ];
+  } else {
+    stitcherArgs = [
+      '-m',
+      stitcher,
+      '-f', videoPath,
+      '-i', index,
+      '--width', width,
+      '--height', height,
+      '-s',
+      '--url', streamUrl
+    ];
+  }
+
   return stitcherArgs;
 };
 

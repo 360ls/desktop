@@ -50,7 +50,7 @@ const filterVideos = (videos, filter) => {
 
 export const addVideoEntry = (video) =>
   database.ref(endpoint + video.id).set(video)
-    .then(response => video)
+    .then(() => video)
     .catch((err) => {
       throw new Error(`Failed to add video to database ${err}`);
     });

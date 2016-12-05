@@ -50,7 +50,7 @@
     "linux": {
       "target": [
         "deb",
-        "AppImage"
+        "zip"
       ]
     }
   },
