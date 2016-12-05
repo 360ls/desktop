@@ -1,15 +1,25 @@
 import { v4 } from 'uuid';
 import * as api from '../api';
 import {
-   REQUEST_FILE,
-   RECEIVE_FILE,
+  REQUEST_FILE,
+  RECEIVE_FILE,
+  STARTED_CONVERSION,
+  FINISHED_CONVERSION,
 } from '../services/signals';
-import { requestFile, reportError } from '../services/ipcDispatcher';
+import { requestFile, reportError } from '../services/ipc';
 import { ADD_VIDEO_REQUEST, ADD_VIDEO_SUCCESS } from './videos';
 
 export const UPLOAD_VIDEO_REQUEST = 'UPLOAD_VIDEO_REQUEST';
 export const UPLOAD_VIDEO_SUCCESS = 'UPLOAD_VIDEO_SUCCESS';
 export const UPLOAD_VIDEO_FAILURE = 'UPLOAD_VIDEO_FAILURE';
+
+export const startConversion = () => ({
+  type: STARTED_CONVERSION,
+});
+
+export const finishConversion = () => ({
+  type: FINISHED_CONVERSION,
+});
 
 export const requestVideo = (videoPath) => {
   requestFile(videoPath);

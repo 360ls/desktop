@@ -1,6 +1,12 @@
 import { ipcRenderer } from 'electron';
 import { isStreaming, isPreviewing, isBroadcasting } from '../reducers/live';
-import { requestVideo, receiveVideo, uploadVideo } from '../actions/video';
+import {
+  requestVideo,
+  receiveVideo,
+  uploadVideo,
+  startConversion,
+  finishConversion,
+} from '../actions/video';
 import {
   getRecordLocation,
   getStitcherLocation,
@@ -11,16 +17,17 @@ import {
   getHeight,
 } from '../reducers/preference';
 import {
-   RECORD,
-   STOP,
-   REQUEST_FILE,
-   RECEIVE_FILE,
-   STOPPED_PROC,
-   START_PREVIEW,
-   STOP_PREVIEW,
-   START_STREAM,
-   STOP_STREAM,
-   ERROR_CAUGHT,
+  RECORD,
+  STOP,
+  REQUEST_FILE,
+  RECEIVE_FILE,
+  START_PREVIEW,
+  STOP_PREVIEW,
+  START_STREAM,
+  STOP_STREAM,
+  ERROR_CAUGHT,
+  STARTED_CONVERSION,
+  FINISHED_CONVERSION,
 } from './signals';
 
 let currState = false;
@@ -108,7 +115,12 @@ export const setupIPCHandler = (store) => {
     uploadVideo(store.dispatch, fileName, arg.data);
   });
 
-  ipcRenderer.on(STOPPED_PROC, (event, arg) => {
+  ipcRenderer.on(STARTED_CONVERSION, () => {
+    store.dispatch(startConversion());
+  });
+
+  ipcRenderer.on(FINISHED_CONVERSION, (event, arg) => {
+    store.dispatch(finishConversion());
     const videoPath = arg.outPath;
     store.dispatch(requestVideo(videoPath));
   });

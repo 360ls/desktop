@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import NotificationBar from '../components/NotificationBar';
 import {
+  isConverting,
+  isConverted,
   isUploading,
   isUploaded,
-  isReading,
-  isRead,
   isIdle,
 } from '../reducers/video';
 
 const mapStateToProps = state => ({
   isUploading: isUploading(state),
   isUploaded: isUploaded(state),
-  isReading: isReading(state),
-  isRead: isRead(state),
   isIdle: isIdle(state),
+  isConverting: isConverting(state),
+  isConverted: isConverted(state),
 });
 
 const Notification = connect(

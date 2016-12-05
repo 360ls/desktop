@@ -3,26 +3,21 @@ import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
 import {
-   RECORD,
-   STOP,
-   REQUEST_FILE,
-   RECEIVE_FILE,
-   STOPPED_PROC,
-   START_PREVIEW,
-   STOP_PREVIEW,
-   START_STREAM,
-   STOP_STREAM,
-   ERROR_CAUGHT,
+  RECORD,
+  STOP,
+  REQUEST_FILE,
+  RECEIVE_FILE,
+  START_PREVIEW,
+  STOP_PREVIEW,
+  START_STREAM,
+  STOP_STREAM,
+  ERROR_CAUGHT,
+  STARTED_CONVERSION,
+  FINISHED_CONVERSION,
  } from './services/signals';
 import {
-  killProc,
-  getStitcherArgsForPreview,
-  getStitcherArgsForStream,
-  getStitcherArgsForRecording,
-  getConversionCmd,
-  getTargetPath,
-  getConvertedTargetPath,
   changeToDir,
+  killProc,
   spawnPythonProc,
 } from './utils/proc';
 import {
@@ -35,6 +30,14 @@ import {
   getWidth,
   getHeight,
 } from './utils/arg';
+import {
+  getStitcherArgsForPreview,
+  getStitcherArgsForStream,
+  getStitcherArgsForRecording,
+  getConversionCmd,
+  getTargetPath,
+  getConvertedTargetPath,
+} from './utils/cmd';
 
 let mainWindow = null;
 
@@ -128,16 +131,20 @@ ipcMain.on(RECORD, (event, arg) => {
 
   changeToDir(stitcherLocation);
   streamProc = spawnPythonProc(
-    getStitcherArgsForRecording(width, height, index, outPath, streamUrl));
+    getStitcherArgsForRecording(stitcherLocation,
+      width, height, index, outPath, streamUrl));
 });
 
 ipcMain.on(STOP, (event) => {
   killProc(streamProc);
+  event.sender.send(STARTED_CONVERSION, {
+    id,
+  });
   setTimeout(() => {
     const child = exec(getConversionCmd(outPath, convertedPath));
     child.stdout.pipe(process.stdout);
     child.on('exit', () => {
-      event.sender.send(STOPPED_PROC, {
+      event.sender.send(FINISHED_CONVERSION, {
         id,
         outPath: convertedPath,
       });
@@ -166,7 +173,8 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
 
   changeToDir(stitcherLocation);
 
-  previewProc = spawnPythonProc(getStitcherArgsForPreview(index, width, height));
+  previewProc = spawnPythonProc(
+    getStitcherArgsForPreview(stitcherLocation, index, width, height));
 });
 
 ipcMain.on(STOP_PREVIEW, () => {
@@ -183,7 +191,7 @@ ipcMain.on(START_STREAM, (event, arg) => {
   changeToDir(stitcherLocation);
 
   stitcherProc = spawnPythonProc(
-    getStitcherArgsForStream(index, streamUrl, width, height));
+    getStitcherArgsForStream(stitcherLocation, index, streamUrl, width, height));
 });
 
 ipcMain.on(STOP_STREAM, () => {
