@@ -6,13 +6,13 @@ const duration = 5000;
 const NotificationBar = ({
   isUploading,
   isUploaded,
-  isReading,
-  isRead,
+  isConverting,
+  isConverted,
 }) => {
   const uploadNotifier = (
     <Snackbar
       open={isUploading}
-      message="Uploading recorded video"
+      message="Uploading recorded video..."
       autoHideDuration={duration}
     />
   );
@@ -20,23 +20,23 @@ const NotificationBar = ({
   const uploadDoneNotifier = (
     <Snackbar
       open={isUploaded}
-      message="Upload successful"
+      message="Upload successful!"
       autoHideDuration={duration}
     />
   );
 
   const readingNotifer = (
     <Snackbar
-      open={isReading}
-      message="Processing recorded video"
+      open={isConverting}
+      message="Processing recorded video..."
       autoHideDuration={duration}
     />
   );
 
   const readingDoneNotifier = (
     <Snackbar
-      open={isRead}
-      message="Successfuly processed recorded video"
+      open={isConverted}
+      message="Successfuly processed recorded video!"
       autoHideDuration={duration}
     />
   );
@@ -54,8 +54,8 @@ const NotificationBar = ({
 NotificationBar.propTypes = {
   isUploading: PropTypes.bool.isRequired,
   isUploaded: PropTypes.bool.isRequired,
-  isReading: PropTypes.bool.isRequired,
-  isRead: PropTypes.bool.isRequired,
+  isConverting: PropTypes.bool.isRequired,
+  isConverted: PropTypes.bool.isRequired,
 };
 
 export default NotificationBar;
