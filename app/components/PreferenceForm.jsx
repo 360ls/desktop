@@ -135,8 +135,8 @@ class PreferenceForm extends React.Component {
               this.state.stitcherLoc,
               this.state.recordingLoc,
               this.state.streamUrl,
-              this.state.height,
               this.state.width,
+              this.state.height,
             );
           }}
         />
