@@ -3,16 +3,17 @@ import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
 import {
-   RECORD,
-   STOP,
-   REQUEST_FILE,
-   RECEIVE_FILE,
-   STOPPED_PROC,
-   START_PREVIEW,
-   STOP_PREVIEW,
-   START_STREAM,
-   STOP_STREAM,
-   ERROR_CAUGHT,
+  RECORD,
+  STOP,
+  REQUEST_FILE,
+  RECEIVE_FILE,
+  START_PREVIEW,
+  STOP_PREVIEW,
+  START_STREAM,
+  STOP_STREAM,
+  ERROR_CAUGHT,
+  STARTED_CONVERSION,
+  FINISHED_CONVERSION,
  } from './services/signals';
 import {
   changeToDir,
@@ -136,11 +137,14 @@ ipcMain.on(RECORD, (event, arg) => {
 
 ipcMain.on(STOP, (event) => {
   killProc(streamProc);
+  event.sender.send(STARTED_CONVERSION, {
+    id,
+  });
   setTimeout(() => {
     const child = exec(getConversionCmd(outPath, convertedPath));
     child.stdout.pipe(process.stdout);
     child.on('exit', () => {
-      event.sender.send(STOPPED_PROC, {
+      event.sender.send(FINISHED_CONVERSION, {
         id,
         outPath: convertedPath,
       });

@@ -6,7 +6,9 @@ import {
 } from '../actions/video';
 import {
   REQUEST_FILE,
-  RECEIVE_FILE
+  RECEIVE_FILE,
+  STARTED_CONVERSION,
+  FINISHED_CONVERSION,
 } from '../services/signals';
 
 const liveState = {
@@ -15,11 +17,17 @@ const liveState = {
   read: 2,
   uploading: 3,
   uploaded: 4,
+  converting: 5,
+  converted: 6,
 };
 
 const video = () => {
   const status = (state = liveState.idle, action) => {
     switch (action.type) {
+      case STARTED_CONVERSION:
+        return liveState.converting;
+      case FINISHED_CONVERSION:
+        return liveState.converted;
       case REQUEST_FILE:
         return liveState.reading;
       case RECEIVE_FILE:
@@ -58,3 +66,9 @@ export const isUploading = (state) =>
 
 export const isUploaded = (state) =>
   (getStatus(state) === liveState.uploaded);
+
+export const isConverting = (state) =>
+  (getStatus(state) === liveState.converting);
+
+export const isConverted = (state) =>
+  (getStatus(state) === liveState.converted);
