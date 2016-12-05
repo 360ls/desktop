@@ -1,11 +1,11 @@
 import path from 'path';
 
-const basePath = '.360ls';
+const basePath = '.360ls/';
 const stitcherScript = 'stitcher.py';
 const stitcherModule = 'app.stitcher.stitch';
 
 export const getStitcherPrefix = (stitcherPath) => {
-  if (path.dirname(stitcherPath) === basePath) {
+  if (stitcherPath === basePath) {
     return [
       stitcherScript
     ];
