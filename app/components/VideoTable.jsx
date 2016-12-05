@@ -8,8 +8,8 @@ import {
   TableRowColumn } from 'material-ui/Table';
 import Done from 'material-ui/svg-icons/action/done';
 import Close from 'material-ui/svg-icons/navigation/close';
-import Error from 'material-ui/svg-icons/alert/error';
-import { red500, green500, yellow500 } from 'material-ui/styles/colors';
+import Flag from 'material-ui/svg-icons/content/flag';
+import { red500, green500, yellow500, grey50 } from 'material-ui/styles/colors';
 
 const rowHeader = [
   'Name',
@@ -19,7 +19,9 @@ const rowHeader = [
   'Flag',
 ];
 
-const flagIcon = <Error color={yellow500} />;
+const darkRed = '#A01D27';
+
+const flagIcon = <Flag color={darkRed} />;
 const checkIcon = <Done color={green500} />;
 const closeIcon = <Close color={red500} />;
 
@@ -38,6 +40,9 @@ const VideoTable = ({ videos, onClick, router, path }) => (
       const index = rows[0];
       onClick(getSortedVideos(videos)[index].uri, getSortedVideos(videos)[index].id);
       router.push(`${path}/${videos[index].id}`);
+    }}
+    style={{
+      backgroundColor: grey50
     }}
   >
     <TableHeader>

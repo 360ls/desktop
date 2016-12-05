@@ -68,6 +68,7 @@ class PreferenceForm extends React.Component {
   };
 
   render() {
+
     return (
       <div>
         <h4>First Camera Index</h4>
@@ -126,7 +127,6 @@ class PreferenceForm extends React.Component {
         <br />
         <RaisedButton
           label="Apply"
-          primary
           onClick={() => {
             this.props.savePreference(
               this.state.cameraIndex,
@@ -138,6 +138,10 @@ class PreferenceForm extends React.Component {
               this.state.width,
               this.state.height,
             );
+          }}
+          buttonStyle={{
+            backgroundColor: '#ACBEBE',
+            labelColor: '#192333'
           }}
         />
       </div>

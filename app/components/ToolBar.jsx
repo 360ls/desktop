@@ -2,12 +2,25 @@ import React, { PropTypes } from 'react';
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
+import { grey50 } from 'material-ui/styles/colors';
+
+
+
+const lightGrey = '#ACBEBE';
+
 
 const ToolBar = ({ activeFilter, onChange }) => (
-  <Toolbar>
-    <ToolbarGroup>
+  <Toolbar
+    style={{
+      backgroundColor: lightGrey
+    }}
+  >
+    <ToolbarGroup >
       <ToolbarTitle
         text="Filter"
+        style={{
+          color: grey50
+        }}
       />
       <DropDownMenu
         value={activeFilter}
