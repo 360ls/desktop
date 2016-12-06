@@ -9,14 +9,14 @@ const lightGrey = '#ACBEBE';
 const ToolBar = ({ activeFilter, onChange }) => (
   <Toolbar
     style={{
-      backgroundColor: lightGrey
+      backgroundColor: lightGrey,
     }}
   >
     <ToolbarGroup >
       <ToolbarTitle
         text="Filter"
         style={{
-          color: grey50
+          color: grey50,
         }}
       />
       <DropDownMenu

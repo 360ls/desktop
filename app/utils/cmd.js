@@ -7,13 +7,13 @@ const stitcherModule = 'app.stitcher.stitch';
 export const getStitcherPrefix = (stitcherPath) => {
   if (stitcherPath === basePath) {
     return [
-      stitcherScript
+      stitcherScript,
     ];
   }
 
   return [
     '-m',
-    stitcherModule
+    stitcherModule,
   ];
 };
 
@@ -46,7 +46,7 @@ export const getStitcherArgsForStream = (
     '--url', streamUrl,
     '-i', streamIndex,
     '--width', width,
-    '--height', height
+    '--height', height,
   ];
 
   return getCmd(argPrefix, argSuffix);
@@ -61,7 +61,7 @@ export const getStitcherArgsForRecording = (
     '--width', width,
     '--height', height,
     '-s',
-    '--url', streamUrl
+    '--url', streamUrl,
   ];
 
   return getCmd(argPrefix, argSuffix);

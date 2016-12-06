@@ -26,7 +26,12 @@ const VideoInfoList = ({ video, toggleVideo }) => (
 );
 
 VideoInfoList.propTypes = {
-  video: PropTypes.object.isRequired,
+  video: PropTypes.shape({
+    name: PropTypes.string,
+    location: PropTypes.location,
+    date: PropTypes.date,
+    flagged: PropTypes.bool,
+  }),
   toggleVideo: PropTypes.func.isRequired,
 };
 

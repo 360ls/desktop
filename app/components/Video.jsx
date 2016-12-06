@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 
-const convertUrl = (url) => {
-  return url.slice(0, -1) + '1';
-};
+const convertUrl = (url) =>
+  `${url.slice(0, -1)}1`;
 
 const Video = ({ uri }) => (
   <video

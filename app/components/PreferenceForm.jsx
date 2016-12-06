@@ -68,7 +68,6 @@ class PreferenceForm extends React.Component {
   };
 
   render() {
-
     return (
       <div>
         <h4>First Camera Index</h4>
@@ -141,7 +140,7 @@ class PreferenceForm extends React.Component {
           }}
           buttonStyle={{
             backgroundColor: '#ACBEBE',
-            labelColor: '#192333'
+            labelColor: '#192333',
           }}
         />
       </div>

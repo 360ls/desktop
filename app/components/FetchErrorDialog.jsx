@@ -12,13 +12,13 @@ export default class FetchErrorDialog extends React.Component {
 
   handleOpen = () => {
     this.setState({
-      open: true
+      open: true,
     });
   };
 
   handleClose = () => {
     this.setState({
-      open: false
+      open: false,
     });
   };
 
@@ -26,13 +26,13 @@ export default class FetchErrorDialog extends React.Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Retry"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onTouchTap={this.props.onRetry}
       />,
     ];

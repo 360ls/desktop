@@ -7,7 +7,7 @@ const lightGrey = '#ACBEBE';
 const VideoNavBar = ({ router, path }) => (
   <Toolbar
     style={{
-      backgroundColor: lightGrey
+      backgroundColor: lightGrey,
     }}
   >
     <ToolbarGroup>
@@ -23,7 +23,9 @@ const VideoNavBar = ({ router, path }) => (
 );
 
 VideoNavBar.propTypes = {
-  router: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   path: PropTypes.string.isRequired,
 };
 

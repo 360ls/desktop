@@ -9,7 +9,7 @@ import {
 import Done from 'material-ui/svg-icons/action/done';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Flag from 'material-ui/svg-icons/content/flag';
-import { red500, green500, yellow500, grey50 } from 'material-ui/styles/colors';
+import { red500, green500, grey50 } from 'material-ui/styles/colors';
 
 const rowHeader = [
   'Name',
@@ -25,11 +25,10 @@ const flagIcon = <Flag color={darkRed} />;
 const checkIcon = <Done color={green500} />;
 const closeIcon = <Close color={red500} />;
 
-const sortVideos = (videos) => {
-  return videos.concat().sort((a, b) => {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
-  });
-};
+const sortVideos = (videos) =>
+  videos.concat().sort((a, b) =>
+    new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
 const getSortedVideos = (videos) =>
   sortVideos(videos);
@@ -42,7 +41,7 @@ const VideoTable = ({ videos, onClick, router, path }) => (
       router.push(`${path}/${videos[index].id}`);
     }}
     style={{
-      backgroundColor: grey50
+      backgroundColor: grey50,
     }}
   >
     <TableHeader>
@@ -79,7 +78,9 @@ VideoTable.propTypes = {
     flagged: PropTypes.bool.isRequired,
   }).isRequired).isRequired,
   onClick: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   path: PropTypes.string.isRequired,
 };
 

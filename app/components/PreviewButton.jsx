@@ -5,11 +5,11 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
   const startButton = (
     <RaisedButton
       label="Preview"
-      labelColor='#192333'
-      backgroundColor='#ACBEBE'
+      labelColor="#192333"
+      backgroundColor="#ACBEBE"
       onClick={() => togglePreview()}
       labelStyle={{
-        height: 200
+        height: 200,
       }}
       buttonStyle={{
         height: 200,
@@ -21,12 +21,12 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
   const stopButton = (
     <RaisedButton
       label="Stop"
-      labelColor='#192333'
-      backgroundColor='#D3D3D3'
+      labelColor="#192333"
+      backgroundColor="#D3D3D3"
       onClick={() => togglePreview()}
       buttonStyle={{
         height: 200,
-        width: 400
+        width: 400,
       }}
     />
   );

@@ -20,6 +20,7 @@
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
+    "react/no-unused-prop-types": "off",
     "flowtype-errors/show-errors": 2,
     "indent": ["error", 2, { "SwitchCase": 1 }]
   },
