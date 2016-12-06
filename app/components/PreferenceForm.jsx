@@ -3,6 +3,8 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 class PreferenceForm extends React.Component {
   constructor(props) {
@@ -16,7 +18,10 @@ class PreferenceForm extends React.Component {
       streamUrl: props.streamUrl,
       width: props.width,
       height: props.height,
+      dialogOpen: false,
     };
+    this.handleDialogOpen.bind(this);
+    this.handleDialogClose.bind(this);
   }
 
   handleDropdownChange = (event, index, value) => {
@@ -67,7 +72,27 @@ class PreferenceForm extends React.Component {
     });
   };
 
+  handleDialogOpen = () => {
+    this.setState({
+      dialogOpen: true,
+    });
+  };
+
+  handleDialogClose = () => {
+    this.setState({
+      dialogOpen: false,
+    });
+  };
+
   render() {
+    const actions = [
+      <FlatButton
+        label="Ok"
+        primary
+        onTouchTap={this.handleDialogClose}
+      />,
+    ];
+
     return (
       <div>
         <h4>First Camera Index</h4>
@@ -137,12 +162,22 @@ class PreferenceForm extends React.Component {
               this.state.width,
               this.state.height,
             );
+            this.handleDialogOpen();
           }}
           buttonStyle={{
             backgroundColor: '#ACBEBE',
             labelColor: '#192333',
           }}
         />
+        <Dialog
+          title="Preferences"
+          actions={actions}
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.handleDialogClose}
+        >
+          Saved successfully!
+        </Dialog>
       </div>
     );
   }
