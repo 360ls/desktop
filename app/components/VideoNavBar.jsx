@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const lightGrey = '#ACBEBE';
 
-const VideoNavBar = ({ router, path }) => (
+const VideoNavBar = ({ router, location }) => (
   <Toolbar
     style={{
       backgroundColor: lightGrey,
@@ -15,7 +15,8 @@ const VideoNavBar = ({ router, path }) => (
         label="Back"
         primary
         onClick={() => {
-          console.log(path);
+          const currPath = location.pathname;
+          router.push(currPath.slice(0, currPath.lastIndexOf('/')));
         }}
       />
     </ToolbarGroup>
@@ -26,7 +27,9 @@ VideoNavBar.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
-  path: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
 export default VideoNavBar;
