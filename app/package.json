@@ -1,7 +1,7 @@
 {
   "name": "360ls",
   "productName": "360ls",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Application for streaming live 360 videos.",
   "main": "./main.js",
   "author": "Luke Fernandez <lukejohnfernandez@gmail.com>",

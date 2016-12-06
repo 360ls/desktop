@@ -6,12 +6,12 @@ const StreamButton = ({ toggleBroadcast, isBroadcasting }) => {
   const startButton = (
     <RaisedButton
       label="Stream"
-      labelColor='#F4F4EF'
+      labelColor="#F4F4EF"
       onClick={() => toggleBroadcast()}
       buttonStyle={{
         height: 200,
         width: 400,
-        backgroundColor: green600
+        backgroundColor: green600,
       }}
     />
   );
@@ -19,12 +19,12 @@ const StreamButton = ({ toggleBroadcast, isBroadcasting }) => {
   const stopButton = (
     <RaisedButton
       label="Stop"
-      labelColor='#192333'
-      backgroundColor='#D3D3D3'
+      labelColor="#192333"
+      backgroundColor="#D3D3D3"
       onClick={() => toggleBroadcast()}
       buttonStyle={{
         height: 200,
-        width: 400
+        width: 400,
       }}
     />
   );

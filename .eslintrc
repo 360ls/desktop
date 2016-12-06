@@ -9,7 +9,6 @@
   "rules": {
     "arrow-parens": ["off"],
     "consistent-return": "off",
-    "comma-dangle": "off",
     "generator-star-spacing": "off",
     "import/no-unresolved": ["error", { "ignore": ["electron"] }],
     "import/no-extraneous-dependencies": "off",
@@ -19,9 +18,11 @@
     "promise/catch-or-return": 2,
     "promise/no-native": 0,
     "react/jsx-no-bind": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
-    "flowtype-errors/show-errors": 2
+    "react/no-unused-prop-types": "off",
+    "flowtype-errors/show-errors": 2,
+    "indent": ["error", 2, { "SwitchCase": 1 }]
   },
   "parserOptions": {
     "ecmaFeatures": {
