@@ -1,7 +1,7 @@
 {
   "name": "360ls-Desktop-Application",
   "productName": "360ls",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The desktop application for displaying a local video live-stream and a local version of the DVR web application.",
   "keywords": [
     "live-stream",
