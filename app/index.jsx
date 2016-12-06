@@ -9,7 +9,7 @@ import {
   handleChange,
   handlePreviewChange,
   handleBroadcastChange,
-  setupIPCHandler
+  setupIPCHandler,
 } from './services/ipc';
 
 const store = configureStore();

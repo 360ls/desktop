@@ -1,5 +1,5 @@
 import React from 'react';
-import { white, grey50 } from 'material-ui/styles/colors';
+import { grey50 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -20,9 +20,8 @@ const muiTheme = getMuiTheme({
     height: 50,
   },
   drawer: {
-    color: grey50
-  }
-
+    color: grey50,
+  },
 });
 
 const App = ({ children }) => (

@@ -30,20 +30,20 @@ class VideoList extends Component {
       videos,
       errorMessage,
       router,
-      location
+      location,
     } = this.props;
     if (isFetching && !videos.length) {
       return (
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
           }}
         >
           <div
             style={{
               alignSelf: 'center',
-              marginTop: '100px'
+              marginTop: '100px',
             }}
           >
             <CircularProgress size={80} thickness={5} />
@@ -57,7 +57,7 @@ class VideoList extends Component {
         <FetchErrorDialog
           message={errorMessage}
           onRetry={() => this.fetchData()}
-          open={true}
+          open
         />
       );
     }
@@ -77,11 +77,20 @@ VideoList.propTypes = {
   filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
   fetchVideos: PropTypes.func.isRequired,
   switchVideoTo: PropTypes.func.isRequired,
-  videos: PropTypes.array.isRequired,
+  videos: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    location: PropTypes.location,
+    date: PropTypes.date,
+    flagged: PropTypes.bool,
+  })),
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state, { router }) => {
@@ -95,7 +104,7 @@ const mapStateToProps = (state, { router }) => {
   };
 };
 
-VideoList = withRouter(connect(
+VideoList = withRouter(connect( // eslint-disable-line no-class-assign
   mapStateToProps,
   actions
 )(VideoList));

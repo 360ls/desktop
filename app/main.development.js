@@ -64,7 +64,7 @@ const installExtensions = async () => {
 
     const extensions = [
       'REACT_DEVELOPER_TOOLS',
-      'REDUX_DEVTOOLS'
+      'REDUX_DEVTOOLS',
     ];
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     for (const name of extensions) {
@@ -81,7 +81,7 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1280,
-    height: 720
+    height: 720,
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -104,7 +104,7 @@ app.on('ready', async () => {
         label: 'Inspect element',
         click() {
           mainWindow.inspectElement(x, y);
-        }
+        },
       }]).popup(mainWindow);
     });
   }
@@ -159,7 +159,7 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
       if (err) throw err;
       event.sender.send(RECEIVE_FILE, {
         path: videoPath,
-        data
+        data,
       });
     });
   }, 1000);
@@ -201,7 +201,7 @@ ipcMain.on(STOP_STREAM, () => {
 ipcMain.on(ERROR_CAUGHT, (event, arg) => {
   dialog.showMessageBox({
     buttons: [
-      'ok'
+      'ok',
     ],
     title: 'Error',
     message: arg.msg,

@@ -64,7 +64,7 @@ export const uploadVideo = (videoId, contents) =>
 
 export const getSharedLink = (videoId) =>
   dbx.sharingCreateSharedLink({
-    path: `/${videoId}`
+    path: `/${videoId}`,
   })
   .then((response) => response)
   .catch((err) => {
