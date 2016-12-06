@@ -21,7 +21,8 @@
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": "off",
-    "flowtype-errors/show-errors": 2
+    "flowtype-errors/show-errors": 2,
+    "indent": ["error", 2]
   },
   "parserOptions": {
     "ecmaFeatures": {

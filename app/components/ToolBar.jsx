@@ -4,10 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import { grey50 } from 'material-ui/styles/colors';
 
-
-
 const lightGrey = '#ACBEBE';
-
 
 const ToolBar = ({ activeFilter, onChange }) => (
   <Toolbar
