@@ -3,8 +3,9 @@ import { grey50 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import NavigationBar from './NavigationBar';
 import { fade, lighten } from 'material-ui/utils/colorManipulator';
+
+import NavigationBar from './NavigationBar';
 
 injectTapEventPlugin();
 
