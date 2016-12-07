@@ -15,12 +15,17 @@ const muiTheme = getMuiTheme({
     primary1Color: darkBlue,
     accent1Color: lightGrey,
     canvasColor: grey50,
+    textColor: darkBlue,
+    alternateTextColor: grey50,
   },
   appBar: {
     height: 50,
   },
   drawer: {
     color: grey50,
+  },
+  tableRow: {
+    hoverColor: lightGrey,
   },
 });
 
