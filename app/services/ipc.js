@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { isStreaming, isPreviewing, isBroadcasting } from '../reducers/live';
+import { toggleBroadcast, togglePreview, toggleStream } from '../actions/live';
 import {
   requestVideo,
   receiveVideo,
@@ -30,23 +31,37 @@ import {
   FINISHED_CONVERSION,
 } from './signals';
 
+const sendErrorMessage = (msg) => {
+  ipcRenderer.send(ERROR_CAUGHT, {
+    msg,
+  });
+};
+
 let currState = false;
 export const handleChange = (store) => () => {
   const prevState = currState;
-  currState = isStreaming(store.getState());
+  const storeState = store.getState();
+  currState = isStreaming(storeState);
 
   if (prevState !== currState) {
     if (currState) {
-      const storeState = store.getState();
-      const arg = {
-        recordLocation: getRecordLocation(storeState),
-        stitcherLocation: getStitcherLocation(storeState),
-        cameraIndex: getCameraIndex(storeState),
-        url: getStreamUrl(storeState),
-        width: getWidth(storeState),
-        height: getHeight(storeState),
-      };
-      ipcRenderer.send(RECORD, arg);
+      if (isPreviewing(storeState)) {
+        sendErrorMessage('Please stop the preview before recording.');
+        store.dispatch(toggleStream());
+      } else if (isBroadcasting(storeState)) {
+        sendErrorMessage('Please stop the stream before recording.');
+        store.dispatch(toggleStream());
+      } else {
+        const arg = {
+          recordLocation: getRecordLocation(storeState),
+          stitcherLocation: getStitcherLocation(storeState),
+          cameraIndex: getCameraIndex(storeState),
+          url: getStreamUrl(storeState),
+          width: getWidth(storeState),
+          height: getHeight(storeState),
+        };
+        ipcRenderer.send(RECORD, arg);
+      }
     } else {
       ipcRenderer.send(STOP);
     }
@@ -61,13 +76,21 @@ export const handlePreviewChange = (store) => () => {
 
   if (prevState !== currPreviewState) {
     if (currPreviewState) {
-      const arg = {
-        index: getPreviewIndex(storeState),
-        stitcherLocation: getStitcherLocation(storeState),
-        width: getWidth(storeState),
-        height: getHeight(storeState),
-      };
-      ipcRenderer.send(START_PREVIEW, arg);
+      if (isStreaming(storeState)) {
+        sendErrorMessage('Please stop the recording before previewing.');
+        store.dispatch(togglePreview());
+      } else if (isBroadcasting(storeState)) {
+        sendErrorMessage('Please stop the stream before previewing.');
+        store.dispatch(togglePreview());
+      } else {
+        const arg = {
+          index: getPreviewIndex(storeState),
+          stitcherLocation: getStitcherLocation(storeState),
+          width: getWidth(storeState),
+          height: getHeight(storeState),
+        };
+        ipcRenderer.send(START_PREVIEW, arg);
+      }
     } else {
       ipcRenderer.send(STOP_PREVIEW);
     }
@@ -82,14 +105,22 @@ export const handleBroadcastChange = (store) => () => {
 
   if (prevState !== currBroadcastState) {
     if (currBroadcastState) {
-      const arg = {
-        index: getPreviewIndex(storeState),
-        stitcherLocation: getStitcherLocation(storeState),
-        url: getStreamUrl(storeState),
-        width: getWidth(storeState),
-        height: getHeight(storeState),
-      };
-      ipcRenderer.send(START_STREAM, arg);
+      if (isPreviewing(storeState)) {
+        sendErrorMessage('Please stop the preview before streaming.');
+        store.dispatch(toggleBroadcast());
+      } else if (isStreaming(storeState)) {
+        sendErrorMessage('Please stop the recording before streaming.');
+        store.dispatch(toggleBroadcast());
+      } else {
+        const arg = {
+          index: getPreviewIndex(storeState),
+          stitcherLocation: getStitcherLocation(storeState),
+          url: getStreamUrl(storeState),
+          width: getWidth(storeState),
+          height: getHeight(storeState),
+        };
+        ipcRenderer.send(START_STREAM, arg);
+      }
     } else {
       ipcRenderer.send(STOP_STREAM);
     }
