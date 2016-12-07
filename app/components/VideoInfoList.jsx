@@ -3,8 +3,15 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
 
+import { grey50 } from 'material-ui/styles/colors';
+
+
 const VideoInfoList = ({ video, toggleVideo }) => (
-  <List>
+  <List
+    style={{
+      backgroundColor: grey50,
+    }}
+  >
     <Subheader>General</Subheader>
     <ListItem
       primaryText="Title"

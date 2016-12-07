@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import NavigationBar from './NavigationBar';
+import { fade, lighten } from 'material-ui/utils/colorManipulator';
 
 injectTapEventPlugin();
 
@@ -26,6 +27,7 @@ const muiTheme = getMuiTheme({
   },
   tableRow: {
     hoverColor: lightGrey,
+    stripeColor: fade(lighten(lightGrey, 0.5), 0.5),
   },
 });
 
