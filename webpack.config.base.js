@@ -33,7 +33,8 @@ export default validate({
   },
 
   plugins: [
-    new webpack.DefinePlugin({ 'global.GENTLY': false })
+    new webpack.DefinePlugin({ 'global.GENTLY': false }),
+    new webpack.IgnorePlugin(/vertx/),
   ],
 
   externals: [
