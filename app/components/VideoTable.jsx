@@ -44,7 +44,10 @@ const VideoTable = ({ videos, onClick, router, path }) => (
       backgroundColor: grey50,
     }}
   >
-    <TableHeader>
+    <TableHeader
+      displaySelectAll={false}
+      adjustForCheckbox={false}
+    >
       <TableRow>
         {rowHeader.map(title =>
           <TableHeaderColumn key={title}>
@@ -53,7 +56,11 @@ const VideoTable = ({ videos, onClick, router, path }) => (
         )}
       </TableRow>
     </TableHeader>
-    <TableBody>
+    <TableBody
+      stripedRows
+      showRowHover
+      displayRowCheckbox={false}
+    >
       {getSortedVideos(videos).map(video =>
         <TableRow
           key={video.id}

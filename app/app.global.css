@@ -1,3 +1,16 @@
 body {
   margin: 0;
+  background-color: #192333;
+}
+
+#dashboard {
+    margin-top: 30px;
+}
+
+#preferences {
+    color: #FAFAFA;
+}
+
+#live-page {
+    margin-top: 30px;
 }

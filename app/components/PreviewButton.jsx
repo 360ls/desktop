@@ -8,12 +8,12 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
       labelColor="#192333"
       backgroundColor="#ACBEBE"
       onClick={() => togglePreview()}
+      fullWidth
       labelStyle={{
         height: 200,
       }}
       buttonStyle={{
         height: 200,
-        width: 400,
       }}
     />
   );
@@ -24,9 +24,9 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
       labelColor="#192333"
       backgroundColor="#D3D3D3"
       onClick={() => togglePreview()}
+      fullWidth
       buttonStyle={{
         height: 200,
-        width: 400,
       }}
     />
   );

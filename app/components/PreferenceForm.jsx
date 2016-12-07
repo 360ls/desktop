@@ -94,7 +94,7 @@ class PreferenceForm extends React.Component {
     ];
 
     return (
-      <div>
+      <div id="preferences">
         <h4>First Camera Index</h4>
         <DropDownMenu value={this.state.cameraIndex} onChange={this.handleDropdownChange}>
           <MenuItem value={0} primaryText="0" />

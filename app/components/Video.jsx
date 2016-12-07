@@ -6,6 +6,7 @@ const convertUrl = (url) =>
 const Video = ({ uri }) => (
   <video
     controls
+    autoPlay
     src={convertUrl(uri)}
     width={'100%'}
     type={'video/mp4'}

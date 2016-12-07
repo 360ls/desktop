@@ -8,9 +8,9 @@ const StreamButton = ({ toggleBroadcast, isBroadcasting }) => {
       label="Stream"
       labelColor="#F4F4EF"
       onClick={() => toggleBroadcast()}
+      fullWidth
       buttonStyle={{
         height: 200,
-        width: 400,
         backgroundColor: green600,
       }}
     />
@@ -22,9 +22,9 @@ const StreamButton = ({ toggleBroadcast, isBroadcasting }) => {
       labelColor="#192333"
       backgroundColor="#D3D3D3"
       onClick={() => toggleBroadcast()}
+      fullWidth
       buttonStyle={{
         height: 200,
-        width: 400,
       }}
     />
   );
