@@ -12,7 +12,6 @@ const VideoInfoList = ({ video, toggleVideo }) => (
       backgroundColor: grey50,
     }}
   >
-    <Subheader>General</Subheader>
     <ListItem
       primaryText="Title"
       secondaryText={video.name}
