@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
 
 import { grey50 } from 'material-ui/styles/colors';
