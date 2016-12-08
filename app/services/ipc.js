@@ -16,6 +16,7 @@ import {
   getStreamUrl,
   getWidth,
   getHeight,
+  getLocation,
 } from '../reducers/preference';
 import {
   RECORD,
@@ -142,8 +143,11 @@ export const reportError = (msg) => {
 export const setupIPCHandler = (store) => {
   ipcRenderer.on(RECEIVE_FILE, (event, arg) => {
     store.dispatch(receiveVideo(arg.path));
+
     const fileName = arg.path.substring(arg.path.lastIndexOf('/') + 1);
-    uploadVideo(store.dispatch, fileName, arg.data);
+    const recordingLocation = getLocation(store.getState());
+
+    uploadVideo(store.dispatch, fileName, arg.data, recordingLocation);
   });
 
   ipcRenderer.on(STARTED_CONVERSION, () => {
