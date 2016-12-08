@@ -5,7 +5,7 @@ const DashboardPage = () => (
     <div className="jumbotron">
       <div className="row">
         <div className="col-md-4">
-          <img src="../resources/icons/256x256.png" alt="logo" />
+          <img src="./img/logo.jpg" width="240" alt="logo" />
         </div>
         <div className="col-md-8">
           <h1>
