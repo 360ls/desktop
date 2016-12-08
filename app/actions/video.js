@@ -39,7 +39,7 @@ const createVideo = (id, url) => {
   let mm = today.getMonth() + 1;
   const yyyy = today.getFullYear();
   const hour = today.getHours();
-  const minutes = today.getMinutes();
+  let minutes = today.getMinutes();
 
   if (dd < 10) {
     dd = `0${dd}`;
@@ -47,6 +47,10 @@ const createVideo = (id, url) => {
 
   if (mm < 10) {
     mm = `0${mm}`;
+  }
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
   }
 
   const date = `${mm}/${dd}/${yyyy}`;
