@@ -18,7 +18,7 @@ const rowHeader = [
   'Date',
 ];
 
-const AllTable = ({ videos }) => (
+const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
   <div>
     <Toolbar
       style={{
@@ -29,12 +29,20 @@ const AllTable = ({ videos }) => (
         <RaisedButton
           label="Delete"
           primary
+          onClick={() => {
+            onDelete(selectedIds);
+          }}
         />
       </ToolbarGroup>
     </Toolbar>
     <Table
       style={{
         backgroundColor: grey50,
+      }}
+      multiSelectable
+      onRowSelection={rows => {
+        const ids = rows.map((row) => videos[row].id);
+        onSelect(ids);
       }}
     >
       <TableHeader
@@ -57,6 +65,7 @@ const AllTable = ({ videos }) => (
         {videos.map(video =>
           <TableRow
             key={video.id}
+            selected={this.state.ids.includes(video.id)}
           >
             <TableRowColumn>{video.name}</TableRowColumn>
             <TableRowColumn>{video.location}</TableRowColumn>
@@ -74,6 +83,9 @@ AllTable.propTypes = {
     location: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired).isRequired,
+  onDelete: PropTypes.func.isRequired,
+  selectedIds: PropTypes.number.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default AllTable;

@@ -24,6 +24,7 @@ class AllVideoList extends Component {
       isFetching,
       videos,
       errorMessage,
+      removeVideos,
     } = this.props;
     if (isFetching && !videos.length) {
       return (
@@ -58,6 +59,7 @@ class AllVideoList extends Component {
     return (
       <AllTable
         videos={videos}
+        onDelete={removeVideos}
       />
     );
   }
@@ -73,6 +75,7 @@ AllVideoList.propTypes = {
   })),
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
+  removeVideos: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
