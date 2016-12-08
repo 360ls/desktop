@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { isStreaming, isPreviewing, isBroadcasting } from '../reducers/live';
+import { isConverting, isReading, isRead, isUploading } from '../reducers/video';
 import { toggleBroadcast, togglePreview, toggleStream } from '../actions/live';
 import {
   requestVideo,
@@ -53,6 +54,14 @@ export const handleChange = (store) => () => {
         store.dispatch(toggleStream());
       } else if (isBroadcasting(storeState)) {
         sendErrorMessage('Please stop the stream before recording.');
+        earlyExit = true;
+        store.dispatch(toggleStream());
+      } else if (isConverting(storeState)) {
+        sendErrorMessage('Please wait until video processing is done.');
+        earlyExit = true;
+        store.dispatch(toggleStream());
+      } else if (isReading(storeState) || isRead(storeState) || isUploading(storeState)) {
+        sendErrorMessage('Please wait until video uploading is done.');
         earlyExit = true;
         store.dispatch(toggleStream());
       } else {
