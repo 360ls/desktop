@@ -219,5 +219,5 @@ ipcMain.on(STOP_STREAM, () => {
 });
 
 ipcMain.on(ERROR_CAUGHT, (event, arg) => {
-  showErrDialog(arg.msg);
+  showErrDialog('Error', arg.msg);
 });

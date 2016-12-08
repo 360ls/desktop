@@ -39,6 +39,7 @@ const sendErrorMessage = (msg) => {
 };
 
 let currState = false;
+let earlyExit = false;
 export const handleChange = (store) => () => {
   const prevState = currState;
   const storeState = store.getState();
@@ -48,9 +49,11 @@ export const handleChange = (store) => () => {
     if (currState) {
       if (isPreviewing(storeState)) {
         sendErrorMessage('Please stop the preview before recording.');
+        earlyExit = true;
         store.dispatch(toggleStream());
       } else if (isBroadcasting(storeState)) {
         sendErrorMessage('Please stop the stream before recording.');
+        earlyExit = true;
         store.dispatch(toggleStream());
       } else {
         const arg = {
@@ -62,8 +65,9 @@ export const handleChange = (store) => () => {
           height: getHeight(storeState),
         };
         ipcRenderer.send(RECORD, arg);
+        earlyExit = false;
       }
-    } else {
+    } else if (!earlyExit) {
       ipcRenderer.send(STOP);
     }
   }
