@@ -19,6 +19,7 @@ class PreferenceForm extends React.Component {
       width: props.width,
       height: props.height,
       dialogOpen: false,
+      location: props.location,
     };
     this.handleDialogOpen.bind(this);
     this.handleDialogClose.bind(this);
@@ -81,6 +82,12 @@ class PreferenceForm extends React.Component {
   handleDialogClose = () => {
     this.setState({
       dialogOpen: false,
+    });
+  };
+
+  handleLocationChange = (e) => {
+    this.setState({
+      location: e.target.value,
     });
   };
 
@@ -149,6 +156,12 @@ class PreferenceForm extends React.Component {
           onChange={this.handleHeightChange}
         />
         <br />
+        <TextField
+          defaultValue={this.state.location}
+          floatingLabelText="Recording Location"
+          onChange={this.handleLocationChange}
+        />
+        <br />
         <RaisedButton
           label="Apply"
           onClick={() => {
@@ -161,6 +174,7 @@ class PreferenceForm extends React.Component {
               this.state.streamUrl,
               this.state.width,
               this.state.height,
+              this.state.location,
             );
             this.handleDialogOpen();
           }}
@@ -195,4 +209,5 @@ PreferenceForm.propTypes = {
   streamUrl: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  location: PropTypes.string.isRequired,
 };

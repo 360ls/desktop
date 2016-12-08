@@ -13,6 +13,30 @@ export const TOGGLE_VIDEO_SUCCESS = 'TOGGLE_VIDEO_SUCCESS';
 export const ADD_VIDEO_REQUEST = 'ADD_VIDEO_REQUEST';
 export const ADD_VIDEO_SUCCESS = 'ADD_VIDEO_SUCCESS';
 export const ADD_VIDEO_FAILURE = 'ADD_VIDEO_FAILURE';
+export const DELETE_VIDEO_REQUEST = 'DELETE_VIDEO_REQUEST';
+export const DELETE_VIDEO_SUCCESS = 'DELETE_VIDEO_SUCCESS';
+export const DELETE_VIDEO_FAILURE = 'DELETE_VIDEO_FAILURE';
+export const SELECT_VIDEO = 'SELECT_VIDEO';
+
+export const selectVideo = (ids) => ({
+  type: SELECT_VIDEO,
+  ids,
+});
+
+export const removeVideos = (ids) => (dispatch, getState) => {
+  dispatch({
+    type: DELETE_VIDEO_REQUEST,
+  });
+
+  return api.removeVideos(ids).then(() => {
+    dispatch({
+      type: DELETE_VIDEO_SUCCESS,
+      ids,
+    });
+
+    return fetchVideos('All')(dispatch, getState);
+  });
+};
 
 export const addVideo = (video) => (dispatch) => {
   dispatch({
@@ -51,6 +75,17 @@ export const fetchVideos = (filter) => (dispatch, getState) => {
       return response;
     },
     error => {
+      if (error.message === 'Cannot convert undefined or null to object') {
+        const response = [];
+        dispatch({
+          type: FETCH_VIDEOS_SUCCESS,
+          filter,
+          response: normalize(response, schema.arrayOfVideos),
+        });
+
+        return response;
+      }
+
       dispatch({
         type: FETCH_VIDEOS_FAILURE,
         filter,

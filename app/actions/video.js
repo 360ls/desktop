@@ -33,13 +33,13 @@ export const receiveVideo = (video) => ({
   video,
 });
 
-const createVideo = (id, url) => {
+const createVideo = (id, url, location) => {
   const today = new Date();
   let dd = today.getDate();
   let mm = today.getMonth() + 1;
   const yyyy = today.getFullYear();
   const hour = today.getHours();
-  const minutes = today.getMinutes();
+  let minutes = today.getMinutes();
 
   if (dd < 10) {
     dd = `0${dd}`;
@@ -47,6 +47,10 @@ const createVideo = (id, url) => {
 
   if (mm < 10) {
     mm = `0${mm}`;
+  }
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
   }
 
   const date = `${mm}/${dd}/${yyyy}`;
@@ -60,13 +64,13 @@ const createVideo = (id, url) => {
     name,
     uploaded: true,
     flagged: false,
-    location: 'Chapel Hill, NC',
+    location,
   };
 
   return video;
 };
 
-export const uploadVideo = (dispatch, fileName, data) => {
+export const uploadVideo = (dispatch, fileName, data, location) => {
   dispatch({
     type: UPLOAD_VIDEO_REQUEST,
   });
@@ -85,7 +89,7 @@ export const uploadVideo = (dispatch, fileName, data) => {
         type: ADD_VIDEO_REQUEST,
       });
 
-      const video = createVideo(v4(), url);
+      const video = createVideo(v4(), url, location);
       return api.addVideoEntry(video);
     })
     .then(response => {

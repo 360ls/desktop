@@ -24,6 +24,11 @@ const menuItems = [
     route: '/preference',
     text: 'Preferences',
   },
+  {
+    key: 4,
+    route: '/admin',
+    text: 'Admin',
+  },
 ];
 
 const Navbar = ({ open, onToggle, onChange, onClose }) => (

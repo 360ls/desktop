@@ -17,6 +17,30 @@ const flatten = (object) => {
   return arr;
 };
 
+const createPromises = (ids) => {
+  const promises = [];
+  for (const id of ids) {
+    promises.push(removeVideo(id));
+  }
+
+  return promises;
+};
+
+export const removeVideos = (ids) =>
+  Promise.all(createPromises(ids))
+    .then(() => ids)
+    .catch((err) => {
+      throw new Error(`Failed to delete videos: ${err}`);
+    });
+
+export const removeVideo = (id) =>
+  database.ref(endpoint + id)
+    .remove()
+    .then(() => id)
+    .catch((err) => {
+      throw new Error(`Failed to delete video ${id}: ${err}`);
+    });
+
 export const fetchVideos = (filter) =>
   database.ref(endpoint).once('value').then((snapshot) => {
     const videos = flatten(snapshot.val());

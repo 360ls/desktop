@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import byId, * as fromById from './byId';
 import createList, * as fromList from './createList';
+import { SELECT_VIDEO, DELETE_VIDEO_SUCCESS } from '../actions/videos';
 
 const listByFilter = combineReducers({
   All: createList('All'),
@@ -8,9 +9,21 @@ const listByFilter = combineReducers({
   Flagged: createList('Flagged'),
 });
 
+const selectedVideos = (state = [], action) => {
+  switch (action.type) {
+    case SELECT_VIDEO:
+      return action.ids;
+    case DELETE_VIDEO_SUCCESS:
+      return [];
+    default:
+      return state;
+  }
+};
+
 const videos = combineReducers({
   byId,
   listByFilter,
+  selectedVideos,
 });
 
 export default videos;
@@ -28,3 +41,6 @@ export const getErrorMessage = (state, filter) =>
 
 export const getVideoById = (state, id) =>
   state.videos.byId[id];
+
+export const getSelectedVideos = (state) =>
+  state.videos.selectedVideos;

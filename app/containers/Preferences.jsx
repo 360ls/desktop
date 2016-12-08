@@ -9,6 +9,7 @@ import {
   getStreamUrl,
   getWidth,
   getHeight,
+  getLocation,
 } from '../reducers/preference';
 import * as actions from '../actions/preference';
 
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   streamUrl: getStreamUrl(state),
   width: getWidth(state),
   height: getHeight(state),
+  location: getLocation(state),
 });
 
 const Preferences = connect(
