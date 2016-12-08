@@ -1,6 +1,6 @@
+import fs from 'fs';
 import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { exec } from 'child_process';
-import fs from 'fs';
 import { v4 } from 'uuid';
 import {
   RECORD,
@@ -162,7 +162,9 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
   setTimeout(() => {
     const videoPath = getVideoPath(arg);
     fs.readFile(videoPath, (err, data) => {
-      if (err) throw err;
+      if (err) {
+        showErrDialog('Error', 'Could not read recorded video.');
+      }
       event.sender.send(RECEIVE_FILE, {
         path: videoPath,
         data,
