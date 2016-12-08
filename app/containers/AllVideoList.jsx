@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import AllTable from '../components/AllTable';
 import FetchErrorDialog from '../components/FetchErrorDialog';
 import * as actions from '../actions/videos';
-import { getVisibleVideos, getIsFetching, getErrorMessage } from '../reducers/videos';
+import { getVisibleVideos, getIsFetching, getErrorMessage, getSelectedVideos } from '../reducers/videos';
 
 const filter = 'All';
 
@@ -25,6 +25,8 @@ class AllVideoList extends Component {
       videos,
       errorMessage,
       removeVideos,
+      selectedVideos,
+      selectVideo,
     } = this.props;
     if (isFetching && !videos.length) {
       return (
@@ -60,6 +62,8 @@ class AllVideoList extends Component {
       <AllTable
         videos={videos}
         onDelete={removeVideos}
+        selectedIds={selectedVideos}
+        onSelect={selectVideo}
       />
     );
   }
@@ -76,12 +80,15 @@ AllVideoList.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   removeVideos: PropTypes.func.isRequired,
+  selectedVideos: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectVideo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isFetching: getIsFetching(state, filter),
   videos: getVisibleVideos(state, filter),
   errorMessage: getErrorMessage(state, filter),
+  selectedVideos: getSelectedVideos(state),
 });
 
 AllVideoList = withRouter(connect( // eslint-disable-line no-class-assign

@@ -30,6 +30,7 @@ const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
           label="Delete"
           primary
           onClick={() => {
+            console.log(selectedIds);
             onDelete(selectedIds);
           }}
         />
@@ -61,11 +62,12 @@ const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
         stripedRows
         showRowHover
         displayRowCheckbox
+        deselectOnClickaway={false}
       >
         {videos.map(video =>
           <TableRow
             key={video.id}
-            selected={this.state.ids.includes(video.id)}
+            selected={selectedIds.includes(video.id)}
           >
             <TableRowColumn>{video.name}</TableRowColumn>
             <TableRowColumn>{video.location}</TableRowColumn>
@@ -84,7 +86,7 @@ AllTable.propTypes = {
     date: PropTypes.string.isRequired,
   }).isRequired).isRequired,
   onDelete: PropTypes.func.isRequired,
-  selectedIds: PropTypes.number.isRequired,
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 

@@ -16,6 +16,12 @@ export const ADD_VIDEO_FAILURE = 'ADD_VIDEO_FAILURE';
 export const DELETE_VIDEO_REQUEST = 'DELETE_VIDEO_REQUEST';
 export const DELETE_VIDEO_SUCCESS = 'DELETE_VIDEO_SUCCESS';
 export const DELETE_VIDEO_FAILURE = 'DELETE_VIDEO_FAILURE';
+export const SELECT_VIDEO = 'SELECT_VIDEO';
+
+export const selectVideo = (ids) => ({
+  type: SELECT_VIDEO,
+  ids,
+});
 
 export const removeVideos = (ids) => (dispatch) => {
   dispatch({
