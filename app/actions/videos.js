@@ -17,6 +17,20 @@ export const DELETE_VIDEO_REQUEST = 'DELETE_VIDEO_REQUEST';
 export const DELETE_VIDEO_SUCCESS = 'DELETE_VIDEO_SUCCESS';
 export const DELETE_VIDEO_FAILURE = 'DELETE_VIDEO_FAILURE';
 
+export const removeVideos = (ids) => (dispatch) => {
+  dispatch({
+    type: DELETE_VIDEO_REQUEST,
+  });
+
+  return api.removeVideos(ids).then(() => {
+    dispatch({
+      type: DELETE_VIDEO_SUCCESS,
+    });
+
+    return fetchVideos('All');
+  });
+};
+
 export const removeVideo = (id) => (dispatch) => {
   dispatch({
     type: DELETE_VIDEO_REQUEST,
@@ -68,6 +82,17 @@ export const fetchVideos = (filter) => (dispatch, getState) => {
       return response;
     },
     error => {
+      if (error.message === 'Cannot convert undefined or null to object') {
+        const response = [];
+        dispatch({
+          type: FETCH_VIDEOS_SUCCESS,
+          filter,
+          response: normalize(response, schema.arrayOfVideos),
+        });
+
+        return response;
+      }
+
       dispatch({
         type: FETCH_VIDEOS_FAILURE,
         filter,
