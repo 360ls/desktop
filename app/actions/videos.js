@@ -13,6 +13,23 @@ export const TOGGLE_VIDEO_SUCCESS = 'TOGGLE_VIDEO_SUCCESS';
 export const ADD_VIDEO_REQUEST = 'ADD_VIDEO_REQUEST';
 export const ADD_VIDEO_SUCCESS = 'ADD_VIDEO_SUCCESS';
 export const ADD_VIDEO_FAILURE = 'ADD_VIDEO_FAILURE';
+export const DELETE_VIDEO_REQUEST = 'DELETE_VIDEO_REQUEST';
+export const DELETE_VIDEO_SUCCESS = 'DELETE_VIDEO_SUCCESS';
+export const DELETE_VIDEO_FAILURE = 'DELETE_VIDEO_FAILURE';
+
+export const removeVideo = (id) => (dispatch) => {
+  dispatch({
+    type: DELETE_VIDEO_REQUEST,
+  });
+
+  return api.removeVideo(id).then(() => {
+    dispatch({
+      type: DELETE_VIDEO_SUCCESS,
+    });
+
+    return fetchVideos('All');
+  });
+};
 
 export const addVideo = (video) => (dispatch) => {
   dispatch({

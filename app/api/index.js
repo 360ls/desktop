@@ -17,6 +17,13 @@ const flatten = (object) => {
   return arr;
 };
 
+export const removeVideo = (id) =>
+  database.ref(endpoint + id).remove()
+    .then(() => id)
+    .catch((err) => {
+      throw new Error(`Failed to delete video ${id}: ${err}`);
+    });
+
 export const fetchVideos = (filter) =>
   database.ref(endpoint).once('value').then((snapshot) => {
     const videos = flatten(snapshot.val());
