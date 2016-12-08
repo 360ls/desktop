@@ -31,23 +31,10 @@ export const removeVideos = (ids) => (dispatch, getState) => {
   return api.removeVideos(ids).then(() => {
     dispatch({
       type: DELETE_VIDEO_SUCCESS,
+      ids,
     });
 
     return fetchVideos('All')(dispatch, getState);
-  });
-};
-
-export const removeVideo = (id) => (dispatch) => {
-  dispatch({
-    type: DELETE_VIDEO_REQUEST,
-  });
-
-  return api.removeVideo(id).then(() => {
-    dispatch({
-      type: DELETE_VIDEO_SUCCESS,
-    });
-
-    return fetchVideos('All');
   });
 };
 
