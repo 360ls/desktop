@@ -30,7 +30,6 @@ const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
           label="Delete"
           primary
           onClick={() => {
-            console.log(selectedIds);
             onDelete(selectedIds);
           }}
         />

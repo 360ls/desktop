@@ -23,7 +23,7 @@ export const selectVideo = (ids) => ({
   ids,
 });
 
-export const removeVideos = (ids) => (dispatch) => {
+export const removeVideos = (ids) => (dispatch, getState) => {
   dispatch({
     type: DELETE_VIDEO_REQUEST,
   });
@@ -33,7 +33,7 @@ export const removeVideos = (ids) => (dispatch) => {
       type: DELETE_VIDEO_SUCCESS,
     });
 
-    return fetchVideos('All');
+    return fetchVideos('All')(dispatch, getState);
   });
 };
 

@@ -14,6 +14,12 @@ class AllVideoList extends Component {
     this.fetchData();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.videos.length !== prevProps.videos.length) {
+      this.fetchData();
+    }
+  }
+
   fetchData() {
     const { fetchVideos } = this.props;
     fetchVideos(filter);
