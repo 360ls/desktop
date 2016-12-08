@@ -6,6 +6,7 @@ import DVRPage from './pages/DVRPage';
 import LivePage from './pages/LivePage';
 import LocalPage from './pages/LocalVideoPage';
 import PreferencePage from './pages/PreferencePage';
+import AdminPage from './pages/AdminPage';
 
 export default (
   <Route path="/" component={App}>
@@ -15,5 +16,6 @@ export default (
     <Route path="dvr/(:video)" component={LocalPage} />
     <Route path="live" component={LivePage} />
     <Route path="preference" component={PreferencePage} />
+    <Route path="admin" component={AdminPage} />
   </Route>
 );
