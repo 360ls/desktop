@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { exec } from 'child_process';
 import fs from 'fs';
 import { v4 } from 'uuid';
@@ -38,6 +38,7 @@ import {
   getTargetPath,
   getConvertedTargetPath,
 } from './utils/cmd';
+import { showErrDialog } from './utils/utils';
 
 let mainWindow = null;
 
@@ -129,7 +130,12 @@ ipcMain.on(RECORD, (event, arg) => {
   const width = getWidth(arg);
   const height = getHeight(arg);
 
-  changeToDir(stitcherLocation);
+  try {
+    changeToDir(stitcherLocation);
+  } catch (err) {
+    showErrDialog('Error', 'Configuration directory not found.');
+  }
+
   streamProc = spawnPythonProc(
     getStitcherArgsForRecording(stitcherLocation,
       width, height, index, outPath, streamUrl));
@@ -171,10 +177,18 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
   const width = getWidth(arg);
   const height = getHeight(arg);
 
-  changeToDir(stitcherLocation);
+  try {
+    changeToDir(stitcherLocation);
+  } catch (err) {
+    showErrDialog('Error', 'Configuration directory not found.');
+  }
 
   previewProc = spawnPythonProc(
     getStitcherArgsForPreview(stitcherLocation, index, width, height));
+
+  previewProc.on('error', () => {
+    showErrDialog('Could not start preview.');
+  });
 });
 
 ipcMain.on(STOP_PREVIEW, () => {
@@ -188,7 +202,11 @@ ipcMain.on(START_STREAM, (event, arg) => {
   const width = getWidth(arg);
   const height = getHeight(arg);
 
-  changeToDir(stitcherLocation);
+  try {
+    changeToDir(stitcherLocation);
+  } catch (err) {
+    showErrDialog('Error', 'Configuration directory not found.');
+  }
 
   stitcherProc = spawnPythonProc(
     getStitcherArgsForStream(stitcherLocation, index, streamUrl, width, height));
@@ -199,11 +217,5 @@ ipcMain.on(STOP_STREAM, () => {
 });
 
 ipcMain.on(ERROR_CAUGHT, (event, arg) => {
-  dialog.showMessageBox({
-    buttons: [
-      'ok',
-    ],
-    title: 'Error',
-    message: arg.msg,
-  });
+  showErrDialog(arg.msg);
 });
