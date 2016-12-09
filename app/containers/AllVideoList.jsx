@@ -30,7 +30,7 @@ class AllVideoList extends Component {
       isFetching,
       videos,
       errorMessage,
-      removeVideos,
+      deleteVideos,
       selectedVideos,
       selectVideo,
     } = this.props;
@@ -67,8 +67,9 @@ class AllVideoList extends Component {
     return (
       <AllTable
         videos={videos}
-        onDelete={removeVideos}
-        selectedIds={selectedVideos}
+        onDelete={deleteVideos}
+        selectedIds={selectedVideos.map((video) => video.id)}
+        selectedVideos={selectedVideos}
         onSelect={selectVideo}
       />
     );
@@ -85,8 +86,13 @@ AllVideoList.propTypes = {
   })),
   isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
-  removeVideos: PropTypes.func.isRequired,
-  selectedVideos: PropTypes.arrayOf(PropTypes.string).isRequired,
+  deleteVideos: PropTypes.func.isRequired,
+  selectedVideos: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    location: PropTypes.location,
+    date: PropTypes.date,
+    flagged: PropTypes.bool,
+  })).isRequired,
   selectVideo: PropTypes.func.isRequired,
 };
 

@@ -42,5 +42,7 @@ export const getErrorMessage = (state, filter) =>
 export const getVideoById = (state, id) =>
   state.videos.byId[id];
 
-export const getSelectedVideos = (state) =>
-  state.videos.selectedVideos;
+export const getSelectedVideos = (state) => {
+  const selectedIds = state.videos.selectedVideos;
+  return selectedIds.map(id => fromById.getVideo(state.videos.byId, id));
+};

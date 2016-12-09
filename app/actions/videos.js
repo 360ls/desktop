@@ -23,6 +23,26 @@ export const selectVideo = (ids) => ({
   ids,
 });
 
+export const deleteVideos = (videos) => (dispatch, getState) => {
+  dispatch({
+    type: DELETE_VIDEO_REQUEST,
+  });
+
+  const ids = videos.map(video => video.id);
+  const uris = videos.map(video => video.uri);
+
+  return api.removeVideos(ids)
+    .then(() => api.deleteVideos(uris))
+    .then(() => {
+      dispatch({
+        type: DELETE_VIDEO_SUCCESS,
+        ids,
+      });
+
+      return fetchVideos('All')(dispatch, getState);
+    });
+};
+
 export const removeVideos = (ids) => (dispatch, getState) => {
   dispatch({
     type: DELETE_VIDEO_REQUEST,

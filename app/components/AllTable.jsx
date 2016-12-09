@@ -18,7 +18,7 @@ const rowHeader = [
   'Date',
 ];
 
-const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
+const AllTable = ({ videos, onDelete, selectedIds, selectedVideos, onSelect }) => (
   <div>
     <Toolbar
       style={{
@@ -30,7 +30,7 @@ const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
           label="Delete"
           primary
           onClick={() => {
-            onDelete(selectedIds);
+            onDelete(selectedVideos);
           }}
         />
       </ToolbarGroup>
@@ -80,6 +80,11 @@ const AllTable = ({ videos, onDelete, selectedIds, onSelect }) => (
 
 AllTable.propTypes = {
   videos: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+  }).isRequired).isRequired,
+  selectedVideos: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,

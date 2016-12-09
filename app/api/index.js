@@ -104,7 +104,7 @@ const getIdFromUri = (uri) => {
 const createDeletePromises = (uris) => {
   const promises = [];
   for (const uri of uris) {
-    promises.push(removeVideo(uri));
+    promises.push(deleteVideo(uri));
   }
 
   return promises;
