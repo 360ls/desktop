@@ -17,7 +17,7 @@ const flatten = (object) => {
   return arr;
 };
 
-const createPromises = (ids) => {
+const createRemovePromises = (ids) => {
   const promises = [];
   for (const id of ids) {
     promises.push(removeVideo(id));
@@ -27,7 +27,7 @@ const createPromises = (ids) => {
 };
 
 export const removeVideos = (ids) =>
-  Promise.all(createPromises(ids))
+  Promise.all(createRemovePromises(ids))
     .then(() => ids)
     .catch((err) => {
       throw new Error(`Failed to delete videos: ${err}`);
@@ -94,3 +94,34 @@ export const getSharedLink = (videoId) =>
   .catch((err) => {
     throw new Error(`Shared Link Error ${err}`);
   });
+
+const getIdFromUri = (uri) => {
+  const start = uri.lastIndexOf('/');
+  const end = uri.lastIndexOf('?');
+  return uri.slice(start + 1, end);
+};
+
+const createDeletePromises = (uris) => {
+  const promises = [];
+  for (const uri of uris) {
+    promises.push(removeVideo(uri));
+  }
+
+  return promises;
+};
+
+export const deleteVideo = (videoUri) =>
+  dbx.filesDelete({
+    path: `/${getIdFromUri(videoUri)}`,
+  })
+  .then((response) => response)
+  .catch((err) => {
+    throw new Error(`Error Deleting Video ${err}`);
+  });
+
+export const deleteVideos = (videoUris) =>
+  Promise.all(createDeletePromises(videoUris))
+    .then(() => videoUris)
+    .catch((err) => {
+      throw new Error(`Error Deleting Videos ${err}`);
+    });
