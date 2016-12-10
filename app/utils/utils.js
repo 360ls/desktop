@@ -1,7 +1,8 @@
 import { dialog } from 'electron';
 
-export const showErrDialog = (title, msg) => {
-  dialog.showErrorBox(title, msg);
+export const showErrDialog = (msg) => {
+  const dialogTitle = 'Error';
+  dialog.showErrorBox(dialogTitle, msg);
 };
 
 export const showMsgDialog = (msg) => {

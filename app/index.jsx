@@ -6,17 +6,17 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import {
-  handleChange,
-  handlePreviewChange,
   handleBroadcastChange,
+  handlePreviewChange,
+  handleRecordingChange,
   setupIPCHandler,
 } from './services/ipc';
 
 const store = configureStore();
 
-store.subscribe(handleChange(store));
-store.subscribe(handlePreviewChange(store));
 store.subscribe(handleBroadcastChange(store));
+store.subscribe(handlePreviewChange(store));
+store.subscribe(handleRecordingChange(store));
 
 const history = syncHistoryWithStore(hashHistory, store);
 

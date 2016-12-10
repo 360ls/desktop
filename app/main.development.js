@@ -3,6 +3,7 @@ import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { exec } from 'child_process';
 import { v4 } from 'uuid';
 import {
+  ERROR_CAUGHT,
   RECORD,
   STOP,
   REQUEST_FILE,
@@ -11,7 +12,6 @@ import {
   STOP_PREVIEW,
   START_STREAM,
   STOP_STREAM,
-  ERROR_CAUGHT,
   STARTED_CONVERSION,
   FINISHED_CONVERSION,
  } from './services/signals';
@@ -21,14 +21,14 @@ import {
   spawnPythonProc,
 } from './utils/proc';
 import {
-  getRecordingLocation,
-  getStitcherLocation,
   getCameraIndex,
   getIndex,
+  getRecordingLocation,
+  getStitcherLocation,
   getStreamUrl,
-  getVideoPath,
   getWidth,
   getHeight,
+  getVideoPath,
 } from './utils/arg';
 import {
   getStitcherArgsForPreview,
@@ -57,7 +57,6 @@ if (process.env.NODE_ENV === 'development') {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
-
 
 const installExtensions = async () => {
   if (process.env.NODE_ENV === 'development') {
@@ -118,6 +117,9 @@ let id;
 let outPath;
 let convertedPath;
 
+const conversionDelay = 500;
+const readDelay = 1000;
+
 ipcMain.on(RECORD, (event, arg) => {
   const recordLocation = getRecordingLocation(arg);
   const stitcherLocation = getStitcherLocation(arg);
@@ -133,7 +135,7 @@ ipcMain.on(RECORD, (event, arg) => {
   try {
     changeToDir(stitcherLocation);
   } catch (err) {
-    showErrDialog('Error', 'Configuration directory not found.');
+    showErrDialog('Configuration directory not found.');
   }
 
   streamProc = spawnPythonProc(
@@ -155,7 +157,7 @@ ipcMain.on(STOP, (event) => {
         outPath: convertedPath,
       });
     });
-  }, 500);
+  }, conversionDelay);
 });
 
 ipcMain.on(REQUEST_FILE, (event, arg) => {
@@ -163,14 +165,14 @@ ipcMain.on(REQUEST_FILE, (event, arg) => {
     const videoPath = getVideoPath(arg);
     fs.readFile(videoPath, (err, data) => {
       if (err) {
-        showErrDialog('Error', 'Could not read recorded video.');
+        showErrDialog('Could not read recorded video.');
       }
       event.sender.send(RECEIVE_FILE, {
         path: videoPath,
         data,
       });
     });
-  }, 1000);
+  }, readDelay);
 });
 
 ipcMain.on(START_PREVIEW, (event, arg) => {
@@ -182,7 +184,7 @@ ipcMain.on(START_PREVIEW, (event, arg) => {
   try {
     changeToDir(stitcherLocation);
   } catch (err) {
-    showErrDialog('Error', 'Configuration directory not found.');
+    showErrDialog('Configuration directory not found.');
   }
 
   previewProc = spawnPythonProc(
@@ -207,7 +209,7 @@ ipcMain.on(START_STREAM, (event, arg) => {
   try {
     changeToDir(stitcherLocation);
   } catch (err) {
-    showErrDialog('Error', 'Configuration directory not found.');
+    showErrDialog('Configuration directory not found.');
   }
 
   stitcherProc = spawnPythonProc(
@@ -219,5 +221,5 @@ ipcMain.on(STOP_STREAM, () => {
 });
 
 ipcMain.on(ERROR_CAUGHT, (event, arg) => {
-  showErrDialog('Error', arg.msg);
+  showErrDialog(arg.msg);
 });

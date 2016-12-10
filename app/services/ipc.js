@@ -1,25 +1,39 @@
 import { ipcRenderer } from 'electron';
-import { isStreaming, isPreviewing, isBroadcasting } from '../reducers/live';
-import { isConverting, isReading, isRead, isUploading } from '../reducers/video';
-import { toggleBroadcast, togglePreview, toggleStream } from '../actions/live';
 import {
+  isBroadcasting,
+  isPreviewing,
+  isStreaming,
+} from '../reducers/live';
+import {
+  isConverting,
+  isReading,
+  isRead,
+  isUploading,
+} from '../reducers/video';
+import {
+  toggleBroadcast,
+  togglePreview,
+  toggleStream,
+} from '../actions/live';
+import {
+  startConversion,
+  finishConversion,
   requestVideo,
   receiveVideo,
   uploadVideo,
-  startConversion,
-  finishConversion,
 } from '../actions/video';
 import {
+  getPreviewIndex,
+  getCameraIndex,
   getRecordLocation,
   getStitcherLocation,
-  getCameraIndex,
-  getPreviewIndex,
   getStreamUrl,
   getWidth,
   getHeight,
   getLocation,
 } from '../reducers/preference';
 import {
+  ERROR_CAUGHT,
   RECORD,
   STOP,
   REQUEST_FILE,
@@ -28,7 +42,6 @@ import {
   STOP_PREVIEW,
   START_STREAM,
   STOP_STREAM,
-  ERROR_CAUGHT,
   STARTED_CONVERSION,
   FINISHED_CONVERSION,
 } from './signals';
@@ -41,7 +54,7 @@ const sendErrorMessage = (msg) => {
 
 let currState = false;
 let earlyExit = false;
-export const handleChange = (store) => () => {
+export const handleRecordingChange = (store) => () => {
   const prevState = currState;
   const storeState = store.getState();
   currState = isStreaming(storeState);
