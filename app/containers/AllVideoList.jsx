@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import CircularProgress from 'material-ui/CircularProgress';
 import { withRouter } from 'react-router';
+import CircularProgress from 'material-ui/CircularProgress';
 import AllTable from '../components/AllTable';
 import FetchErrorDialog from '../components/FetchErrorDialog';
 import * as actions from '../actions/videos';
-import { getVisibleVideos, getIsFetching, getErrorMessage, getSelectedVideos } from '../reducers/videos';
+import {
+  getErrorMessage,
+  getIsFetching,
+  getSelectedVideos,
+  getVisibleVideos,
+} from '../reducers/videos';
 
 const filter = 'All';
 
@@ -27,11 +32,11 @@ class AllVideoList extends Component {
 
   render() {
     const {
-      isFetching,
-      videos,
       errorMessage,
-      deleteVideos,
+      isFetching,
       selectedVideos,
+      videos,
+      deleteVideos,
       selectVideo,
     } = this.props;
     if (isFetching && !videos.length) {
@@ -77,30 +82,30 @@ class AllVideoList extends Component {
 }
 
 AllVideoList.propTypes = {
-  fetchVideos: PropTypes.func.isRequired,
-  videos: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    location: PropTypes.location,
-    date: PropTypes.date,
-    flagged: PropTypes.bool,
-  })),
-  isFetching: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
-  deleteVideos: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  fetchVideos: PropTypes.func.isRequired,
   selectedVideos: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     location: PropTypes.location,
     date: PropTypes.date,
     flagged: PropTypes.bool,
   })).isRequired,
+  videos: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    location: PropTypes.location,
+    date: PropTypes.date,
+    flagged: PropTypes.bool,
+  })),
+  deleteVideos: PropTypes.func.isRequired,
   selectVideo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isFetching: getIsFetching(state, filter),
-  videos: getVisibleVideos(state, filter),
   errorMessage: getErrorMessage(state, filter),
   selectedVideos: getSelectedVideos(state),
+  videos: getVisibleVideos(state, filter),
+  isFetching: getIsFetching(state, filter),
 });
 
 AllVideoList = withRouter(connect( // eslint-disable-line no-class-assign

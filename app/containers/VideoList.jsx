@@ -2,10 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 import { withRouter } from 'react-router';
-import VideoTable from '../components/VideoTable';
 import FetchErrorDialog from '../components/FetchErrorDialog';
+import VideoTable from '../components/VideoTable';
 import * as actions from '../actions/videos';
-import { getVisibleVideos, getIsFetching, getErrorMessage } from '../reducers/videos';
+import {
+  getErrorMessage,
+  getIsFetching,
+  getVisibleVideos,
+} from '../reducers/videos';
 
 class VideoList extends Component {
   componentDidMount() {
@@ -25,12 +29,12 @@ class VideoList extends Component {
 
   render() {
     const {
-      switchVideoTo,
-      isFetching,
-      videos,
       errorMessage,
-      router,
+      isFetching,
       location,
+      router,
+      videos,
+      switchVideoTo,
     } = this.props;
     if (isFetching && !videos.length) {
       return (
@@ -74,32 +78,32 @@ class VideoList extends Component {
 }
 
 VideoList.propTypes = {
+  errorMessage: PropTypes.string,
   filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
-  fetchVideos: PropTypes.func.isRequired,
-  switchVideoTo: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   videos: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     location: PropTypes.location,
     date: PropTypes.date,
     flagged: PropTypes.bool,
   })),
-  isFetching: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string,
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+  fetchVideos: PropTypes.func.isRequired,
+  switchVideoTo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { router }) => {
   const filter = state.visibilityFilter;
   return {
-    isFetching: getIsFetching(state, filter),
-    videos: getVisibleVideos(state, state.visibilityFilter),
-    filter,
     errorMessage: getErrorMessage(state, filter),
+    filter,
+    videos: getVisibleVideos(state, state.visibilityFilter),
+    isFetching: getIsFetching(state, filter),
     router,
   };
 };
