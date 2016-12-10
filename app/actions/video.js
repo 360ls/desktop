@@ -6,8 +6,14 @@ import {
   STARTED_CONVERSION,
   FINISHED_CONVERSION,
 } from '../services/signals';
-import { requestFile, reportError } from '../services/ipc';
-import { ADD_VIDEO_REQUEST, ADD_VIDEO_SUCCESS } from './videos';
+import {
+  requestFile,
+  reportError,
+} from '../services/ipc';
+import {
+  ADD_VIDEO_REQUEST,
+  ADD_VIDEO_SUCCESS,
+} from './videos';
 
 export const UPLOAD_VIDEO_REQUEST = 'UPLOAD_VIDEO_REQUEST';
 export const UPLOAD_VIDEO_SUCCESS = 'UPLOAD_VIDEO_SUCCESS';
@@ -33,8 +39,9 @@ export const receiveVideo = (video) => ({
   video,
 });
 
-const createVideo = (id, url, location) => {
+const createVideo = (id, uri, location) => {
   const today = new Date();
+
   let dd = today.getDate();
   let mm = today.getMonth() + 1;
   const yyyy = today.getFullYear();
@@ -59,12 +66,12 @@ const createVideo = (id, url, location) => {
 
   const video = {
     id,
-    uri: url,
     date,
-    name,
-    uploaded: true,
     flagged: false,
     location,
+    name,
+    uploaded: true,
+    uri,
   };
 
   return video;

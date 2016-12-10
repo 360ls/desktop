@@ -18,10 +18,21 @@ export const DELETE_VIDEO_SUCCESS = 'DELETE_VIDEO_SUCCESS';
 export const DELETE_VIDEO_FAILURE = 'DELETE_VIDEO_FAILURE';
 export const SELECT_VIDEO = 'SELECT_VIDEO';
 
-export const selectVideo = (ids) => ({
-  type: SELECT_VIDEO,
-  ids,
-});
+export const addVideo = (video) => (dispatch) => {
+  dispatch({
+    type: ADD_VIDEO_REQUEST,
+  });
+
+  return api.addVideoEntry(video).then(
+    response => {
+      dispatch({
+        type: ADD_VIDEO_SUCCESS,
+        response: normalize(response, schema.video),
+      });
+
+      return response;
+    });
+};
 
 export const deleteVideos = (videos) => (dispatch, getState) => {
   dispatch({
@@ -40,37 +51,6 @@ export const deleteVideos = (videos) => (dispatch, getState) => {
       });
 
       return fetchVideos('All')(dispatch, getState);
-    });
-};
-
-export const removeVideos = (ids) => (dispatch, getState) => {
-  dispatch({
-    type: DELETE_VIDEO_REQUEST,
-  });
-
-  return api.removeVideos(ids).then(() => {
-    dispatch({
-      type: DELETE_VIDEO_SUCCESS,
-      ids,
-    });
-
-    return fetchVideos('All')(dispatch, getState);
-  });
-};
-
-export const addVideo = (video) => (dispatch) => {
-  dispatch({
-    type: ADD_VIDEO_REQUEST,
-  });
-
-  return api.addVideoEntry(video).then(
-    response => {
-      dispatch({
-        type: ADD_VIDEO_SUCCESS,
-        response: normalize(response, schema.video),
-      });
-
-      return response;
     });
 };
 
@@ -115,15 +95,20 @@ export const fetchVideos = (filter) => (dispatch, getState) => {
   );
 };
 
-export const switchVideo = (uri, id) => ({
-  type: SWITCH_VIDEO,
-  uri,
-  id,
+export const selectVideo = (ids) => ({
+  type: SELECT_VIDEO,
+  ids,
 });
 
 export const setVisibilityFilter = filter => ({
   type: SET_VISIBILITY_FILTER,
   filter,
+});
+
+export const switchVideo = (uri, id) => ({
+  type: SWITCH_VIDEO,
+  uri,
+  id,
 });
 
 export const switchVideoTo = (uri, id) =>
