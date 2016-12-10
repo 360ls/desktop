@@ -7,4 +7,18 @@ describe('actions', () => {
     };
     expect(actions.toggleStream()).toEqual(expectedAction);
   });
+
+  it('should create an action to toggle preview', () => {
+    const expectedAction = {
+      type: actions.TOGGLE_PREVIEW,
+    };
+    expect(actions.togglePreview()).toEqual(expectedAction);
+  });
+
+  it('should create an action to toggle broadcast', () => {
+    const expectedAction = {
+      type: actions.TOGGLE_BROADCAST,
+    };
+    expect(actions.toggleBroadcast()).toEqual(expectedAction);
+  });
 });
