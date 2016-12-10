@@ -11,7 +11,7 @@ import {
   FINISHED_CONVERSION,
 } from '../services/signals';
 
-const liveState = {
+export const liveState = {
   idle: 0,
   reading: 1,
   read: 2,
