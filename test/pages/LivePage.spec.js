@@ -1,14 +1,21 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { expect } from 'chai';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import LivePage from '../../app/pages/LivePage';
 import configureStore from '../../app/store/configureStore';
+
+injectTapEventPlugin();
 
 function setup(initialState) {
   const store = configureStore(initialState);
   const app = mount(
     <Provider store={store}>
-      <LivePage />
+      <MuiThemeProvider>
+        <LivePage />
+      </MuiThemeProvider>
     </Provider>
   );
 
@@ -25,6 +32,12 @@ describe('pages', () => {
       const app = setup();
       expect(app.find('h2').text())
         .to.equal(headerText);
+    });
+
+    it('should have control buttons', () => {
+      const app = setup();
+      const buttons = app.find('button');
+      expect(buttons.length).to.equal(3);
     });
   });
 });
