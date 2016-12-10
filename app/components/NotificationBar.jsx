@@ -52,10 +52,10 @@ const NotificationBar = ({
 };
 
 NotificationBar.propTypes = {
-  isUploading: PropTypes.bool.isRequired,
-  isUploaded: PropTypes.bool.isRequired,
   isConverting: PropTypes.bool.isRequired,
   isConverted: PropTypes.bool.isRequired,
+  isUploading: PropTypes.bool.isRequired,
+  isUploaded: PropTypes.bool.isRequired,
 };
 
 export default NotificationBar;

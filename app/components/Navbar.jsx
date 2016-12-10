@@ -31,7 +31,7 @@ const menuItems = [
   },
 ];
 
-const Navbar = ({ open, onToggle, onChange, onClose }) => (
+const Navbar = ({ open, onChange, onClose, onToggle }) => (
   <div>
     <AppBar
       title="360 Life Stream"
@@ -58,10 +58,10 @@ const Navbar = ({ open, onToggle, onChange, onClose }) => (
 );
 
 Navbar.propTypes = {
-  onToggle: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired,
 };
 
 export default Navbar;

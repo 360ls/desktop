@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { green600 } from 'material-ui/styles/colors';
 
-const StreamButton = ({ toggleBroadcast, isBroadcasting }) => {
+const StreamButton = ({ isBroadcasting, toggleBroadcast }) => {
   const startButton = (
     <RaisedButton
       label="Stream"
@@ -37,8 +37,8 @@ const StreamButton = ({ toggleBroadcast, isBroadcasting }) => {
 };
 
 StreamButton.propTypes = {
-  toggleBroadcast: PropTypes.func.isRequired,
   isBroadcasting: PropTypes.bool.isRequired,
+  toggleBroadcast: PropTypes.func.isRequired,
 };
 
 export default StreamButton;

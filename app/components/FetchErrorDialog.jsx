@@ -52,7 +52,7 @@ export default class FetchErrorDialog extends React.Component {
 }
 
 FetchErrorDialog.propTypes = {
-  onRetry: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
+  onRetry: PropTypes.func.isRequired,
 };

@@ -18,64 +18,69 @@ const rowHeader = [
   'Date',
 ];
 
-const AllTable = ({ videos, onDelete, selectedIds, selectedVideos, onSelect }) => (
-  <div>
-    <Toolbar
-      style={{
-        backgroundColor: lightGrey,
-      }}
-    >
-      <ToolbarGroup>
-        <RaisedButton
-          label="Delete"
-          primary
-          onClick={() => {
-            onDelete(selectedVideos);
-          }}
-        />
-      </ToolbarGroup>
-    </Toolbar>
-    <Table
-      style={{
-        backgroundColor: grey50,
-      }}
-      multiSelectable
-      onRowSelection={rows => {
-        const ids = rows.map((row) => videos[row].id);
-        onSelect(ids);
-      }}
-    >
-      <TableHeader
-        displaySelectAll={false}
-        adjustForCheckbox={false}
+const AllTable = ({
+  videos,
+  selectedIds,
+  selectedVideos,
+  onDelete,
+  onSelect }) => (
+    <div>
+      <Toolbar
+        style={{
+          backgroundColor: lightGrey,
+        }}
       >
-        <TableRow>
-          {rowHeader.map(title =>
-            <TableHeaderColumn key={title}>
-              {title}
-            </TableHeaderColumn>
-          )}
-        </TableRow>
-      </TableHeader>
-      <TableBody
-        stripedRows
-        showRowHover
-        displayRowCheckbox
-        deselectOnClickaway={false}
+        <ToolbarGroup>
+          <RaisedButton
+            label="Delete"
+            primary
+            onClick={() => {
+              onDelete(selectedVideos);
+            }}
+          />
+        </ToolbarGroup>
+      </Toolbar>
+      <Table
+        style={{
+          backgroundColor: grey50,
+        }}
+        multiSelectable
+        onRowSelection={rows => {
+          const ids = rows.map((row) => videos[row].id);
+          onSelect(ids);
+        }}
       >
-        {videos.map(video =>
-          <TableRow
-            key={video.id}
-            selected={selectedIds.includes(video.id)}
-          >
-            <TableRowColumn>{video.name}</TableRowColumn>
-            <TableRowColumn>{video.location}</TableRowColumn>
-            <TableRowColumn>{video.date}</TableRowColumn>
+        <TableHeader
+          displaySelectAll={false}
+          adjustForCheckbox={false}
+        >
+          <TableRow>
+            {rowHeader.map(title =>
+              <TableHeaderColumn key={title}>
+                {title}
+              </TableHeaderColumn>
+            )}
           </TableRow>
-        )}
-      </TableBody>
-    </Table>
-  </div>
+        </TableHeader>
+        <TableBody
+          stripedRows
+          showRowHover
+          displayRowCheckbox
+          deselectOnClickaway={false}
+        >
+          {videos.map(video =>
+            <TableRow
+              key={video.id}
+              selected={selectedIds.includes(video.id)}
+            >
+              <TableRowColumn>{video.name}</TableRowColumn>
+              <TableRowColumn>{video.location}</TableRowColumn>
+              <TableRowColumn>{video.date}</TableRowColumn>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
 );
 
 AllTable.propTypes = {
@@ -84,13 +89,13 @@ AllTable.propTypes = {
     location: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired).isRequired,
+  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedVideos: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired).isRequired,
   onDelete: PropTypes.func.isRequired,
-  selectedIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 

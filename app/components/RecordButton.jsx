@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const RecordButton = ({ toggleStream, isStreaming }) => {
+const RecordButton = ({ isStreaming, toggleStream }) => {
   const startButton = (
     <RaisedButton
       label="Record"
@@ -36,8 +36,8 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
 };
 
 RecordButton.propTypes = {
-  toggleStream: PropTypes.func.isRequired,
   isStreaming: PropTypes.bool.isRequired,
+  toggleStream: PropTypes.func.isRequired,
 };
 
 export default RecordButton;
