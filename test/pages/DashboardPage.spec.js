@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import DashboardPage from '../../app/pages/DashboardPage.jsx';
+import DashboardPage from '../../app/pages/DashboardPage';
 
 function setup() {
   const app = mount(
