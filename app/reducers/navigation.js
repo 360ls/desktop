@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_NAV, OPEN_NAV, CLOSE_NAV, CHANGE_NAV } from '../actions/navigation';
+import {
+  CHANGE_NAV,
+  CLOSE_NAV,
+  OPEN_NAV,
+  TOGGLE_NAV,
+} from '../actions/navigation';
 
 const createNavigation = () => {
   const isOpen = (state = false, action) => {

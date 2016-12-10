@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
 import byId, * as fromById from './byId';
 import createList, * as fromList from './createList';
-import { SELECT_VIDEO, DELETE_VIDEO_SUCCESS } from '../actions/videos';
+import {
+  DELETE_VIDEO_SUCCESS,
+  SELECT_VIDEO,
+} from '../actions/videos';
 
 const listByFilter = combineReducers({
   All: createList('All'),
@@ -28,21 +31,21 @@ const videos = combineReducers({
 
 export default videos;
 
-export const getVisibleVideos = (state, filter) => {
-  const ids = fromList.getIds(state.videos.listByFilter[filter]);
-  return ids.map(id => fromById.getVideo(state.videos.byId, id));
-};
+export const getErrorMessage = (state, filter) =>
+  fromList.getErrorMessage(state.videos.listByFilter[filter]);
 
 export const getIsFetching = (state, filter) =>
   fromList.getIsFetching(state.videos.listByFilter[filter]);
 
-export const getErrorMessage = (state, filter) =>
-  fromList.getErrorMessage(state.videos.listByFilter[filter]);
+export const getSelectedVideos = (state) => {
+  const selectedIds = state.videos.selectedVideos;
+  return selectedIds.map(id => fromById.getVideo(state.videos.byId, id));
+};
 
 export const getVideoById = (state, id) =>
   state.videos.byId[id];
 
-export const getSelectedVideos = (state) => {
-  const selectedIds = state.videos.selectedVideos;
-  return selectedIds.map(id => fromById.getVideo(state.videos.byId, id));
+export const getVisibleVideos = (state, filter) => {
+  const ids = fromList.getIds(state.videos.listByFilter[filter]);
+  return ids.map(id => fromById.getVideo(state.videos.byId, id));
 };
