@@ -20,4 +20,13 @@ describe('actions', () => {
     };
     expect(actions.setVisibilityFilter(filter)).toEqual(expectedAction);
   });
+
+  it('should create an action to select videos', () => {
+    const ids = ['1', '2', '3'];
+    const expectedAction = {
+      type: actions.SELECT_VIDEO,
+      ids,
+    };
+    expect(actions.selectVideo(ids)).toEqual(expectedAction);
+  });
 });
