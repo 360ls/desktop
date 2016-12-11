@@ -7,6 +7,7 @@ import FetchErrorDialog from '../components/FetchErrorDialog';
 import * as actions from '../actions/videos';
 import {
   getErrorMessage,
+  getIsDeleting,
   getIsFetching,
   getSelectedVideos,
   getVisibleVideos,
@@ -33,13 +34,14 @@ class AllVideoList extends Component {
   render() {
     const {
       errorMessage,
+      isDeleting,
       isFetching,
       selectedVideos,
       videos,
       deleteVideos,
       selectVideo,
     } = this.props;
-    if (isFetching && !videos.length) {
+    if (isFetching || isDeleting) {
       return (
         <div
           style={{
@@ -83,6 +85,7 @@ class AllVideoList extends Component {
 
 AllVideoList.propTypes = {
   errorMessage: PropTypes.string,
+  isDeleting: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
   fetchVideos: PropTypes.func.isRequired,
   selectedVideos: PropTypes.arrayOf(PropTypes.shape({
@@ -105,6 +108,7 @@ const mapStateToProps = (state) => ({
   errorMessage: getErrorMessage(state, filter),
   selectedVideos: getSelectedVideos(state),
   videos: getVisibleVideos(state, filter),
+  isDeleting: getIsDeleting(state),
   isFetching: getIsFetching(state, filter),
 });
 
