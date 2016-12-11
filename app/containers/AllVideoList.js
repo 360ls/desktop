@@ -55,7 +55,11 @@ class AllVideoList extends Component {
               marginTop: '100px',
             }}
           >
-            <CircularProgress size={80} thickness={5} />
+            <CircularProgress
+              color={'#FAFAFA'}
+              size={80}
+              thickness={5}
+            />
           </div>
         </div>
       );
