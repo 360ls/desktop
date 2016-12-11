@@ -3,11 +3,8 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import PreferencePage from '../../app/pages/PreferencePage';
 import configureStore from '../../app/store/configureStore';
-
-injectTapEventPlugin();
 
 function setup(initialState) {
   const store = configureStore(initialState);

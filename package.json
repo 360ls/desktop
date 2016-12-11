@@ -27,6 +27,7 @@
       "js",
       "jsx"
     ],
+    "setupTestFrameworkScriptFile": "test/setup.js",
     "testPathDirs": [
       "test"
     ]
