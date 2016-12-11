@@ -26,6 +26,8 @@ def parse_args():
     parser.add_argument('--width', type=int, default=640)
     parser.add_argument('--height', type=int, default=480)
     parser.add_argument('--url', dest='url', default='rtmp://54.227.214.22:1935/live/myStream')
+    parser.add_argument('--debug', dest='debug', action='store_true')
+    parser.add_argument('--frames', type=int, default=100)
     parser.set_defaults(preview=False)
     parser.set_defaults(stream=False)
     return parser.parse_args()
@@ -48,6 +50,7 @@ def main():
     index = args.i
     height = args.height
     width = args.width
+    count = 0
 
     cap = cv2.VideoCapture(index)
     codec = cv2.cv.CV_FOURCC('m', 'p', '4', 'v')
@@ -77,6 +80,11 @@ def main():
             args.url], stdin=subprocess.PIPE)
 
     while True:
+        if args.debug and count > args.frames:
+            break
+
+        count += 1
+
         # Capture frame-by-frame
         _, frame = cap.read()
 
