@@ -104,7 +104,10 @@ def main():
 def playback(cap, width, height):
     while (cap.isOpened()):
         # Capture frame-by-frame
-        _, frame = cap.read()
+        ret, frame = cap.read()
+
+        if not ret:
+            break
 
         # Display the resulting frame
         cv2.imshow('frame', frame)
