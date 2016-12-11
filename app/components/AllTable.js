@@ -30,10 +30,12 @@ const AllTable = ({
           backgroundColor: lightGrey,
         }}
       >
-        <ToolbarGroup>
+        <ToolbarGroup
+          firstChild
+        >
           <RaisedButton
             label="Delete"
-            primary
+            backgroundColor={'#FF1744'}
             onClick={() => {
               onDelete(selectedVideos);
             }}

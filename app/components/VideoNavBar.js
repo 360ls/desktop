@@ -10,7 +10,9 @@ const VideoNavBar = ({ router, location }) => (
       backgroundColor: lightGrey,
     }}
   >
-    <ToolbarGroup>
+    <ToolbarGroup
+      firstChild
+    >
       <RaisedButton
         label="Back"
         primary
