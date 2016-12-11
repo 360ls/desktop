@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_STREAM, TOGGLE_PREVIEW, TOGGLE_BROADCAST } from '../actions/live';
+import {
+  TOGGLE_BROADCAST,
+  TOGGLE_PREVIEW,
+  TOGGLE_STREAM,
+} from '../actions/live';
 
 const live = () => {
-  const recording = (state = false, action) => {
+  const broadcast = (state = false, action) => {
     switch (action.type) {
-      case TOGGLE_STREAM:
+      case TOGGLE_BROADCAST:
         return !state;
       default:
         return state;
@@ -20,9 +24,9 @@ const live = () => {
     }
   };
 
-  const broadcast = (state = false, action) => {
+  const recording = (state = false, action) => {
     switch (action.type) {
-      case TOGGLE_BROADCAST:
+      case TOGGLE_STREAM:
         return !state;
       default:
         return state;
@@ -30,19 +34,19 @@ const live = () => {
   };
 
   return combineReducers({
-    recording,
-    preview,
     broadcast,
+    preview,
+    recording,
   });
 };
 
 export default live;
 
-export const isStreaming = (state) =>
-  state.live.recording;
+export const isBroadcasting = (state) =>
+  state.live.broadcast;
 
 export const isPreviewing = (state) =>
   state.live.preview;
 
-export const isBroadcasting = (state) =>
-  state.live.broadcast;
+export const isStreaming = (state) =>
+  state.live.recording;

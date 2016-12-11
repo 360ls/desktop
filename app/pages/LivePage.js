@@ -8,9 +8,9 @@ const LivePage = () => (
   <div id="live-page" className="container">
     <div className="jumbotron">
       <h2>
-          This portion of the application would typically show a view
-          of the live video inside the car. But, at the moment, our live
-          preview only works outside of the Electron application.
+        This portion of the application would typically show a view
+        of the live video inside the car. But, at the moment, our live
+        preview only works outside of the Electron application.
       </h2>
     </div>
     <div className="row">

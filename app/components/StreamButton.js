@@ -1,16 +1,17 @@
 import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import { green600 } from 'material-ui/styles/colors';
 
-const RecordButton = ({ toggleStream, isStreaming }) => {
+const StreamButton = ({ isBroadcasting, toggleBroadcast }) => {
   const startButton = (
     <RaisedButton
-      label="Record"
+      label="Stream"
       labelColor="#F4F4EF"
-      backgroundColor="#A01D27"
-      onClick={() => toggleStream()}
+      onClick={() => toggleBroadcast()}
       fullWidth
       buttonStyle={{
         height: 200,
+        backgroundColor: green600,
       }}
     />
   );
@@ -20,7 +21,7 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
       label="Stop"
       labelColor="#192333"
       backgroundColor="#D3D3D3"
-      onClick={() => toggleStream()}
+      onClick={() => toggleBroadcast()}
       fullWidth
       buttonStyle={{
         height: 200,
@@ -30,14 +31,14 @@ const RecordButton = ({ toggleStream, isStreaming }) => {
 
   return (
     <div>
-      {isStreaming ? stopButton : startButton}
+      {isBroadcasting ? stopButton : startButton}
     </div>
   );
 };
 
-RecordButton.propTypes = {
-  toggleStream: PropTypes.func.isRequired,
-  isStreaming: PropTypes.bool.isRequired,
+StreamButton.propTypes = {
+  isBroadcasting: PropTypes.bool.isRequired,
+  toggleBroadcast: PropTypes.func.isRequired,
 };
 
-export default RecordButton;
+export default StreamButton;

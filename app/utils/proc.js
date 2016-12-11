@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { spawn } from 'child_process';
 import path from 'path';
 import { getHomeDirectory } from './cmd';
@@ -14,7 +16,7 @@ export const spawnProc = (cmd, args) => {
       proc = spawn(cmd, args);
       break;
     default:
-      console.error('unsupported platform'); // eslint-disable-line no-console
+      console.error('unsupported platform');
   }
   return proc;
 };
@@ -32,7 +34,7 @@ export const killProc = (childProc) => {
         childProc.kill();
         break;
       default:
-        console.error(process.platform); // eslint-disable-line no-console
+        console.error(process.platform);
     }
   }
 };

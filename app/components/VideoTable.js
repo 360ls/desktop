@@ -33,7 +33,7 @@ const sortVideos = (videos) =>
 const getSortedVideos = (videos) =>
   sortVideos(videos);
 
-const VideoTable = ({ videos, onClick, router, path }) => (
+const VideoTable = ({ videos, path, router, onClick }) => (
   <Table
     onRowSelection={rows => {
       const index = rows[0];
@@ -84,11 +84,11 @@ VideoTable.propTypes = {
     uploaded: PropTypes.bool.isRequired,
     flagged: PropTypes.bool.isRequired,
   }).isRequired).isRequired,
-  onClick: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
-  path: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default VideoTable;

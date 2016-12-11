@@ -1,17 +1,14 @@
 import React, { PropTypes } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const PreviewButton = ({ togglePreview, isPreviewing }) => {
+const RecordButton = ({ isStreaming, toggleStream }) => {
   const startButton = (
     <RaisedButton
-      label="Preview"
-      labelColor="#192333"
-      backgroundColor="#ACBEBE"
-      onClick={() => togglePreview()}
+      label="Record"
+      labelColor="#F4F4EF"
+      backgroundColor="#A01D27"
+      onClick={() => toggleStream()}
       fullWidth
-      labelStyle={{
-        height: 200,
-      }}
       buttonStyle={{
         height: 200,
       }}
@@ -23,7 +20,7 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
       label="Stop"
       labelColor="#192333"
       backgroundColor="#D3D3D3"
-      onClick={() => togglePreview()}
+      onClick={() => toggleStream()}
       fullWidth
       buttonStyle={{
         height: 200,
@@ -33,14 +30,14 @@ const PreviewButton = ({ togglePreview, isPreviewing }) => {
 
   return (
     <div>
-      {isPreviewing ? stopButton : startButton}
+      {isStreaming ? stopButton : startButton}
     </div>
   );
 };
 
-PreviewButton.propTypes = {
-  togglePreview: PropTypes.func.isRequired,
-  isPreviewing: PropTypes.bool.isRequired,
+RecordButton.propTypes = {
+  isStreaming: PropTypes.bool.isRequired,
+  toggleStream: PropTypes.func.isRequired,
 };
 
-export default PreviewButton;
+export default RecordButton;

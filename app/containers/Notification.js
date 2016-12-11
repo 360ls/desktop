@@ -3,17 +3,17 @@ import NotificationBar from '../components/NotificationBar';
 import {
   isConverting,
   isConverted,
+  isIdle,
   isUploading,
   isUploaded,
-  isIdle,
 } from '../reducers/video';
 
 const mapStateToProps = state => ({
-  isUploading: isUploading(state),
-  isUploaded: isUploaded(state),
-  isIdle: isIdle(state),
   isConverting: isConverting(state),
   isConverted: isConverted(state),
+  isIdle: isIdle(state),
+  isUploading: isUploading(state),
+  isUploaded: isUploaded(state),
 });
 
 const Notification = connect(

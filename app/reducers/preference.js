@@ -3,25 +3,16 @@ import { PREFERENCE_SAVED } from '../actions/preference';
 
 const baseDir = '.360ls/';
 const recordDir = '.360ls/recordings/';
-const url = 'rtmp://54.227.214.22:1935/live/myStream';
+const defaultUrl = 'rtmp://54.227.214.22:1935/live/myStream';
 const defaultWidth = 1280;
 const defaultHeight = 720;
 const defaultLocation = 'Chapel Hill, NC';
 
 const preference = () => {
-  const recordLocation = (state = recordDir, action) => {
+  const previewIndex = (state = 0, action) => {
     switch (action.type) {
       case PREFERENCE_SAVED:
-        return action.recordingLoc;
-      default:
-        return state;
-    }
-  };
-
-  const stitcherLocation = (state = baseDir, action) => {
-    switch (action.type) {
-      case PREFERENCE_SAVED:
-        return action.stitcherLoc;
+        return action.previewIndex;
       default:
         return state;
     }
@@ -45,16 +36,25 @@ const preference = () => {
     }
   };
 
-  const previewIndex = (state = 0, action) => {
+  const recordLocation = (state = recordDir, action) => {
     switch (action.type) {
       case PREFERENCE_SAVED:
-        return action.previewIndex;
+        return action.recordingLoc;
       default:
         return state;
     }
   };
 
-  const streamUrl = (state = url, action) => {
+  const stitcherLocation = (state = baseDir, action) => {
+    switch (action.type) {
+      case PREFERENCE_SAVED:
+        return action.stitcherLoc;
+      default:
+        return state;
+    }
+  };
+
+  const streamUrl = (state = defaultUrl, action) => {
     switch (action.type) {
       case PREFERENCE_SAVED:
         return action.streamUrl;
@@ -91,11 +91,11 @@ const preference = () => {
   };
 
   return combineReducers({
-    recordLocation,
-    stitcherLocation,
+    previewIndex,
     cameraIndex,
     sndCameraIndex,
-    previewIndex,
+    recordLocation,
+    stitcherLocation,
     streamUrl,
     width,
     height,
@@ -105,11 +105,8 @@ const preference = () => {
 
 export default preference;
 
-export const getRecordLocation = (state) =>
-  state.preference.recordLocation;
-
-export const getStitcherLocation = (state) =>
-  state.preference.stitcherLocation;
+export const getPreviewIndex = (state) =>
+  state.preference.previewIndex;
 
 export const getCameraIndex = (state) =>
   state.preference.cameraIndex;
@@ -117,8 +114,11 @@ export const getCameraIndex = (state) =>
 export const getSndCameraIndex = (state) =>
   state.preference.sndCameraIndex;
 
-export const getPreviewIndex = (state) =>
-  state.preference.previewIndex;
+export const getRecordLocation = (state) =>
+  state.preference.recordLocation;
+
+export const getStitcherLocation = (state) =>
+  state.preference.stitcherLocation;
 
 export const getStreamUrl = (state) =>
   state.preference.streamUrl;

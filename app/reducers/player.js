@@ -3,15 +3,6 @@ import { SWITCH_VIDEO } from '../actions/videos';
 import { getVideoById } from './videos';
 
 const player = () => {
-  const uri = (state = null, action) => {
-    switch (action.type) {
-      case SWITCH_VIDEO:
-        return action.uri;
-      default:
-        return state;
-    }
-  };
-
   const id = (state = null, action) => {
     switch (action.type) {
       case SWITCH_VIDEO:
@@ -21,16 +12,25 @@ const player = () => {
     }
   };
 
+  const uri = (state = null, action) => {
+    switch (action.type) {
+      case SWITCH_VIDEO:
+        return action.uri;
+      default:
+        return state;
+    }
+  };
+
   return combineReducers({
-    uri,
     id,
+    uri,
   });
 };
 
 export default player;
 
-export const getVideoURI = (state) =>
-  state.player.uri;
-
 export const getVideo = (state) =>
   getVideoById(state, state.player.id);
+
+export const getVideoURI = (state) =>
+  state.player.uri;

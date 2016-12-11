@@ -11,7 +11,7 @@ import {
   FINISHED_CONVERSION,
 } from '../services/signals';
 
-const liveState = {
+export const liveState = {
   idle: 0,
   reading: 1,
   read: 2,
@@ -55,6 +55,12 @@ const getStatus = (state) =>
 export const isIdle = (state) =>
   (getStatus(state) === liveState.idle);
 
+export const isConverting = (state) =>
+  (getStatus(state) === liveState.converting);
+
+export const isConverted = (state) =>
+  (getStatus(state) === liveState.converted);
+
 export const isReading = (state) =>
   (getStatus(state) === liveState.reading);
 
@@ -66,9 +72,3 @@ export const isUploading = (state) =>
 
 export const isUploaded = (state) =>
   (getStatus(state) === liveState.uploaded);
-
-export const isConverting = (state) =>
-  (getStatus(state) === liveState.converting);
-
-export const isConverted = (state) =>
-  (getStatus(state) === liveState.converted);

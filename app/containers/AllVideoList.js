@@ -1,36 +1,43 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import CircularProgress from 'material-ui/CircularProgress';
 import { withRouter } from 'react-router';
-import VideoTable from '../components/VideoTable';
+import CircularProgress from 'material-ui/CircularProgress';
+import AllTable from '../components/AllTable';
 import FetchErrorDialog from '../components/FetchErrorDialog';
 import * as actions from '../actions/videos';
-import { getVisibleVideos, getIsFetching, getErrorMessage } from '../reducers/videos';
+import {
+  getErrorMessage,
+  getIsFetching,
+  getSelectedVideos,
+  getVisibleVideos,
+} from '../reducers/videos';
 
-class VideoList extends Component {
+const filter = 'All';
+
+class AllVideoList extends Component {
   componentDidMount() {
     this.fetchData();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.filter !== prevProps.filter) {
+    if (this.props.videos.length !== prevProps.videos.length) {
       this.fetchData();
     }
   }
 
   fetchData() {
-    const { filter, fetchVideos } = this.props;
+    const { fetchVideos } = this.props;
     fetchVideos(filter);
   }
 
   render() {
     const {
-      switchVideoTo,
-      isFetching,
-      videos,
       errorMessage,
-      router,
-      location,
+      isFetching,
+      selectedVideos,
+      videos,
+      deleteVideos,
+      selectVideo,
     } = this.props;
     if (isFetching && !videos.length) {
       return (
@@ -63,50 +70,47 @@ class VideoList extends Component {
     }
 
     return (
-      <VideoTable
+      <AllTable
         videos={videos}
-        onClick={switchVideoTo}
-        router={router}
-        path={location.pathname}
+        onDelete={deleteVideos}
+        selectedIds={selectedVideos.map((video) => video.id)}
+        selectedVideos={selectedVideos}
+        onSelect={selectVideo}
       />
     );
   }
 }
 
-VideoList.propTypes = {
-  filter: PropTypes.oneOf(['All', 'Uploaded', 'Flagged']).isRequired,
+AllVideoList.propTypes = {
+  errorMessage: PropTypes.string,
+  isFetching: PropTypes.bool.isRequired,
   fetchVideos: PropTypes.func.isRequired,
-  switchVideoTo: PropTypes.func.isRequired,
+  selectedVideos: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    location: PropTypes.location,
+    date: PropTypes.date,
+    flagged: PropTypes.bool,
+  })).isRequired,
   videos: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     location: PropTypes.location,
     date: PropTypes.date,
     flagged: PropTypes.bool,
   })),
-  isFetching: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string,
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+  deleteVideos: PropTypes.func.isRequired,
+  selectVideo: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, { router }) => {
-  const filter = state.visibilityFilter;
-  return {
-    isFetching: getIsFetching(state, filter),
-    videos: getVisibleVideos(state, state.visibilityFilter),
-    filter,
-    errorMessage: getErrorMessage(state, filter),
-    router,
-  };
-};
+const mapStateToProps = (state) => ({
+  errorMessage: getErrorMessage(state, filter),
+  selectedVideos: getSelectedVideos(state),
+  videos: getVisibleVideos(state, filter),
+  isFetching: getIsFetching(state, filter),
+});
 
-VideoList = withRouter(connect( // eslint-disable-line no-class-assign
+AllVideoList = withRouter(connect( // eslint-disable-line no-class-assign
   mapStateToProps,
   actions
-)(VideoList));
+)(AllVideoList));
 
-export default VideoList;
+export default AllVideoList;
