@@ -16,6 +16,24 @@ const selectedVideos = [];
 
 describe('components', () => {
   describe('AllTable', () => {
+    it('should have a table of videos', () => {
+      const onDelete = sinon.spy();
+      const onSelect = sinon.spy();
+      const wrapper = mount(
+        <MuiThemeProvider>
+          <AllTable
+            videos={videos}
+            selectedIds={selectedIds}
+            selectedVideos={selectedVideos}
+            onDelete={onDelete}
+            onSelect={onSelect}
+          />
+        </MuiThemeProvider>
+      );
+
+      expect(wrapper.find('tr').length).to.equal(2);
+    });
+
     it('should have a button for delete', () => {
       const onDelete = sinon.spy();
       const onSelect = sinon.spy();
