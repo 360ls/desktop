@@ -51,8 +51,10 @@ def main():
 
     cap = cv2.VideoCapture(index)
     codec = cv2.cv.CV_FOURCC('m', 'p', '4', 'v')
-    out = cv2.VideoWriter(dest, codec, 20.0, (width, height))
     dimensions = str(width) + 'x' + str(height)
+
+    if args.f:
+        out = cv2.VideoWriter(dest, codec, 20.0, (width, height))
 
     def handler(signum, frame): # pylint: disable=unused-argument
         """
@@ -80,7 +82,7 @@ def main():
 
         frame = cv2.resize(frame, (width, height))
 
-        if not args.preview:
+        if args.f:
             out.write(frame)
 
         if args.stream:
